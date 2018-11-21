@@ -1,0 +1,28 @@
+:global html {
+  box-sizing: border-box;
+}
+
+:global body {
+  background: #f9f9f9;;
+  color: #545e6f;
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+  padding: 0;
+}
+
+:global * {
+  box-sizing: inherit;
+
+  &::after,
+  &::before {
+    box-sizing: inherit;
+  }
+}
+
+.Root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-width: 1280px;
+}
