@@ -1,0 +1,78 @@
+.Root {
+  align-items: center;
+  border-bottom-color: var(--background-dark);
+  color: inherit;
+  display: flex;
+  height: 88px;
+  padding: 0 16px;
+  text-decoration: none;
+
+  &:hover {
+    background: var(--background-light);
+    cursor: pointer;
+  }
+
+  &Variant {
+    &Alert {
+      background: var(--color-orange-200);
+      border-bottom-color: var(--color-orange-300);
+
+      &:hover {
+        background: var(--color-orange-300);
+        border-bottom-color: var(--color-orange-400);
+      }
+
+      .Description {
+        color: var(--color-alert);
+      }
+
+      .Icon {
+        color: var(--color-alert);
+      }
+
+      .Title {
+        color: var(--color-orange-800);
+      }
+    }
+
+    &News {
+      &:hover {
+        background: var(--color-blue-100);
+        border-bottom-color: var(--color-blue-300);
+      }
+
+      .Icon {
+        color: var(--color-blue-500);
+      }
+    }
+
+    &Update {
+      .Icon {
+        color: var(--color-blue-gray);
+      }
+    }
+  }
+}
+
+.Description {
+  color: var(--color-gray);
+}
+
+.Icon {
+  align-items: center;
+  display: flex;
+  font-size: 40px;
+  height: 40px;
+  justify-content: center;
+  width: 40px;
+}
+
+.Info {
+  margin: 0 0 0 16px;
+}
+
+.Logo {
+  flex: 0 0 40px;
+  height: 40px;
+  width: 40px;
+}

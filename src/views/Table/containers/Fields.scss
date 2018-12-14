@@ -1,0 +1,25 @@
+.Root {
+  background: var(--color-white);
+  box-shadow: var(--shadow-down-z1);
+  border-radius: 4px;
+  padding: 24px;
+}
+
+.Actions {
+  margin: 0 -8px;
+}
+
+.Container {
+  margin: 20px -24px 0;
+}
+
+.Create {
+  background: var(--color-primary);
+  color: var(--color-white);
+}
+
+.Header {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}

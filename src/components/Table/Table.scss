@@ -1,0 +1,81 @@
+.Root {
+  :global .ReactTable {
+    border: 0;
+
+    .rt-td {
+      align-items: center;
+      border: 0 !important;
+      display: flex;
+      padding: 0 16px;
+
+      &:first-child {
+        border-right: 1px solid var(--background-dark) !important;
+      }
+    }
+
+    .rt-thead {
+      border-bottom: 2px solid var(--background-dark) !important;
+      box-shadow: none !important;
+      height: 48px;
+      padding: 0 8px;
+
+      .rt-th {
+        align-self: center;
+        border: 0 !important;
+        color: var(--color-gray);
+        display: flex;
+        font-size: 12px;
+        font-weight: 500;
+        height: 48px;
+        padding: 0 16px;
+
+        & > div:first-child {
+          align-items: center;
+          display: flex;
+
+          &:after {
+            align-items: center;
+            display: flex;
+            font-family: 'Font Awesome 5 Pro';
+            font-size: 14px;
+            height: 18px;
+            justify-content: center;
+            margin: 0 0 0 4px;
+            width: 18px;
+          }
+        }
+
+        &.-sort-asc {
+          & > div:first-child:after {
+            content: '\f160';
+          }
+        }
+
+        &.-sort-desc {
+          & > div:first-child:after {
+            content: '\f161';
+          }
+        }
+
+        &.-sort-asc,
+        &.-sort-desc {
+          box-shadow: none;
+          color: var(--color-blue-gray);
+        }
+      }
+    }
+
+    .rt-tr-group {
+      border-bottom: 1px solid var(--background-dark) !important;
+      height: 48px;
+      font-size: 14px;
+      letter-spacing: .3px;
+      line-height: 20px;
+      padding: 0 8px;
+
+      &:hover {
+        background: var(--background-lighter);
+      }
+    }
+  }
+}

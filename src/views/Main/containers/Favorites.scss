@@ -1,0 +1,7 @@
+.Button {
+  &:hover {
+    .ButtonIcon {
+      color: var(--color-alert);
+    }
+  }
+}

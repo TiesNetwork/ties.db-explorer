@@ -1,0 +1,58 @@
+.Root {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  display: flex;
+  flex-direction: column;
+  height: 48px;
+  justify-content: center;
+  min-width: 92px;
+  padding: 0 16px;
+
+  &:hover {
+    cursor: pointer;
+
+    .Icon,
+    .Title {
+      opacity: 1;
+    }
+  }
+
+  &Is {
+    &Current {
+      opacity: 1;
+      pointer-events: none;
+
+      .Icon,
+      .Title {
+        opacity: 1;
+      }
+    }
+  }
+
+  &Variant {
+    &Large {
+      height: 72px;
+
+      .Title {
+        margin: 4px 0 0;
+      }
+    }
+  }
+}
+
+.Icon {
+  align-items: center;
+  color: var(--color-white);
+  display: flex;
+  font-size: 16px;
+  height: 24px;
+  justify-content: center;
+  opacity: .5;
+  width: 24px;
+}
+
+.Title {
+  color: var(--color-white);
+  opacity: .5;
+}

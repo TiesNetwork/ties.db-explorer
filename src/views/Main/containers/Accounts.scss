@@ -1,0 +1,32 @@
+.Root {
+  margin: 0 0 0 24px !important;
+}
+
+.Avatar {
+  background: var(--gradient-green);
+  border-radius: 100%;
+  flex: 0 0 40px;
+  height: 40px;
+  margin: 0 0 0 16px;
+  width: 40px;
+}
+
+.Info {
+  align-items: center;
+  display: flex;
+}
+
+.Name {
+  white-space: nowrap;
+}
+
+.Trigger {
+  background: transparent;
+  box-shadow: none;
+  height: 48px;
+
+  &:hover {
+    background: var(--background-dark);
+    box-shadow: none;
+  }
+}

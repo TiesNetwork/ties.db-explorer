@@ -1,0 +1,130 @@
+.Root {
+  margin: 0;
+
+  &Color {
+    &Alert {
+      color: var(--color-alert);
+    }
+
+    &Danger {
+      color: var(--color-danger);
+    }
+
+    &Dark {
+      color: var(--color-blue-gray-900);
+    }
+
+    &Light {
+      color: var(--color-gray-900);
+    }
+
+    &Lighter {
+      color: var(--color-gray-700);
+    }
+
+    &Medium {
+      color: var(--color-blue-gray-400);
+    }
+
+    &Primary {
+      color: var(--color-primary);
+    }
+
+    &Success {
+      color: var(--color-success);
+    }
+  }
+
+  &Nowrap {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &Variant {
+    &H1 {
+      font-size: 96px;
+      font-weight: 300;
+      letter-spacing: -1.5px;
+      line-height: 112px;
+    }
+
+    &H2 {
+      font-size: 60px;
+      font-weight: 300;
+      letter-spacing: -.5px;
+      line-height: 72px;
+    }
+
+    &H3 {
+      font-size: 48px;
+      font-weight: 400;
+      line-height: 56px;
+    }
+
+    &H4 {
+      font-size: 34px;
+      font-weight: 400;
+      letter-spacing: .3px;
+      line-height: 40px;
+    }
+
+    &H5 {
+      font-size: 24px;
+      font-weight: 400;
+      line-height: 28px;
+    }
+
+    &H6 {
+      font-size: 20px;
+      font-weight: 500;
+      letter-spacing: .2px;
+      line-height: 24px;
+    }
+
+    &Body1 {
+      font-size: 16px;
+      letter-spacing: .5px;
+      line-height: 28px;
+    }
+
+    &Body2 {
+      font-size: 14px;
+      letter-spacing: .3px;
+      line-height: 20px;
+    }
+
+    &Button {
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 1.3px;
+      line-height: 16px;
+      text-transform: uppercase;
+    }
+
+    &Caption {
+      font-size: 12px;
+      letter-spacing: .4px;
+      line-height: 16px;
+    }
+
+    &Overline {
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      line-height: 16px;
+      text-transform: uppercase;
+    }
+
+    &Subtitle1 {
+      font-size: 16px;
+      letter-spacing: .2px;
+      line-height: 24px;
+    }
+
+    &Subtitle2 {
+      font-size: 14px;
+      letter-spacing: .1px;
+      line-height: 24px;
+    }
+  }
+}

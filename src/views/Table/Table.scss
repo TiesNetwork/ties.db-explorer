@@ -1,0 +1,79 @@
+.Root {
+  flex: 1 1 auto;
+  padding: 24px;
+}
+
+.Actions {
+  display: flex;
+
+  & > * {
+    margin: 0 0 0 8px;
+  }
+}
+
+.Button {
+  height: 32px;
+  width: 32px;
+
+  &:hover {
+    background: var(--color-gray-400);
+
+    .ButtonCog {
+      color: var(--color-primary);
+    }
+
+    .ButtonStar {
+      color: var(--color-alert);
+    }
+  }
+
+  &Cog,
+  &Star {
+    color: var(--color-gray);
+    font-size: 20px;
+  }
+}
+
+.Container {
+  margin: 20px 0 0;
+}
+
+.Edit {
+  background: var(--gradient-blue-purple);
+  color: var(--color-white);
+}
+
+.Favorite {
+  background: var(--color-white);
+
+  &:hover {
+    .FavoriteIcon {
+      color: var(--color-alert);
+    }
+  }
+}
+
+.Footer {
+  display: flex;
+  margin: 20px 0 0;
+}
+
+.Header {
+  align-items: center;
+  display: flex;
+  height: 56px;
+  justify-content: space-between;
+}
+
+.Indexes {
+  flex: 0 0 calc(60% - 10px);
+}
+
+.Title {
+  color: var(--color-gray);
+}
+
+.Triggers {
+  flex: 0 0 calc(40% - 10px);
+  margin: 0 0 0 20px;
+}

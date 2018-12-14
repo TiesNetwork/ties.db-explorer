@@ -1,0 +1,44 @@
+.Root {
+  align-items: center;
+  background: var(--color-white);
+  border-radius: 4px;
+  box-shadow: var(--shadow-down-z1);
+  display: flex;
+  height: 64px;
+  padding: 0 16px;
+
+  &:hover:not(:active) {
+    box-shadow: var(--shadow-down-z3);
+    cursor: pointer;
+  }
+
+  &Is {
+    &Distributed {
+      .Info {
+        max-width: calc(100% - 40px);
+      }
+    }
+  }
+}
+
+.Address {
+  color: var(--color-gray);
+}
+
+.Distributed {
+  flex: 0 0 24px;
+  height: 24px;
+  margin: 0 0 0 16px;
+  position: relative;
+  width: 24px;
+
+  &Icon {
+    color: var(--color-success);
+    font-size: 24px;
+  }
+}
+
+.Info {
+  flex: 1 1 auto;
+  max-width: 100%;
+}

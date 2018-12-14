@@ -1,0 +1,22 @@
+.Root {
+  align-items: center;
+  border-bottom-color: var(--background-dark);
+  color: inherit;
+  display: flex;
+  height: 64px;
+  padding: 0 16px;
+  text-decoration: none;
+
+  &:hover {
+    background: var(--background-light);
+    cursor: pointer;
+  }
+}
+
+.From {
+  color: var(--color-blue);
+}
+
+.Type {
+  color: var(--color-gray);
+}

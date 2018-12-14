@@ -1,0 +1,79 @@
+.Root {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  border-radius: 4px;
+  display: flex;
+  height: 36px;
+  justify-content: center;
+  min-width: 64px;
+  padding: 0 16px;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &Color {
+    &Gradient {
+      &Green {
+        background: var(--gradient-green);
+
+        .Content {
+          color: var(--color-white);
+        }
+      }
+
+      &Purple {
+        background: var(--gradient-purple);
+
+        .Content {
+          color: var(--color-white);
+        }
+      }
+    }
+  }
+
+  &Variant {
+    &Filled {
+      box-shadow: var(--shadow-down-z1);
+
+      &:hover {
+        box-shadow: var(--shadow-down-z3);
+      }
+    }
+
+    &Full {
+      .Icon {
+        font-size: 16px;
+        height: 18px;
+        margin: 0 8px 0 -4px;
+        width: 18px;
+      }
+    }
+
+    &FullWidth {
+      width: 100%;
+    }
+
+    &Icon {
+      height: 36px;
+      min-width: 36px;
+      padding: 0;
+      width: 36px;
+
+      &:hover {
+        background: var(--background-dark);
+      }
+    }
+  }
+}
+
+.Icon {
+  align-items: center;
+  color: inherit;
+  display: flex;
+  font-size: 20px;
+  height: 24px;
+  justify-content: center;
+  width: 24px;
+}

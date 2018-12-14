@@ -1,0 +1,23 @@
+.Root {
+  align-items: center;
+  background: var(--color-white);
+  border-radius: 4px;
+  box-shadow: var(--shadow-down-z1);
+  display: flex;
+  height: 64px;
+  padding: 0 16px;
+
+  &:hover:not(:active) {
+    box-shadow: var(--shadow-down-z3);
+    cursor: pointer;
+  }
+}
+
+.Date {
+  color: var(--color-gray);
+}
+
+.Info {
+  flex: 1 1 auto;
+  max-width: 100%;
+}

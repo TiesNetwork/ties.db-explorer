@@ -1,0 +1,77 @@
+.Root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 24px;
+}
+
+.Actions {
+  margin: 20px 0 0;
+}
+
+.Button {
+  align-items: center;
+  background: var(--gradient-blue-purple);
+  border: 0;
+  border-radius: 4px;
+  box-shadow: var(--shadow-down-z1);
+  color: var(--color-white);
+  display: flex;
+  height: 36px;
+  justify-content: center;
+  padding: 0 16px;
+  width: 100%;
+
+  &:hover:not(:active) {
+    box-shadow: var(--shadow-down-z3);
+    cursor: pointer;
+  }
+
+  &Icon {
+    font-size: 16px;
+  }
+
+  &Text {
+    color: var(--color-white);
+    margin: 0 0 0 12px;
+  }
+}
+
+.List {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  margin: 16px -12px -12px;
+  overflow-y: scroll;
+  overflow-x: visible;
+  padding: 4px 12px 12px;
+
+  &:hover {
+    &::-webkit-scrollbar-thumb {
+      background: var(--color-gray-500);
+    }
+  }
+
+  &::-webkit-scrollbar {
+    background: transparent;
+    width: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: transparent;
+    border-radius: 4px;
+    transition: all .2s;
+  }
+
+  & > * {
+    flex: 0 0 64px;
+
+    &:not(:first-child) {
+      margin: 16px 0 0 0;
+    }
+  }
+}
+
+.Title {
+  color: var(--color-gray);
+}

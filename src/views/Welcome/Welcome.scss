@@ -1,0 +1,21 @@
+.Root {
+  display: flex;
+  height: 400px;
+  width: 700px;
+}
+
+.About {
+  flex: 0 0 260px;
+}
+
+.Connections {
+  background: var(--background-light);
+  border-left: 1px solid var(--background-dark);
+  flex: 1 1 auto;
+}
+
+.List {
+  & > *:not(:first-child) {
+    margin: 16px 0 0;
+  }
+}

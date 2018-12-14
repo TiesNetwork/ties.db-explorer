@@ -1,0 +1,42 @@
+.Root {
+  align-items: center;
+  display: flex;
+}
+
+.Actions {
+  display: flex;
+  margin: 4px 0 0;
+
+  & > *:not(:first-child) {
+    margin: 0 0 0 8px;
+  }
+}
+
+.Distribute {
+  flex: 0 0 40px;
+  height: 40px;
+  width: 40px;
+}
+
+.Icon {
+  align-items: center;
+  color: var(--color-gray);
+  display: flex;
+  font-size: 40px;
+  height: 40px;
+  justify-content: center;
+  width: 40px;
+}
+
+.Info {
+  margin: 0 0 0 16px;
+}
+
+.Link {
+  color: var(--color-gray);
+  text-decoration: none;
+
+  &:hover {
+    color: var(--color-blue);
+  }
+}

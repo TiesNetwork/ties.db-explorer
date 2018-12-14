@@ -1,0 +1,12 @@
+.Root {
+  display: flex;
+  position: relative;
+}
+
+.Selector {
+  background: var(--color-white);
+  bottom: 0;
+  height: 2px;
+  left: 0;
+  position: absolute;
+}

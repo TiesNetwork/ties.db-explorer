@@ -1,28 +1,50 @@
+@import '~styles/index.scss';
+
 :global html {
   box-sizing: border-box;
 }
 
 :global body {
-  background: #f9f9f9;;
-  color: #545e6f;
+  background: var(--background-light);
+  color: var(--color-blue-gray-900);
+  font-family: 'Roboto', sans-serif;
   font-size: 16px;
-  font-weight: 600;
+  letter-spacing: .5px;
+  line-height: 28px;
   margin: 0;
+  max-height: 100%;
+  overflow: hidden;
   padding: 0;
+  text-transform: none !important;
 }
 
 :global * {
+  box-shadow: none;
   box-sizing: inherit;
+  transition: all .2s;
 
   &::after,
   &::before {
     box-sizing: inherit;
   }
+
+  &:focus {
+    outline: none;
+  }
+
+  &:focus:not(:active):not(:hover) {
+    box-shadow: 0 0 0 2px var(--color-alert);
+  }
+}
+
+button {
+  font-family: inherit;
+  text-align: inherit;
 }
 
 .Root {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  height: 100vh;
   min-width: 1280px;
 }

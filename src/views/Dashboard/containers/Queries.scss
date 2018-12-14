@@ -1,0 +1,23 @@
+.Root {
+  color: #fff;
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  padding: 24px;
+  max-width: 100%;
+}
+
+.List {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  max-height: calc(100% - 56px);
+
+  & > * {
+    flex: 0 0 64px;
+
+    &:not(:first-child) {
+      margin: 16px 0 0;
+    }
+  }
+}

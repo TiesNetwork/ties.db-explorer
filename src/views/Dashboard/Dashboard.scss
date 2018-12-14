@@ -1,0 +1,85 @@
+.Root {
+  display: flex;
+  flex: 1 1 auto;
+
+  &Is {
+    &Opened {
+      .SidebarWrapper {
+        transform: translateY(100%);
+        visibility: hidden;
+      }
+    }
+  }
+
+  &View {
+    &Queries {
+      .SidebarList {
+        transform: translateX(-320px);
+      }
+    }
+
+    &Tables {
+      .SidebarList {
+        transform: translateX(0);
+      }
+    }
+  }
+}
+
+.Main {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  max-width: calc(100% - 320px);
+}
+
+.Sidebar {
+  background: var(--color-blue-gray-900);
+  display: flex;
+  flex: 0 0 320px;
+  flex-direction: column;
+  max-width: 320px;
+  overflow: hidden;
+
+  &Container {
+    display: flex;
+    flex: 1 1 auto;
+    max-height: calc(100% - 72px);
+    overflow: hidden;
+  }
+
+  &List {
+    display: flex;
+    flex: 1 1 auto;
+    transform: translateX(0);
+    width: 640px;
+
+    & > * {
+      flex: 0 0 320px;
+      max-width: 320px;
+    }
+  }
+
+  &Wrapper {
+    background: var(--color-blue-gray-900);
+    border-top: 1px solid var(--color-blue-gray-700);
+    display: flex;
+    flex-direction: column;
+    height: calc(100% - 72px);
+    max-width: 320px;
+    position: absolute;
+    top: 72px;
+    transition: all .4s;
+    visibility: visible;
+  }
+}
+
+.Tablespaces {
+  display: flex;
+  flex: 1 1 auto;
+  height: 100%;
+}
+
+.Tabs {
+  height: 72px;
+}

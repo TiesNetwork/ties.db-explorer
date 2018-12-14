@@ -1,0 +1,17 @@
+.Root {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+}
+
+.Container {
+  display: flex;
+  flex: 1 1 auto;
+  width: 100%;
+}
+
+.Header {
+  flex: 0 0 72px;
+  height: 72px;
+  z-index: 2;
+}

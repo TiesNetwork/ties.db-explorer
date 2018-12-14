@@ -1,0 +1,16 @@
+.Root {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+}
+
+.Form {
+  display: flex;
+  flex: 0 0 50%;
+}
+
+.Table {
+  background: var(--color-white);
+  border-top: 1px solid var(--background-dark);
+  flex: 0 0 50%;
+}

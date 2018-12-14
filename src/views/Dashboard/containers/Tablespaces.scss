@@ -1,0 +1,35 @@
+.Root {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+
+  &Is {
+    &Opened {
+      .Container {
+        visibility: visible;
+      }
+
+      .Icon {
+        transform: rotate(180deg);
+      }
+    }
+  }
+}
+
+.Actions {
+  margin: 20px 24px 24px;
+}
+
+.Container {
+  border-top: 1px solid var(--color-blue-gray-700);
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  max-height: calc(100% - 72px);
+  visibility: hidden;
+}
+
+.List {
+  flex: 1 1 auto;
+  max-height: calc(100% - 80px);
+}

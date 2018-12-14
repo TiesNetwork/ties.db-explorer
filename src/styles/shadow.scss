@@ -1,0 +1,36 @@
+:root {
+  // Down
+  --shadow-down-z1: 0 1px 1px 0 rgba(10, 31, 68, 0.1), 0 0 1px 0 rgba(10, 31, 68, 0.08);
+  --shadow-down-z2: 0 3px 4px 0 rgba(10, 31, 68, 0.1), 0 0 1px 0 rgba(10, 31, 68, 0.08);
+  --shadow-down-z3: 0 8px 10px 0 rgba(10, 31, 68, 0.1), 0 0 1px 0 rgba(10, 31, 68, 0.08);
+  --shadow-down-z4: 0 18px 18px 0 rgba(10, 31, 68, 0.1), 0 0 1px 0 rgba(10, 31, 68, 0.08);
+  --shadow-down-z5: 0 26px 26px 0 rgba(10, 31, 68, 0.1), 0 0 1px 0 rgba(10, 31, 68, 0.08);
+
+  // Center
+  --shadow-center-z1: 0 0 1px 0 rgba(10, 31, 68, 0.08);
+  --shadow-center-z2: 0 0 4px 0 rgba(10, 31, 68, 0.1);
+  --shadow-center-z3: 0 0 10px 0 rgba(10, 31, 68, 0.1);
+  --shadow-center-z4: 0 0 18px 0 rgba(10, 31, 68, 0.1);
+  --shadow-center-z5: 0 0 26px 0 rgba(10, 31, 68, 0.1);
+
+  // Left
+  --shadow-left-z1: -1px 0 1px 0 rgba(10, 31, 68, 0.1), 0 0 1px 0 rgba(10, 31, 68, 0.08);
+  --shadow-left-z2: -3px 0 4px 0 rgba(10, 31, 68, 0.1), 0 0 1px 0 rgba(10, 31, 68, 0.08);
+  --shadow-left-z3: -8px 0 10px 0 rgba(10, 31, 68, 0.1), 0 0 1px 0 rgba(10, 31, 68, 0.08);
+  --shadow-left-z4: -18px 0 18px 0 rgba(10, 31, 68, 0.1), 0 0 1px 0 rgba(10, 31, 68, 0.08);
+  --shadow-left-z5: -26px 0 26px 0 rgba(10, 31, 68, 0.1), 0 0 1px 0 rgba(10, 31, 68, 0.08);
+
+  // Right
+  --shadow-right-z1: 1px 0 1px 0 rgba(10, 31, 68, 0.1), 0 0 1px 0 rgba(10, 31, 68, 0.08);
+  --shadow-right-z2: 3px 0 4px 0 rgba(10, 31, 68, 0.1), 0 0 1px 0 rgba(10, 31, 68, 0.08);
+  --shadow-right-z3: 8px 0 10px 0 rgba(10, 31, 68, 0.1), 0 0 1px 0 rgba(10, 31, 68, 0.08);
+  --shadow-right-z4: 18px 0 18px 0 rgba(10, 31, 68, 0.1), 0 0 1px 0 rgba(10, 31, 68, 0.08);
+  --shadow-right-z5: 26px 0 26px 0 rgba(10, 31, 68, 0.1), 0 0 1px 0 rgba(10, 31, 68, 0.08);
+
+  // Up
+  --shadow-up-z1: 0 -1px 1px 0 rgba(10, 31, 68, 0.1), 0 0 1px 0 rgba(10, 31, 68, 0.08);
+  --shadow-up-z2: 0 -3px 4px 0 rgba(10, 31, 68, 0.1), 0 0 1px 0 rgba(10, 31, 68, 0.08);
+  --shadow-up-z3: 0 -8px 10px 0 rgba(10, 31, 68, 0.1), 0 0 1px 0 rgba(10, 31, 68, 0.08);
+  --shadow-up-z4: 0 -18px 18px 0 rgba(10, 31, 68, 0.1), 0 0 1px 0 rgba(10, 31, 68, 0.08);
+  --shadow-up-z5: 0 -26px 26px 0 rgba(10, 31, 68, 0.1), 0 0 1px 0 rgba(10, 31, 68, 0.08);
+}

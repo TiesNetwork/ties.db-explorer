@@ -1,0 +1,30 @@
+.Root {
+  display: flex;
+  justify-content: center;
+  position: relative;
+
+  &:hover {
+    .Tooltip {
+      opacity: 1;
+      transform: scale(1);
+      transition-delay: 1.5s;
+      visibility: visible;
+    }
+  }
+}
+
+.Tooltip {
+  align-items: center;
+  background: #000;
+  border-radius: 4px;
+  bottom: -32px;
+  color: var(--color-white);
+  display: flex;
+  height: 24px;
+  opacity: 0;
+  padding: 0 8px;
+  position: absolute;
+  transform: scale(.9);
+  transition-delay: 0s;
+  visibility: hidden;
+}

@@ -1,0 +1,45 @@
+.Root {
+  align-items: center;
+  background: var(--color-white);
+  box-shadow: var(--shadow-down-z2);
+  display: flex;
+  height: 72px;
+  justify-content: flex-end;
+  padding: 0 24px;
+}
+
+.Actions {
+  align-items: center;
+  display: flex;
+
+  & > * {
+    flex: 0 0 0 32px;
+
+    &:not(:first-child) {
+      margin: 0 0 0 8px;
+    }
+  }
+}
+
+.Button {
+  &:hover {
+    background: var(--background-dark);
+
+    .ButtonIconVariantFavorites {
+      color: var(--color-alert);
+    }
+
+    .ButtonIconVariantNotify {
+      color: var(--color-danger);
+    }
+
+    .ButtonIconVariantAccounts,
+    .ButtonIconVariantSettings {
+      color: var(--color-blue-gray);
+    }
+  }
+
+  &Icon {
+    color: var(--color-gray);
+  }
+}

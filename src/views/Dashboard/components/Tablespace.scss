@@ -1,0 +1,104 @@
+.Root {
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  height: 72px;
+  padding: 0 24px;
+  position: relative;
+  width: 100%;
+
+  &:hover {
+    background: var(--color-blue-gray-800);
+  }
+
+  &Is {
+    &Opened {
+      background: var(--color-blue-gray-800);
+
+      .Icon {
+        opacity: 1;
+        transform: rotate(180deg);
+      }
+    }
+
+    &Trigger {
+      &:hover {
+        .Icon {
+          opacity: 1;
+        }
+      }
+    }
+  }
+}
+
+.Content {
+  align-items: center;
+  display: flex;
+  width: 100%;
+}
+
+.Divider {
+  background: var(--color-blue-gray-700);
+  bottom: 0;
+  height: 1px;
+  position: absolute;
+  right: 0;
+  width: calc(100% - 80px);
+}
+
+.Icon {
+  color: var(--color-white);
+  font-size: 24px;
+  height: 24px;
+  opacity: .4;
+  width: 24px;
+}
+
+.Info {
+  flex: 1 1 auto;
+  margin: 0 0 0 16px;
+  max-width: calc(100% - 56px);
+}
+
+.Label {
+  color: var(--color-gray);
+  text-transform: none;
+}
+
+.Logo {
+  align-items: center;
+  border-radius: 4px;
+  color: var(--color-white);
+  display: flex;
+  flex: 0 0 40px;
+  height: 40px;
+  justify-content: center;
+  width: 40px;
+
+  &Color {
+    &Blue {
+      background: var(--gradient-blue);
+    }
+
+    &BluePurple {
+      background: var(--gradient-blue-purple);
+    }
+
+    &Green {
+      background: var(--gradient-green);
+    }
+
+    &Purple {
+      background: var(--gradient-purple);
+    }
+
+    &Red {
+      background: var(--gradient-red);
+    }
+  }
+}
+
+.Name {
+  color: var(--color-white);
+  text-transform: none;
+}

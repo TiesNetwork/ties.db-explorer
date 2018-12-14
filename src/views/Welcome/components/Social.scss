@@ -1,0 +1,47 @@
+.Root {
+  display: flex;
+
+  & > *:not(:first-child) {
+    margin: 0 0 0 8px;
+  }
+}
+
+.Icon {
+  align-items: center;
+  color: var(--color-gray-600);
+  display: flex;
+  font-size: 24px;
+  height: 100%;
+  justify-content: center;
+  transition: all .2s;
+  width: 100%;
+
+  &Variant {
+    &Github {
+      &:hover {
+        color: var(--color-blue-gray-900);
+      }
+    }
+
+    &Telegram {
+      &:hover {
+        color: var(--color-blue-500);
+      }
+    }
+
+    &Twitter {
+      &:hover {
+        color: var(--color-blue-500);
+      }
+    }
+  }
+}
+
+.Link {
+  border-radius: 4px;
+  display: block;
+  height: 32px;
+  position: relative;
+  text-decoration: none;
+  width: 32px;
+}
