@@ -49,16 +49,18 @@ const TableTriggers = ({
       </div>
     </div>
 
-    <div className={styles.Container}>
-      <Table
-        className={styles.Table}
-        columns={COLUMNS}
-        data={triggers}
-        minRows={0}
-        resizable={false}
-        showPagination={false}
-      />
-    </div>
+    {triggers && triggers.length > 0 && (
+      <div className={styles.Container}>
+        <Table
+          className={styles.Table}
+          columns={COLUMNS}
+          data={triggers}
+          minRows={0}
+          resizable={false}
+          showPagination={false}
+        />
+      </div>
+    )}
   </div>
 );
 

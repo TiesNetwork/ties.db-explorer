@@ -68,15 +68,17 @@ DashboardTable.propTypes = {
 
 const mapStateToProps = ({ entities }, { hash, match, location }) => {
   const pathname = get(location, 'pathname');
+  const table = get(entities, `tables.${hash}`);
   const tableMatch = matchPath(pathname, {
     exact: true,
     path: '/:tablespaceHash/table/:tableHash',
   });
-  const tableHash = get(tableMatch, 'params.tableHash');
+  const currentTableHash = get(tableMatch, 'params.tableHash');
 
   return {
-    ...get(entities, `tables.${hash}`),
-    isCurrent: hash === tableHash,
+    ...table,
+    isCurrent: hash === currentTableHash,
+    isDistributed: get(table, 'ranges', 0) > 0,
     tablespaceHash: get(match, 'params.tablespaceHash'),
   };
 };

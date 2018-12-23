@@ -31,7 +31,7 @@ const COLUMNS = [
   {
     accessor: 'defaultValue',
     Header: 'Default',
-    width: 120,
+    width: 240,
   },
   {
     accessor: 'test',
@@ -59,15 +59,17 @@ const TableFileds = ({
       </div>
     </div>
 
-    <div className={styles.Container}>
-      <Table
-        columns={COLUMNS}
-        data={fields}
-        minRows={0}
-        resizable={false}
-        showPagination={false}
-      />
-    </div>
+    {fields && fields.length > 0 && (
+      <div className={styles.Container}>
+        <Table
+          columns={COLUMNS}
+          data={fields}
+          minRows={0}
+          resizable={false}
+          showPagination={false}
+        />
+      </div>
+    )}
   </div>
 );
 
