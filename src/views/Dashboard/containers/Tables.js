@@ -1,6 +1,9 @@
 import { get } from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import { push } from 'react-router-redux';
+import { compose, withHandlers } from 'recompose';
 
 // Components
 import Button from 'components/Button';
@@ -10,12 +13,17 @@ import Table from '../components/Table';
 import styles from './Tables.scss';
 
 const DashboardTables = ({
-  items,
+  tables,
 }) => (
   <div className={styles.Root}>
-    {items && items.length > 0 && (
+    {tables && tables.length > 0 && (
       <div className={styles.List}>
-        {items.map(table => <Table {...table} key={table.id} />)}
+        {tables.map(tableHash => (
+          <Table
+            hash={tableHash}
+            key={tableHash}
+          />
+        ))}
       </div>
     )}
 
@@ -30,8 +38,21 @@ const DashboardTables = ({
   </div>
 );
 
-const mapStateToProps = ({ views }) => ({
-  items: get(views, 'dashboard.tables', []),
-});
+const mapStateToProps = ({ entities, views }, { match }) => {
+  const tablespaceHash = get(match, 'params.tablespaceHash');
+  const tablespace = get(entities, `tablespaces.${tablespaceHash}`);
 
-export default connect(mapStateToProps)(DashboardTables);
+  return {
+    currentTablespace: tablespaceHash,
+    tables: get(tablespace, 'tables'),
+  };
+};
+
+export default withRouter(compose(
+  connect(mapStateToProps, { push }),
+  withHandlers({
+    handleClick: ({
+
+    }),
+  }),
+)(DashboardTables));

@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { Route, Switch, matchPath } from 'react-router-dom';
 import { push } from 'react-router-redux';
 import { compose, withHandlers, withProps, withState } from 'recompose';
-import url from 'url';
 
 // Components
 import Tabs, { Tab } from 'components/Tabs';
@@ -70,21 +69,26 @@ const Dashboard = ({
 
       <div className={styles.Main}>
         <Switch>
-          <Route path={url.resolve(match.url, '/')} component={Main} />
+          <Route path={match.path} component={Main} />
         </Switch>
       </div>
     </div>
   );
 }
 
-const mapDispatchToProps = (dispatch: func) => ({
-  push: (to: string) => dispatch(push(to)),
-});
+const mapStateToProps = ({ entities }, { match }) => {
+  const tablespaceHash = get(match, 'params.tablespaceHash');
+
+  return {
+    tablespaceHash,
+    tablespace: get(entities, `tablespaces.${tablespaceHash}`),
+  };
+};
 
 export default compose(
-  connect(null, mapDispatchToProps),
+  connect(mapStateToProps, { push }),
   withProps(({ location }) => {
-    const match = matchPath(get(location, 'pathname', ''), { path: '/:viewId' });
+    const match = matchPath(get(location, 'pathname', ''), { path: '/:tablespaceHash/:viewId' });
     const viewId = get(match, 'params.viewId');
 
     return {
@@ -93,8 +97,9 @@ export default compose(
   }),
   withState('isOpened', 'setOpen', false),
   withHandlers({
-    handleChangeTab: ({ push }) => (id: string) => {
-      push(`/${id}`);
+    handleChangeTab: ({ match, push, tablespace }) => (id: string) => {
+      const { hash, tables } = tablespace;
+      push(`/${hash}/${id}${id === TABLE_VIEW_ID && tables.length > 0 ? `/${tables[0]}` : ''}`);
     },
     handleTrigger: ({ isOpened, setOpen }) => () =>
       setOpen(!isOpened),

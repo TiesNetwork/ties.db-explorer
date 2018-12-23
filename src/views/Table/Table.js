@@ -1,4 +1,7 @@
+import { get } from 'lodash';
+import PropTypes from 'prop-types';
 import React from 'react';
+import { connect } from 'react-redux';
 
 // Components
 import Button from 'components/Button';
@@ -13,7 +16,7 @@ import { Typography } from 'styles';
 import styles from './Table.scss';
 
 const Table = ({
-
+  name,
 }) => (
   <div className={styles.Root}>
     <div className={styles.Header}>
@@ -21,7 +24,7 @@ const Table = ({
         className={styles.Title}
         variant={Typography.VARIANT.H4}
       >
-        Messages
+        {name}
       </Typography>
 
       <div className={styles.Actions}>
@@ -60,4 +63,12 @@ const Table = ({
   </div>
 );
 
-export default Table;
+Table.propTypes = {
+  name: PropTypes.string,
+};
+
+const mapStateToProps = ({ entities }, { match }) =>
+  get(entities, `tables.${get(match, 'params.tableHash', '')}`);
+
+
+export default connect(mapStateToProps)(Table);

@@ -7,9 +7,7 @@ import Table from './containers/Table';
 // Styles
 import styles from './Query.scss';
 
-const Query = ({
-
-}) => (
+const Query = () => (
   <div className={styles.Root}>
     <div className={styles.Form}>
       <Form />

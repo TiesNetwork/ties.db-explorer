@@ -5,6 +5,7 @@
 }
 
 .About {
+  background: var(--color-white);
   flex: 0 0 260px;
 }
 
@@ -12,6 +13,7 @@
   background: var(--background-light);
   border-left: 1px solid var(--background-dark);
   flex: 1 1 auto;
+  max-width: calc(100% - 260px);
 }
 
 .List {

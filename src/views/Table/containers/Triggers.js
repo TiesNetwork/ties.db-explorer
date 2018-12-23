@@ -1,4 +1,8 @@
+import { get } from 'lodash';
+import PropTypes from 'prop-types';
 import React from 'react';
+import { connect } from 'react-redux';
+import { matchPath, withRouter } from 'react-router-dom';
 
 // Components
 import Button from 'components/Button';
@@ -26,20 +30,9 @@ const COLUMNS = [
   },
 ];
 
-const DATA = [
-  {
-    index: 1,
-    name: 'New message',
-    payload: '0x7061796c6f616431',
-  },
-  {
-    index: 2,
-    name: 'Read message',
-    payload: '0x7061796c6f616431',
-  },
-];
-
-const TableTriggers = () => (
+const TableTriggers = ({
+  triggers,
+}) => (
   <div className={styles.Root}>
     <div className={styles.Header}>
       <Typography
@@ -60,7 +53,7 @@ const TableTriggers = () => (
       <Table
         className={styles.Table}
         columns={COLUMNS}
-        data={DATA}
+        data={triggers}
         minRows={0}
         resizable={false}
         showPagination={false}
@@ -69,4 +62,25 @@ const TableTriggers = () => (
   </div>
 );
 
-export default TableTriggers;
+const mapStateToProps = ({ entities }, { location }) => {
+  const pathname = get(location, 'pathname');
+  const match = matchPath(pathname, { path: '/:tablespaceHash/table/:tableHash'});
+  const tableHash = get(match, 'params.tableHash');
+
+  return {
+    triggers: get(entities, `tables.${tableHash}.triggers`, []).map((triggerHash, index) => ({
+      ...get(entities, `triggers.${triggerHash}`), index: index + 1,
+    })),
+  };
+};
+
+TableTriggers.propTypes = {
+  triggers: PropTypes.arrayOf(PropTypes.shape({
+    hash: PropTypes.string,
+    index: PropTypes.number,
+    name: PropTypes.string,
+    payload: PropTypes.string,
+  })),
+};
+
+export default withRouter(connect(mapStateToProps)(TableTriggers));

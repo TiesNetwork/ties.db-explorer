@@ -1,6 +1,5 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import url from 'url';
 
 // Containers
 import Header from './containers/Header';
@@ -10,7 +9,6 @@ import Query from 'views/Query';
 import Table from 'views/Table';
 
 // Styles
-import { Typography } from 'styles';
 import styles from './Main.scss';
 
 const Main = ({
@@ -23,8 +21,8 @@ const Main = ({
 
     <div className={styles.Container}>
       <Switch>
-        <Route path={url.resolve(match.url, '/query')} component={Query} />
-        <Route path={url.resolve(match.url, '/table')} component={Table} />
+        <Route path={`${match.path}/query`} component={Query} />
+        <Route path={`${match.path}/table/:tableHash`} component={Table} />
       </Switch>
     </div>
   </div>

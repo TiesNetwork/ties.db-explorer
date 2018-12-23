@@ -3,16 +3,22 @@
   background: var(--color-white);
   border-radius: 4px;
   box-shadow: var(--shadow-down-z1);
+  color: inherit;
   display: flex;
   height: 64px;
   padding: 0 16px;
+  text-decoration: none;
 
-  &:hover:not(:active) {
+  &:hover:not(.RootIsCurrent) {
     box-shadow: var(--shadow-down-z3);
     cursor: pointer;
   }
 
   &Is {
+    &Current {
+      box-shadow: 0 0 0 2px var(--color-alert);
+    }
+
     &Distributed {
       .Info {
         max-width: calc(100% - 40px);
@@ -21,7 +27,7 @@
   }
 }
 
-.Address {
+.Hash {
   color: var(--color-gray);
 }
 

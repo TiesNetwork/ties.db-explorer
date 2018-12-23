@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 // Utils
-import { capitalize } from 'utils/string';
+// import { capitalize } from 'utils/string';
 import generateHeadlineVariants from './utils/generateHeadlineVariants';
 
 import styles from './Typography.scss';

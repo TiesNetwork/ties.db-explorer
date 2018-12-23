@@ -1,4 +1,8 @@
+import { get } from 'lodash';
+import PropTypes from 'prop-types';
 import React from 'react';
+import { connect } from 'react-redux';
+import { matchPath, withRouter } from 'react-router-dom';
 
 // Components
 import Button from 'components/Button';
@@ -37,41 +41,8 @@ const COLUMNS = [
   },
 ];
 
-const DATA = [
-  {
-    index: 1,
-    defaultValue: '0',
-    name: 'id',
-    type: 'uuid',
-  },
-  {
-    index: 2,
-    defaultValue: '',
-    name: 'body',
-    type: 'text',
-  },
-  {
-    index: 3,
-    defaultValue: '',
-    name: 'title',
-    type: 'text',
-  },
-  {
-    index: 4,
-    defaultValue: '0',
-    name: 'attach_id',
-    type: 'uuid',
-  },
-  {
-    index: 5,
-    defaultValue: '0',
-    name: 'user_id',
-    type: 'uuid',
-  },
-];
-
 const TableFileds = ({
-
+  fields,
 }) => (
   <div className={styles.Root}>
     <div className={styles.Header}>
@@ -83,7 +54,7 @@ const TableFileds = ({
 
       <div className={styles.Actions}>
         <Button className={styles.Create}>
-          Create index
+          Create field
         </Button>
       </div>
     </div>
@@ -91,7 +62,7 @@ const TableFileds = ({
     <div className={styles.Container}>
       <Table
         columns={COLUMNS}
-        data={DATA}
+        data={fields}
         minRows={0}
         resizable={false}
         showPagination={false}
@@ -100,4 +71,29 @@ const TableFileds = ({
   </div>
 );
 
-export default TableFileds;
+const mapStateToProps = ({ entities }, { location }) => {
+  const pathname = get(location, 'pathname');
+  const match = matchPath(pathname, { path: '/:tablespaceHash/table/:tableHash'});
+  const tableHash = get(match, 'params.tableHash');
+
+  return {
+    fields: get(entities, `tables.${tableHash}.fields`, []).map((fieldHash, index) => ({
+      ...get(entities, `fields.${fieldHash}`), index: index + 1,
+    })),
+  };
+};
+
+TableFileds.propTypes = {
+  fields: PropTypes.arrayOf(PropTypes.shape({
+    defaultValue: PropTypes.oneOfType([
+      PropTypes.number,
+      PropTypes.string,
+    ]),
+    hash: PropTypes.string,
+    index: PropTypes.number,
+    name: PropTypes.string,
+    type: PropTypes.string,
+  })),
+};
+
+export default withRouter(connect(mapStateToProps)(TableFileds));

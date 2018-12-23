@@ -22,12 +22,18 @@
         color: var(--color-success);
       }
     }
+
+    &Testing {
+      .OnlineIcon {
+        color: var(--color-gray);
+      }
+    }
   }
 }
 
 .Button {
-  flex: 0 0 32px;
-  margin: 0 -4px;
+  flex: 0 0 36px;
+  text-transform: none;
 
   &:hover {
     background: var(--background-dark);
@@ -42,10 +48,20 @@
   }
 }
 
+.Container {
+  height: 64px;
+  text-transform: none;
+  width: 100%;
+}
+
+.Delete {
+  flex: 0 0 36px;
+}
+
 .Info {
   flex: 1 1 auto;
   margin: 0 16px;
-  max-width: calc(100% - 64px);
+  max-width: calc(100% - 88px);
 }
 
 .Name {

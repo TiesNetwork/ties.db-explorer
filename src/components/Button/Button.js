@@ -33,6 +33,7 @@ const Button = ({
   handleClick,
   icon,
   registerButton,
+  removeAutoBlur,
   type = 'button',
   ...props,
 }) => {

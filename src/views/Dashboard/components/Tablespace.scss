@@ -1,14 +1,50 @@
 .Root {
+  align-items: center;
   background: transparent;
   border: 0;
   border-radius: 0;
+  color: inherit;
+  display: flex;
   height: 72px;
   padding: 0 24px;
   position: relative;
+  text-decoration: none;
   width: 100%;
 
   &:hover {
     background: var(--color-blue-gray-800);
+  }
+
+  &Color {
+    &Blue {
+      .Logo {
+        background: var(--gradient-blue);
+      }
+    }
+
+    &BluePurple {
+      .Logo {
+        background: var(--gradient-blue-purple);
+      }
+    }
+
+    &Green {
+      .Logo {
+        background: var(--gradient-green);
+      }
+    }
+
+    &Purple {
+      .Logo {
+        background: var(--gradient-purple);
+      }
+    }
+
+    &Red {
+      .Logo {
+        background: var(--gradient-red);
+      }
+    }
   }
 
   &Is {
@@ -22,6 +58,10 @@
     }
 
     &Trigger {
+      .Info {
+        max-width: calc(100% - 96px);
+      }
+
       &:hover {
         .Icon {
           opacity: 1;
@@ -50,6 +90,7 @@
   color: var(--color-white);
   font-size: 24px;
   height: 24px;
+  margin: 0 0 0 16px;
   opacity: .4;
   width: 24px;
 }
@@ -74,28 +115,6 @@
   height: 40px;
   justify-content: center;
   width: 40px;
-
-  &Color {
-    &Blue {
-      background: var(--gradient-blue);
-    }
-
-    &BluePurple {
-      background: var(--gradient-blue-purple);
-    }
-
-    &Green {
-      background: var(--gradient-green);
-    }
-
-    &Purple {
-      background: var(--gradient-purple);
-    }
-
-    &Red {
-      background: var(--gradient-red);
-    }
-  }
 }
 
 .Name {

@@ -2,6 +2,7 @@
   display: flex;
   flex: 1 1 auto;
   flex-direction: column;
+  max-width: 100%;
 
   &Is {
     &Opened {
@@ -17,6 +18,7 @@
 }
 
 .Actions {
+  flex: 0 0 36px;
   margin: 20px 24px 24px;
 }
 
@@ -31,5 +33,7 @@
 
 .List {
   flex: 1 1 auto;
-  max-height: calc(100% - 80px);
+  max-height: calc(100% - 84px);
+  overflow-y: scroll;
+  overflow-x: hidden;
 }

@@ -4,6 +4,8 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
 import { Route } from 'react-router-dom';
+import { persistStore } from 'redux-persist'
+import { PersistGate } from 'redux-persist/integration/react'
 
 // Views
 import App from './App';
@@ -14,12 +16,15 @@ import createStore from './store';
 
 const history = createHistory();
 const store = createStore(history);
+const persistor = persistStore(store);
 
 ReactDOM.render(
   <Provider store={store}>
-    <ConnectedRouter history={history}>
-      <Route path="/" component={App} />
-    </ConnectedRouter>
+    <PersistGate loading={null} persistor={persistor}>
+      <ConnectedRouter history={history}>
+        <Route path="/" component={App} />
+      </ConnectedRouter>
+    </PersistGate>
   </Provider>,
   document.getElementById('root'),
 );

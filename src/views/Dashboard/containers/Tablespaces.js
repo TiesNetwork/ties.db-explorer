@@ -1,8 +1,11 @@
 import classNames from 'classnames';
-import { get } from 'lodash';
+import { get, keys } from 'lodash';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import { push } from 'react-router-redux';
+import { compose, withHandlers } from 'recompose';
 
 // Components
 import Button from 'components/Button';
@@ -12,22 +15,21 @@ import Tablespace from '../components/Tablespace';
 import styles from './Tablespaces.scss';
 
 const DashboardTablespaces = ({
-  currentTablespaceId,
+  currentTablespace,
   handleClick,
   isOpened,
-  items,
+  tablespaces,
   onTrigger,
 }) => {
-  const currentItem = items.filter(({ id }) => id === currentTablespaceId)[0];
-
   const rootClassNames = classNames(styles.Root, {
     [styles.RootIsOpened]: !!isOpened,
   });
 
   return (
     <div className={rootClassNames}>
-      <Tablespace {...currentItem}
+      <Tablespace
         address="TABLESPACE"
+        hash={currentTablespace}
         isOpened={isOpened}
         isTrigger
         onClick={onTrigger}
@@ -35,9 +37,10 @@ const DashboardTablespaces = ({
 
       <div className={styles.Container}>
         <div className={styles.List}>
-          {items.map(tablespace => (
-            <Tablespace {...tablespace}
-              key={tablespace.id}
+          {tablespaces.map(tablespaceHash => (
+            <Tablespace
+              hash={tablespaceHash}
+              key={tablespaceHash}
               onClick={handleClick}
             />
           ))}
@@ -61,9 +64,21 @@ DashboardTablespaces.propTypes = {
   onTrigger: PropTypes.func,
 };
 
-const mapStateToProps = ({ views }) => ({
-  currentTablespaceId: get(views, 'dashboard.currentTablespaceId', 0),
-  items: get(views, 'dashboard.tablespaces', []),
-});
+const mapStateToProps = ({ entities, views }, { match }) => {
+  const tablespaceHash = get(match, 'params.tablespaceHash');
 
-export default connect(mapStateToProps)(DashboardTablespaces);
+  return {
+    currentTablespace: tablespaceHash,
+    tablespaces: keys(get(entities, 'tablespaces', [])).filter(hash => hash !== tablespaceHash),
+  };
+};
+
+export default withRouter(compose(
+  connect(mapStateToProps, { push }),
+  withHandlers({
+    handleClick: ({ onTrigger, push }) => (hash: string) => {
+      onTrigger();
+      push(`/${hash}`);
+    },
+  }),
+)(DashboardTablespaces));

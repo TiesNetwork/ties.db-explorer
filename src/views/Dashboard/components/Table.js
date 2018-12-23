@@ -1,6 +1,9 @@
 import classNames from 'classnames';
+import { get } from 'lodash';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { connect } from 'react-redux';
+import { Link, matchPath, withRouter } from 'react-router-dom';
 
 // Components
 import Tooltip from 'components/Tooltip';
@@ -10,19 +13,21 @@ import { Typography } from 'styles';
 import styles from './Table.scss';
 
 const DashboardTable = ({
-  address,
+  hash,
+  isCurrent,
   isDistributed,
   name,
+  tablespaceHash,
 }) => {
   const className = classNames(styles.Root, {
+    [styles.RootIsCurrent]: !!isCurrent,
     [styles.RootIsDistributed]: !!isDistributed,
   });
 
   return (
-    <div
+    <Link
       className={className}
-      role="button"
-      tabIndex={0}
+      to={`/${tablespaceHash}/table/${hash}`}
     >
       <div className={styles.Info}>
         <Typography
@@ -33,11 +38,11 @@ const DashboardTable = ({
         </Typography>
 
         <Typography
-          className={styles.Address}
+          className={styles.Hash}
           noWrap
           variant={Typography.VARIANT.CAPTION}
         >
-          {address}
+          {hash}
         </Typography>
       </div>
 
@@ -49,14 +54,31 @@ const DashboardTable = ({
           <i className={classNames(styles.DistributedIcon, 'fas', 'fa-globe-americas')} />
         </Tooltip>
       )}
-    </div>
+    </Link>
   );
 };
 
 DashboardTable.propTypes = {
-  address: PropTypes.string,
+  hash: PropTypes.string,
+  isCurrent: PropTypes.bool,
   isDistributed: PropTypes.bool,
   name: PropTypes.string,
+  tablespaceHash: PropTypes.string,
 };
 
-export default DashboardTable;
+const mapStateToProps = ({ entities }, { hash, match, location }) => {
+  const pathname = get(location, 'pathname');
+  const tableMatch = matchPath(pathname, {
+    exact: true,
+    path: '/:tablespaceHash/table/:tableHash',
+  });
+  const tableHash = get(tableMatch, 'params.tableHash');
+
+  return {
+    ...get(entities, `tables.${hash}`),
+    isCurrent: hash === tableHash,
+    tablespaceHash: get(match, 'params.tablespaceHash'),
+  };
+};
+
+export default withRouter(connect(mapStateToProps)(DashboardTable));

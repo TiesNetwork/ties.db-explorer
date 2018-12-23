@@ -1,4 +1,8 @@
+import { get } from 'lodash';
+import PropTypes from 'prop-types';
 import React from 'react';
+import { connect } from 'react-redux';
+import { matchPath, withRouter } from 'react-router-dom';
 
 // Components
 import Button from 'components/Button';
@@ -31,28 +35,9 @@ const COLUMNS = [
   },
 ];
 
-const DATA = [
-  {
-    index: 1,
-    fields: 'user_id',
-    name: 'Owner',
-    type: 'primary',
-  },
-  {
-    index: 2,
-    fields: 'attach_id',
-    name: 'Attachment',
-    type: 'internal',
-  },
-  {
-    index: 3,
-    fields: 'id',
-    name: 'Delete message',
-    type: 'external',
-  },
-];
-
-const TableIndexes = () => (
+const TableIndexes = ({
+  indexes,
+}) => (
   <div className={styles.Root}>
     <div className={styles.Header}>
       <Typography
@@ -73,7 +58,7 @@ const TableIndexes = () => (
       <Table
         className={styles.Table}
         columns={COLUMNS}
-        data={DATA}
+        data={indexes}
         minRows={0}
         resizable={false}
         showPagination={false}
@@ -82,4 +67,26 @@ const TableIndexes = () => (
   </div>
 );
 
-export default TableIndexes;
+const mapStateToProps = ({ entities }, { location }) => {
+  const pathname = get(location, 'pathname');
+  const match = matchPath(pathname, { path: '/:tablespaceHash/table/:tableHash'});
+  const tableHash = get(match, 'params.tableHash');
+
+  return {
+    indexes: get(entities, `tables.${tableHash}.indexes`, []).map((indexHash, index) => ({
+      ...get(entities, `indexes.${indexHash}`), index: index + 1,
+    })),
+  };
+};
+
+TableIndexes.propTypes = {
+  indexes: PropTypes.arrayOf(PropTypes.shape({
+    fields: PropTypes.arrayOf(PropTypes.string),
+    hash: PropTypes.string,
+    index: PropTypes.number,
+    name: PropTypes.string,
+    type: PropTypes.string,
+  })),
+};
+
+export default withRouter(connect(mapStateToProps)(TableIndexes));
