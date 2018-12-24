@@ -28,7 +28,7 @@ const DashboardTablespace = ({
   isTrigger,
   name,
   onClick,
-  tables,
+  tables = [],
 }) => {
   const rootClassNames = classNames(styles.Root, color.className, {
     [styles.RootIsOpened]: !!isOpened,

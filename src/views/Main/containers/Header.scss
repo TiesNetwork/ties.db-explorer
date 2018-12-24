@@ -4,7 +4,7 @@
   box-shadow: var(--shadow-down-z2);
   display: flex;
   height: 72px;
-  justify-content: flex-end;
+  justify-content: space-between;
   padding: 0 24px;
 }
 
@@ -21,25 +21,16 @@
   }
 }
 
-.Button {
-  &:hover {
+.Search {
+  &Trigger {
     background: var(--background-dark);
+    box-shadow: none;
+    height: 44px;
+    justify-content: flex-start;
+    width: 260px;
 
-    .ButtonIconVariantFavorites {
-      color: var(--color-alert);
+    &:hover {
+      box-shadow: none;
     }
-
-    .ButtonIconVariantNotify {
-      color: var(--color-danger);
-    }
-
-    .ButtonIconVariantAccounts,
-    .ButtonIconVariantSettings {
-      color: var(--color-blue-gray);
-    }
-  }
-
-  &Icon {
-    color: var(--color-gray);
   }
 }

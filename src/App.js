@@ -2,6 +2,9 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import url from 'url';
 
+// Containers
+import Search from 'containers/Search';
+
 // Views
 import Dashboard from './views/Dashboard';
 import Preload from './views/Preload';
@@ -17,6 +20,8 @@ const App = ({ match }) => (
       <Route path={url.resolve(match.path, '/welcome')} component={Welcome} />
       <Route path={url.resolve(match.path, '/:tablespaceHash')} component={Dashboard} />
     </Switch>
+
+    <Search />
   </div>
 );
 
