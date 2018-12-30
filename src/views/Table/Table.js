@@ -7,9 +7,12 @@ import { connect } from 'react-redux';
 import Button from 'components/Button';
 
 // Containers
-import Fields from './containers/Fields';
-import Indexes from './containers/Indexes';
-import Triggers from './containers/Triggers';
+import Entities from './containers/Entities';
+
+// Entities
+import { FIELDS_ENTITY_ID } from 'entities/fields';
+import { INDEXES_ENTITY_ID } from 'entities/indexes';
+import { TRIGGERS_ENTITY_ID } from 'entities/triggers';
 
 // Styles
 import { Typography } from 'styles';
@@ -46,16 +49,16 @@ const Table = ({
 
     <div className={styles.Container}>
       <div className={styles.Fields}>
-        <Fields />
+        <Entities id={FIELDS_ENTITY_ID} />
       </div>
 
       <div className={styles.Footer}>
         <div className={styles.Indexes}>
-          <Indexes />
+          <Entities id={INDEXES_ENTITY_ID} />
         </div>
 
         <div className={styles.Triggers}>
-          <Triggers />
+          <Entities id={TRIGGERS_ENTITY_ID} />
         </div>
       </div>
     </div>

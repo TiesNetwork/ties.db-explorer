@@ -1,0 +1,35 @@
+.Root {
+  display: flex;
+
+  & > *:not(:first-child) {
+    margin: 0 0 0 8px;
+  }
+
+  &Color {
+    &White {
+      .Button {
+        &:hover {
+          background: rgba(255, 255, 255, .2);
+        }
+      }
+
+      .Icon {
+        color: var(--color-white);
+        opacity: .3;
+      }
+    }
+  }
+}
+
+.Button {
+  &:hover {
+    .Icon {
+      opacity: 1;
+    }
+  }
+}
+
+.Icon {
+  color: var(--color-blue-gray);
+  opacity: .2;
+}

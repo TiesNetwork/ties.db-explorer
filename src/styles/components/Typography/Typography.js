@@ -68,6 +68,7 @@ const Typography = ({
   noWrap = false,
   style,
   variant = VARIANT.BODY1,
+  ...props,
 }) => {
   const className = classNames(
     classNameProp,
@@ -79,10 +80,10 @@ const Typography = ({
     },
   );
 
-  const Component = get(variant, 'component', component);
+  const Component = component || get(variant, 'component');
 
   return (
-    <Component className={className} style={style}>
+    <Component {...props} className={className} style={style}>
       {children}
     </Component>
   );

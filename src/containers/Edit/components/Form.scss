@@ -1,0 +1,26 @@
+.Actions {
+  display: flex;
+  justify-content: space-between;
+  margin: 40px 0 0;
+}
+
+.Form {
+  margin: 20px 0 0;
+}
+
+.Name {
+  color: var(--color-gray);
+  margin: 0 0 0 8px;
+}
+
+.Right {
+  display: flex;
+
+  & > *:not(:first-child) {
+    margin: 0 0 0 8px;
+  }
+}
+
+.Title {
+  display: flex;
+}

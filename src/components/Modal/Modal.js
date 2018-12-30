@@ -46,7 +46,10 @@ const Modal = ({
 };
 
 Modal.propTypes = {
-  children: PropTypes.node,
+  children: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.node,
+  ]),
   handleClose: PropTypes.func,
   isOpened: PropTypes.bool,
 };
@@ -63,7 +66,7 @@ const mapStateToProps = ({ services }, { id }) => {
 export default compose(
   connect(mapStateToProps, { closeModal }),
   withHandlers({
-    handleClose: ({ closeModal }) => () =>
-      closeModal('search'),
+    handleClose: ({ closeModal, id }) => () =>
+      closeModal(id),
   }),
 )(Modal);

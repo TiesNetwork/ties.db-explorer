@@ -1,4 +1,4 @@
-import { get, values } from 'lodash';
+import { get } from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'recompose';

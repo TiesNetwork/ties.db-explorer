@@ -20,8 +20,6 @@ const Preload = ({
   handleTick,
 }) => (
   <div className={styles.Root}>
-    {}
-
     <div className={styles.Header}>
       <div className={styles.Company}>
         <div className={styles.Logo} />
@@ -109,9 +107,9 @@ export default compose(
     componentDidMount() {
       const { fetchEntities, hasEntities, replace } = this.props;
 
-      hasEntities
-        ? replace('/')
-        : fetchEntities();
+      // hasEntities
+      //   // ? replace('/')
+      //   : fetchEntities();
     },
   }),
 )(Preload);

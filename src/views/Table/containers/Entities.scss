@@ -1,0 +1,69 @@
+.Root {
+  background: var(--color-white);
+  box-shadow: var(--shadow-down-z1);
+  border-radius: 4px;
+  padding: 24px;
+
+  &Variant {
+    &Indexes {
+      background: var(--gradient-green);
+    }
+
+    &Triggers {
+      background: var(--gradient-red);
+    }
+
+    &Indexes,
+    &Triggers {
+      .Table {
+        :global .ReactTable {
+          .rt-td {
+            &:first-child {
+              border-right-color:rgba(255, 255, 255, .2) !important;
+            }
+          }
+
+          .rt-thead {
+            border-bottom-color: rgba(255, 255, 255, .2) !important;
+
+            .rt-th {
+              color: rgba(255, 255, 255, .6);
+
+              &.-sort-asc,
+              &.-sort-desc {
+                color: var(--color-white);
+              }
+            }
+          }
+
+          .rt-tr-group {
+            border-bottom-color: rgba(255, 255, 255, .2) !important;
+            color: var(--color-white);
+
+            &:hover {
+              background: rgba(255, 255, 255, .1);
+            }
+          }
+        }
+      }
+
+      .Title {
+        color: var(--color-white);
+      }
+    }
+  }
+}
+
+.Actions {
+  margin: 0 -8px;
+}
+
+.Container {
+  margin: 20px -24px 0;
+}
+
+.Header {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}

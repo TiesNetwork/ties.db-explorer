@@ -1,0 +1,35 @@
+.Root {
+  border: 1px solid var(--background-dark);
+  border-radius: 4px;
+  height: 48px;
+  overflow: hidden;
+
+  &Is {
+    &Focused {
+      border-color: var(--color-blue);
+      box-shadow: 0 0 0 1px var(--color-blue);
+    }
+  }
+}
+
+.Input {
+  background: transparent;
+  border: 0;
+  color: var(--color-blue-gray);
+  font-family: inherit;
+  font-size: 16px;
+  height: 100%;
+  letter-spacing: .2px;
+  line-height: 24px;
+  padding: 0 16px;
+  width: 100%;
+
+  &:focus {
+    box-shadow: none !important;
+  }
+
+  &::-webkit-input-placeholder { color: var(--color-gray-400); }
+  &::-moz-placeholder { color: var(--color-gray-400); }
+  &:-ms-input-placeholder { color: var(--color-gray-400); }
+  &:-moz-placeholder { color: var(--color-gray-400); }
+}

@@ -1,0 +1,19 @@
+.Root {
+  &:not(:first-child) {
+    margin: 20px 0 0;
+  }
+}
+
+.Header {
+  display: flex;
+  margin: 0 0 8px;
+}
+
+.Label {
+  display: block;
+  color: var(--color-gray);
+
+  &:hover {
+    cursor: pointer;
+  }
+}

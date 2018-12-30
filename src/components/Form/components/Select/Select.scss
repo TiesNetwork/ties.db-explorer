@@ -1,0 +1,126 @@
+.Root {
+  position: relative;
+
+  &Is {
+    &Empty {
+      .Icon {
+        width: 100%;
+      }
+    }
+
+    &Focused {
+      .Container {
+        border-color: var(--color-blue);
+        box-shadow: 0 0 0 1px var(--color-blue);
+      }
+    }
+
+    &Multiple:not(.RootIsEmpty) {
+      &:not(.RootIsEmpty):not(.RootIsFocused) {
+        .Input {
+          height: 0;
+          width: 0;
+        }
+      }
+
+      .Container {
+        padding: 4px;
+      }
+
+      .Input {
+        height: 36px;
+        padding: 0 8px;
+        width: auto;
+      }
+    }
+  }
+}
+
+.Container {
+  border: 1px solid var(--background-dark);
+  border-radius: 4px;
+  display: flex;
+  min-height: 48px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.Control {
+  display: flex;
+  flex: 1 1 100%;
+  flex-wrap: wrap;
+  max-width: calc(100% - 46px);
+  transition: all 0s;
+}
+
+.Dropdown {
+  background: var(--color-white);
+  border-radius: 4px;
+  box-shadow: var(--shadow-down-z3);
+  left: 0;
+  max-height: calc(256px);
+  overflow-x: hidden;
+  overflow-y: scroll;
+  position: absolute;
+  top: calc(100% + 2px);
+  width: 100%;
+  z-index: 2;
+}
+
+.Input {
+  background: transparent;
+  border: 0;
+  color: inherit;
+  font-family: inherit;
+  font-size: 16px;
+  height: 46px;
+  letter-spacing: .2px;
+  line-height: 24px;
+  max-width: 100%;
+  padding: 0 16px;
+  transition: all 0s;
+  width: 100%;
+
+  &:focus {
+    box-shadow: none !important;
+  }
+
+  &::-webkit-input-placeholder { color: var(--color-gray-400); }
+  &::-moz-placeholder { color: var(--color-gray-400); }
+  &:-ms-input-placeholder { color: var(--color-gray-400); }
+  &:-moz-placeholder { color: var(--color-gray-400); }
+}
+
+.List {
+  padding: 8px 0;
+}
+
+.Option {
+  align-items: center;
+  background: var(--color-gray-400);
+  border-radius: 666px;
+  display: flex;
+  height: 32px;
+  margin: 4px;
+  padding: 0 12px;
+
+  &Delete {
+    background: transparent;
+    border: 0;
+    height: 18px;
+    margin: 0 0 0 8px;
+    padding: 0;
+    width: 18px;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  &Icon {
+    color: var(--color-blue-gray-600);
+    font-size: 18px;
+    height: 100%;
+    width: 100%;
+  }
+}

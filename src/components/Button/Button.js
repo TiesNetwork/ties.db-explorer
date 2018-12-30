@@ -4,21 +4,8 @@ import React from 'react';
 import { compose, withHandlers, withProps } from 'recompose';
 
 // Styles
-import { Typography } from 'styles';
+import { COLOR, Typography } from 'styles';
 import styles from './Button.scss';
-
-const COLOR = {
-  GRADIENT: {
-    GREEN: {
-      className: styles.RootColorGradientGreen,
-      toString: () => 'purple',
-    },
-    PURPLE: {
-      className: styles.RootColorGradientPurple,
-      toString: () => 'purple',
-    },
-  },
-};
 
 const Button = ({
   children,
@@ -42,6 +29,13 @@ const Button = ({
   const rootClassNames = classNames(
     rootClassName || className,
     styles.Root, color.className,
+    {
+      [styles.RootColorAlert]:   color === COLOR.ALERT,
+      [styles.RootColorDanger]:  color === COLOR.DANGER,
+      [styles.RootColorPrimary]: color === COLOR.PRIMARY,
+      [styles.RootColorSecondary]: color === COLOR.SECONDARY,
+      [styles.RootColorSuccess]: color === COLOR.SUCCESS,
+    },
     {
       [styles.RootVariantFilled]: !!children,
       [styles.RootVariantIcon]: icon && !children,
@@ -84,12 +78,7 @@ Button.propTypes = {
     root: PropTypes.string,
     icon: PropTypes.string,
   }),
-  color: PropTypes.oneOfType([
-    PropTypes.shape({
-      className: PropTypes.string,
-    }),
-    PropTypes.string,
-  ]),
+  color: PropTypes.string,
   fullWidth: PropTypes.bool,
   icon: PropTypes.string,
   onClick: PropTypes.func,
@@ -116,6 +105,6 @@ const ComposedButton = compose(
   }),
 )(Button);
 
-ComposedButton.COLOR = COLOR;
+ComposedButton.COLOR = { GRADIENT: {}};
 
 export default ComposedButton;

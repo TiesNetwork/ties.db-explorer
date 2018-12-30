@@ -3,6 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 import url from 'url';
 
 // Containers
+import Edit from 'containers/Edit';
 import Search from 'containers/Search';
 
 // Views
@@ -21,6 +22,7 @@ const App = ({ match }) => (
       <Route path={url.resolve(match.path, '/:tablespaceHash')} component={Dashboard} />
     </Switch>
 
+    <Edit />
     <Search />
   </div>
 );
