@@ -2,6 +2,7 @@ import { get } from 'lodash';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
+import { compose, withHandlers, withProps } from 'recompose';
 
 // Components
 import Button from 'components/Button';
@@ -9,16 +10,24 @@ import Button from 'components/Button';
 // Containers
 import Entities from './containers/Entities';
 
+// Ducks
+import { EDIT_MODAL_ID } from 'containers/Edit';
+
 // Entities
 import { FIELDS_ENTITY_ID } from 'entities/fields';
 import { INDEXES_ENTITY_ID } from 'entities/indexes';
+import { TABLES_ENTITY_ID } from 'entities/tables';
 import { TRIGGERS_ENTITY_ID } from 'entities/triggers';
+
+// Services
+import { openModal } from 'services/modals';
 
 // Styles
 import { Typography } from 'styles';
 import styles from './Table.scss';
 
 const Table = ({
+  handleEdit,
   name,
 }) => (
   <div className={styles.Root}>
@@ -41,7 +50,10 @@ const Table = ({
           Favorite
         </Button>
 
-        <Button className={styles.Edit}>
+        <Button
+          className={styles.Edit}
+          onClick={handleEdit}
+        >
           Edit Table
         </Button>
       </div>
@@ -70,8 +82,17 @@ Table.propTypes = {
   name: PropTypes.string,
 };
 
-const mapStateToProps = ({ entities }, { match }) =>
-  get(entities, `tables.${get(match, 'params.tableHash', '')}`);
+const mapStateToProps = ({ entities }, { hash }) =>
+  get(entities, `tables.${hash}`);
 
 
-export default connect(mapStateToProps)(Table);
+export default compose(
+  withProps(({ match }) => ({
+    hash: get(match, 'params.tableHash'),
+  })),
+  connect(mapStateToProps, { openModal }),
+  withHandlers({
+    handleEdit: ({ hash, openModal }) => () =>
+      openModal(EDIT_MODAL_ID, { hash, type: TABLES_ENTITY_ID }),
+  }),
+)(Table);
