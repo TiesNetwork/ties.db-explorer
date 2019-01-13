@@ -3,8 +3,7 @@ import { get } from 'lodash';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { compose } from 'recompose';
+import { compose, withHandlers } from 'recompose';
 
 // Components
 import Button from 'components/Button';
@@ -23,11 +22,11 @@ const COLOR = [
 
 const DashboardTablespace = ({
   color = COLOR[0],
+  handleClick,
   hash,
   isOpened,
   isTrigger,
   name,
-  onClick,
   tables = [],
 }) => {
   const rootClassNames = classNames(styles.Root, color.className, {
@@ -36,19 +35,13 @@ const DashboardTablespace = ({
   });
   const iconClassNames = classNames(styles.Icon, 'far', 'fa-caret-circle-down');
 
-  const Component = isTrigger
-    ? Button
-    : Link;
-
   return (
-    <Component
-      className={rootClassNames}
+    <Button
       classNames={{
         root: rootClassNames,
         content: styles.Content,
       }}
-      onClick={onClick}
-      to={`/${hash}/table${tables.length > 0 ? `/${tables[0]}` : ''}`}
+      onClick={handleClick}
     >
       <Typography
         className={styles.Logo}
@@ -77,7 +70,7 @@ const DashboardTablespace = ({
 
       {isTrigger && <i className={iconClassNames} />}
       {!isTrigger && <div className={styles.Divider} />}
-    </Component>
+    </Button>
   );
 };
 
@@ -102,5 +95,9 @@ const mapStateToProps = ({ entities }, { hash }) => {
 };
 
 export default compose(
-  connect(mapStateToProps)
+  connect(mapStateToProps),
+  withHandlers({
+    handleClick: ({ hash, onClick }): func => (): void =>
+      onClick && onClick(hash),
+  }),
 )(DashboardTablespace);

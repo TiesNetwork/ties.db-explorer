@@ -1,0 +1,88 @@
+.Root {
+  align-items: center;
+  display: flex;
+  height: 88px;
+  padding: 0 16px;
+
+  &:hover {
+    background: var(--background-lighter);
+    cursor: pointer;
+  }
+
+  &Is {
+    &Densed {
+      height: 64px;
+    }
+  }
+
+  &Variant {
+    &Field {
+      .Icon {
+        color: var(--color-primary);
+      }
+    }
+
+    &Index {
+      .Icon {
+        color: var(--color-success);
+      }
+    }
+
+    &Trigger {
+      .Icon {
+        color: var(--color-danger);
+      }
+    }
+  }
+}
+
+.From,
+.Hash {
+  color: var(--color-gray);
+}
+
+.Icon {
+  align-items: center;
+  display: flex;
+  flex: 0 0 40px;
+  font-size: 28px;
+  height: 40px;
+  justify-content: center;
+  width: 40px;
+}
+
+.Info {
+  margin: 0 0 0 16px;
+}
+
+.Query {
+  display: inline-block;
+  position: relative;
+  z-index: 2;
+
+  &:before {
+    background: var(--color-alert);
+    border-radius: 4px;
+    content: '';
+    height: 100%;
+    left: -4px;
+    opacity: .5;
+    position: absolute;
+    top: 0;
+    width: calc(100% + 8px);
+    z-index: 1;
+  }
+
+  &Content {
+    position: relative;
+    z-index: 2;
+  }
+}
+
+.Table {
+  color: var(--color-success);
+}
+
+.Tablespace {
+  color: var(--color-primary);
+}

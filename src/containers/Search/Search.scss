@@ -7,20 +7,37 @@
   flex-direction: column;
   margin: 40px;
   max-height: calc(100vh - 80px);
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: scroll;
+
+  &:hover {
+    &::-webkit-scrollbar {
+      background: var(--background-dark);
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: var(--color-gray-600);
+    }
+  }
+
+  &::-webkit-scrollbar {
+    background: transparent;
+    border-radius: 0 4px 4px 0;
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: transparent;
+    border-radius: 4px;
+  }
 }
 
 .Form {
-  flex: 0 0 64px;
-  height: 64px;
-  margin: -24px;
-  padding: 0 24px;
+  flex: 0 0 68px;
+  height: 68px;
 }
 
-.List {
+.Result {
   border-top: 1px solid var(--background-dark);
-  flex: 1 1 calc(100% - 64px);
-  padding: 0 0 8px 0;
-  overflow-x: hidden;
-  overflow-y: scroll;
+  margin: 20px -24px 0;
 }

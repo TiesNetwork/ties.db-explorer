@@ -23,12 +23,7 @@
         }
       }
 
-      .Container {
-        padding: 4px;
-      }
-
       .Input {
-        height: 36px;
         padding: 0 8px;
         width: auto;
       }
@@ -41,6 +36,7 @@
   border-radius: 4px;
   display: flex;
   min-height: 48px;
+  padding: 4px;
   overflow: hidden;
   width: 100%;
 }
@@ -73,7 +69,7 @@
   color: inherit;
   font-family: inherit;
   font-size: 16px;
-  height: 46px;
+  height: 40px;
   letter-spacing: .2px;
   line-height: 24px;
   max-width: 100%;

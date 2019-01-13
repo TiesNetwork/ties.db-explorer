@@ -29,6 +29,14 @@
   }
 }
 
+.Delete {
+  &:hover {
+    .Icon {
+      color: var(--color-danger);
+    }
+  }
+}
+
 .Icon {
   color: var(--color-blue-gray);
   opacity: .2;

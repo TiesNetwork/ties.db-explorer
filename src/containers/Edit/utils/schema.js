@@ -2,6 +2,7 @@
 import { FIELDS_ENTITY_ID } from 'entities/fields';
 import { INDEXES_ENTITY_ID } from 'entities/indexes';
 import { TABLES_ENTITY_ID } from 'entities/tables';
+import { TABLESPACES_ENTITY_ID } from 'entities/tablespaces';
 import { TRIGGERS_ENTITY_ID } from 'entities/triggers';
 
 const SCHEMA = {
@@ -19,6 +20,11 @@ const SCHEMA = {
     entity: 'tables',
     name: 'table',
     title: 'Table',
+  },
+  [TABLESPACES_ENTITY_ID]: {
+    entity: 'tablespaces',
+    name: 'tablespace',
+    title: 'Tablespace',
   },
   [TRIGGERS_ENTITY_ID]: {
     entity: 'triggers',

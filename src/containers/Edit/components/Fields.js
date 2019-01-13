@@ -1,6 +1,5 @@
 import { get } from 'lodash';
 import React from 'react';
-import { matchPath, withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import { formValueSelector } from 'redux-form';
 
@@ -26,12 +25,12 @@ const IndexFields = ({
     {({ inputValue, onClick, value = [] }) =>
       fields
         .filter(({ name }) => name.toLowerCase().indexOf(inputValue) > -1)
-        .map(({ hash, name }) => (
+        .map(({ fieldHash, name }) => (
           <Item
-            key={hash}
+            key={fieldHash}
             label={name}
             onClick={onClick}
-            value={hash}
+            value={fieldHash}
           />
         ))
     }
@@ -39,22 +38,21 @@ const IndexFields = ({
 );
 
 const selector = formValueSelector(EDIT_FORM_ID);
-const mapStateToProps = ({ entities, ...state }, { hash, location }) => {
-  const match = matchPath(get(location, 'pathname'), { path: '/:tablespaceHash/table/:tableHash'})
-  const table = get(entities, `tables.${get(match, 'params.tableHash')}`, {});
+const mapStateToProps = ({ entities, ...state }, { hash, tableHash }) => {
+  const table = get(entities, `tables.${tableHash}`, {});
   const value = selector(state, 'fields');
 
   return {
     fields: get(table, 'fields', [])
       .filter((hash: string) => (value || [])
-        .filter(({ value }) => value === hash).length === 0)
+        .filter((valueHash: string) => `${tableHash}_${valueHash}` === hash).length === 0)
       .map((hash: string) => get(entities, `fields.${hash}`)),
     selectedFields: (value || [])
       .map((hash: string) => ({
-        label: get(entities, `fields.${hash}.name`),
+        label: get(entities, `fields.${tableHash}_${hash}.name`),
         value: hash,
       })),
   };
 };
 
-export default withRouter(connect(mapStateToProps)(IndexFields));
+export default connect(mapStateToProps)(IndexFields);

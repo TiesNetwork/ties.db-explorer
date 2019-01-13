@@ -1,3 +1,8 @@
+import React from 'react';
+
+// Components
+import Fields from '../components/Fields';
+
 // Entities
 import { FIELDS_ENTITY_ID } from 'entities/fields';
 import { INDEXES_ENTITY_ID } from 'entities/indexes';
@@ -46,17 +51,18 @@ const SCHEMA = {
       {
         accessor: 'name',
         Header: 'Name',
-        width: 200,
+        width: 160,
       },
       {
         accessor: 'type',
         Header: 'Type',
-        width: 120,
+        width: 80,
       },
       {
         accessor: 'fields',
+        Cell: ({ original }) => <Fields {...original} />,
         Header: 'Fields',
-        width: 120,
+        width: 240,
       },
     ],
     actionsColor: COLOR.WHITE,

@@ -2,6 +2,10 @@
   :global .ReactTable {
     border: 0;
 
+    .rt-tbody {
+      overflow: initial;
+    }
+
     .rt-td {
       align-items: center;
       border: 0 !important;

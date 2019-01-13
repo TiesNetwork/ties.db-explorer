@@ -1,0 +1,46 @@
+.Root {
+  align-items: center;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  width: 100%;
+
+  &Color {
+    &Primary {
+      .Circle {
+        stroke: var(--color-primary);
+      }
+    }
+  }
+
+  &Variant {
+    &Indeterminate {
+      .Circle {
+        animation: progressCircularDash 1.6s ease-in-out infinite;
+      }
+
+      .Progress {
+        animation: progressCircularRotate 1.6s linear infinite;
+      }
+    }
+  }
+}
+
+@keyframes progressCircularDash {
+  0% {
+    stroke-dasharray: 1px, 200px;
+    stroke-dashoffset: 0px;
+  }
+  50% {
+    stroke-dasharray: 100px, 200px;
+    stroke-dashoffset: -15px;
+  }
+  100% {
+    stroke-dasharray: 100px, 200px;
+    stroke-dashoffset: -120px;
+  }
+}
+
+@keyframes progressCircularRotate {
+  100% { transform: rotate(360deg) }
+}

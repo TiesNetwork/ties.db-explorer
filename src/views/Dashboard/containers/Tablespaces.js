@@ -4,19 +4,29 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { push } from 'react-router-redux';
 import { compose, withHandlers } from 'recompose';
 
 // Components
 import Button from 'components/Button';
 import Tablespace from '../components/Tablespace';
 
+// Ducks
+import { EDIT_MODAL_ID } from 'containers/Edit';
+
+// Entities
+import { TABLESPACES_ENTITY_ID } from 'entities/tablespaces';
+
+// Services
+import { openModal } from 'services/modals';
+
 // Styles
+import { GRADIENT } from 'styles';
 import styles from './Tablespaces.scss';
 
 const DashboardTablespaces = ({
   currentTablespace,
   handleClick,
+  handleCreate,
   isOpened,
   tablespaces,
   onTrigger,
@@ -48,8 +58,9 @@ const DashboardTablespaces = ({
 
         <div className={styles.Actions}>
           <Button
-            color={Button.COLOR.GRADIENT.GREEN}
+            color={GRADIENT.GREEN}
             fullWidth
+            onClick={handleCreate}
           >
             Create Tablespace
           </Button>
@@ -69,16 +80,18 @@ const mapStateToProps = ({ entities, views }, { match }) => {
 
   return {
     currentTablespace: tablespaceHash,
-    tablespaces: keys(get(entities, 'tablespaces', [])).filter(hash => hash !== tablespaceHash),
+    tablespaces: keys(get(entities, 'tablespaces', [])),
   };
 };
 
 export default withRouter(compose(
-  connect(mapStateToProps, { push }),
+  connect(mapStateToProps, { openModal }),
   withHandlers({
-    handleClick: ({ onTrigger, push }) => (hash: string) => {
+    handleClick: ({ history, onTrigger, push }): func => (hash: string): void => {
       onTrigger();
-      push(`/${hash}`);
+      history.push(`/${hash}`);
     },
+    handleCreate: ({ openModal }): func => (): void =>
+      openModal(EDIT_MODAL_ID, { type: TABLESPACES_ENTITY_ID }),
   }),
 )(DashboardTablespaces));

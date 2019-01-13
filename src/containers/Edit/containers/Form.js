@@ -8,8 +8,8 @@ import { reduxForm } from 'redux-form';
 import Button from 'components/Button';
 import Form, { Input } from 'components/Form';
 
-import Fields from './Fields';
-import Type from './Type';
+import Fields from '../components/Fields';
+import Type from '../components/Type';
 
 // Ducks
 import { closeModal } from 'services/modals';
@@ -21,7 +21,7 @@ import {
 // Entities
 import { FIELDS_ENTITY_ID } from 'entities/fields';
 import { INDEXES_ENTITY_ID } from 'entities/indexes';
-import { TRIGGERS_ENTITY_ID } from 'entities/triggers';
+// import { TRIGGERS_ENTITY_ID } from 'entities/triggers';
 
 // Utils
 import createSchema from '../utils/schema';
@@ -50,7 +50,7 @@ const EditForm = ({
 
         {hash && (
           <div className={styles.Name}>
-            {get(initialValues, 'name')}
+            «{get(initialValues, 'name')}»
           </div>
         )}
       </Typography>
@@ -68,7 +68,7 @@ const EditForm = ({
         />
       )}
 
-      {type === INDEXES_ENTITY_ID && <Fields />}
+      {type === INDEXES_ENTITY_ID && <Fields tableHash={get(initialValues, 'tableHash')} />}
     </div>
 
     <div className={styles.Actions}>
@@ -93,9 +93,9 @@ const EditForm = ({
   </Form>
 );
 
-const mapStateToProps = (state, { hash = '', type }) => {
+const mapStateToProps = (state, { hash = '', name, type }) => {
   const { entity, ...schema } = createSchema(state, type);
-  const initialValues = get(state, `entities.${entity}.${hash}`, {});
+  const initialValues = get(state, `entities.${entity}.${hash}`, { name });
 
   return {
     ...schema, initialValues,

@@ -1,0 +1,16 @@
+.Root {
+  display: flex;
+  flex-wrap: nowrap;
+  margin: 0 -4px;
+}
+
+.Item {
+  align-items: center;
+  background: var(--color-white);
+  border-radius: 16px;
+  color: var(--color-blue-gray);
+  display: flex;
+  height: 24px;
+  margin: 0 4px;
+  padding: 0 12px;
+}

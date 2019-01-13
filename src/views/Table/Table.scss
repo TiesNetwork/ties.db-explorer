@@ -3,6 +3,25 @@
   padding: 24px;
   overflow-x: hidden;
   overflow-y: scroll;
+
+  &:hover {
+    &::-webkit-scrollbar {
+      background: var(--background-dark);
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: var(--color-gray-600);
+    }
+  }
+
+  &::-webkit-scrollbar {
+    background: transparent;
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: transparent;
+  }
 }
 
 .Actions {
@@ -68,7 +87,8 @@
 }
 
 .Indexes {
-  flex: 0 0 calc(60% - 10px);
+  flex: 0 0 60%;
+  max-width: calc(60% - 10px);
 }
 
 .Title {
@@ -76,6 +96,7 @@
 }
 
 .Triggers {
-  flex: 0 0 calc(40% - 10px);
+  flex: 0 0 40%;
   margin: 0 0 0 20px;
+  max-width: calc(40% - 10px);
 }

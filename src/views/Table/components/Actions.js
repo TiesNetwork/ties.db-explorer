@@ -19,6 +19,8 @@ const TableActions = ({
     [styles.RootColorWhite]: color === COLOR.WHITE,
   });
 
+  const deleteClassNames = classNames(styles.Button, styles.Delete);
+
   return (
     <div className={rootClassNames}>
       <Button
@@ -26,16 +28,16 @@ const TableActions = ({
           root: styles.Button,
           icon: styles.Icon,
         }}
-        icon="far fa-edit"
+        icon="fal fa-edit"
         onClick={handleEdit}
       />
 
       <Button
         classNames={{
-          root: styles.Button,
+          root: deleteClassNames,
           icon: styles.Icon,
         }}
-        icon="far fa-trash-alt"
+        icon="fal fa-trash-alt"
         onClick={handleDelete}
       />
     </div>

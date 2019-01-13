@@ -1,10 +1,11 @@
 import classNames from 'classnames';
+import { values } from 'lodash';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { compose, withHandlers, withProps } from 'recompose';
 
 // Styles
-import { COLOR, Typography } from 'styles';
+import { COLOR, GRADIENT, Typography } from 'styles';
 import styles from './Button.scss';
 
 const Button = ({
@@ -15,7 +16,7 @@ const Button = ({
     content: contentClassName,
     icon: iconClassName,
   },
-  color: colorProp,
+  color,
   fullWidth,
   handleClick,
   icon,
@@ -24,18 +25,21 @@ const Button = ({
   type = 'button',
   ...props,
 }) => {
-  const color = colorProp || {};
-
   const rootClassNames = classNames(
     rootClassName || className,
-    styles.Root, color.className,
+    styles.Root,
+    // Color
     {
       [styles.RootColorAlert]:   color === COLOR.ALERT,
       [styles.RootColorDanger]:  color === COLOR.DANGER,
       [styles.RootColorPrimary]: color === COLOR.PRIMARY,
       [styles.RootColorSecondary]: color === COLOR.SECONDARY,
       [styles.RootColorSuccess]: color === COLOR.SUCCESS,
+
+      [styles.RootGradientGreen]: color === GRADIENT.GREEN,
+      [styles.RootGradientPurple]: color === GRADIENT.PURPLE,
     },
+    // Variants
     {
       [styles.RootVariantFilled]: !!children,
       [styles.RootVariantIcon]: icon && !children,
@@ -78,7 +82,7 @@ Button.propTypes = {
     root: PropTypes.string,
     icon: PropTypes.string,
   }),
-  color: PropTypes.string,
+  color: PropTypes.oneOf([...values(COLOR), ...values(GRADIENT)]),
   fullWidth: PropTypes.bool,
   icon: PropTypes.string,
   onClick: PropTypes.func,

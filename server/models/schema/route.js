@@ -1,5 +1,6 @@
 /* eslint-disable */
 const Contract = require('../../contract');
+const { Field } = require('tiesdb-client');
 const express = require('express');
 const schema = express();
 
@@ -32,9 +33,19 @@ schema.get('/', async (req, res) => {
           name,
         } = await Contract.callMethod('getField', tableHash, fieldHash);
 
+        let decodedDefaultValue = defaultValue || '0';
+
+        try {
+          decodedDefaultValue = Field.decodeValue(
+            type.toLowerCase(),
+            Buffer.from(defaultValue.replace('0x', ''), 'hex'),
+          ).toString();
+        } catch (e) {}
+
         fields[index] = {
-          defaultValue, name, type,
-          hash: fieldHash,
+          fieldHash, name, tableHash, tablespaceHash, type,
+          defaultValue: decodedDefaultValue,
+          hash: `${tableHash}_${fieldHash}`,
         };
       });
 
@@ -46,8 +57,8 @@ schema.get('/', async (req, res) => {
         } = await Contract.callMethod('getIndex', tableHash, indexHash);
 
         indexes[index] = {
-          fields, name, type,
-          hash: indexHash,
+          fields, indexHash, name, tableHash, tablespaceHash, type,
+          hash: `${tableHash}_${indexHash}`,
         };
       });
 
@@ -55,12 +66,13 @@ schema.get('/', async (req, res) => {
         const { name, payload } = await Contract.callMethod('getTrigger', tableHash, triggerHash);
 
         triggers[index] = {
-          name, payload,
-          hash: triggerHash,
+          name, payload, tableHash, tablespaceHash, triggerHash,
+          hash: `${tableHash}_${triggerHash}`,
         };
       });
 
       tables[index] = {
+        tablespaceHash,
         hash: tableHash,
         name,
         fields, indexes, triggers,

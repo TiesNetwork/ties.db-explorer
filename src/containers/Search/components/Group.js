@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 // Styles
@@ -11,7 +12,7 @@ const SearchGroup = ({
   <div className={styles.Root}>
     <Typography
       className={styles.Title}
-      variant={Typography.VARIANT.OVERLINE}
+      variant={Typography.VARIANT.BUTTON}
     >
       {title}
     </Typography>
@@ -21,5 +22,10 @@ const SearchGroup = ({
     </div>
   </div>
 );
+
+SearchGroup.propTypes = {
+  children: PropTypes.node,
+  title: PropTypes.string,
+};
 
 export default SearchGroup;

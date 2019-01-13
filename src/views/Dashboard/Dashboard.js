@@ -3,7 +3,6 @@ import { get } from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
 import { Route, Switch, matchPath } from 'react-router-dom';
-import { push } from 'react-router-redux';
 import { compose, withHandlers, withProps, withState } from 'recompose';
 
 // Components
@@ -50,7 +49,7 @@ const Dashboard = ({
           />
         </div>
 
-        <div className={styles.SidebarWrapper}>
+        <div className={styles.Content}>
           <div className={styles.Tabs}>
             <Tabs onChange={handleChangeTab} value={currentTab}>
               <Tab icon="fal fa-table" title="Tables" value={TABLE_VIEW_ID} />
@@ -58,8 +57,8 @@ const Dashboard = ({
             </Tabs>
           </div>
 
-          <div className={styles.SidebarContainer}>
-            <div className={styles.SidebarList}>
+          <div className={styles.Slider}>
+            <div className={styles.Track}>
               <Tables />
               <Queries />
             </div>
@@ -76,32 +75,45 @@ const Dashboard = ({
   );
 }
 
-const mapStateToProps = ({ entities }, { match }) => {
-  const tablespaceHash = get(match, 'params.tablespaceHash');
-
-  return {
-    tablespaceHash,
-    tablespace: get(entities, `tablespaces.${tablespaceHash}`),
-  };
-};
+const mapStateToProps = ({ entities }, { tablespaceHash }) => ({
+  tablespace: get(entities, `tablespaces.${tablespaceHash}`),
+});
 
 export default compose(
-  connect(mapStateToProps, { push }),
-  withProps(({ location }) => {
-    const match = matchPath(get(location, 'pathname', ''), { path: '/:tablespaceHash/:viewId' });
+  // Parse props
+  withProps(({ history, location, tablespace }) => {
+    const match = matchPath(get(location, 'pathname', ''), {
+      path: '/:tablespaceHash/:viewId?/:tableHash?',
+    });
+
+    const tablespaceHash = get(match, 'params.tablespaceHash');
+    const tableHash = get(match, 'params.tableHash');
     const viewId = get(match, 'params.viewId');
 
     return {
       currentTab: viewId,
+      tableHash,
+      tablespaceHash,
     };
   }),
+
+  connect(mapStateToProps),
+
+  // Redirect rules
+  withProps(({ currentTab, history, tablespace, tablespaceHash, tableHash }): void => {
+    if ((!currentTab || (currentTab === TABLE_VIEW_ID && !tableHash)) && tablespace && get(tablespace, 'tables', []).length > 0) {
+      history.push(`/${tablespaceHash}/${TABLE_VIEW_ID}/${get(tablespace, 'tables.0')}`);
+    }
+  }),
+
   withState('isOpened', 'setOpen', false),
+
   withHandlers({
-    handleChangeTab: ({ match, push, tablespace }) => (id: string) => {
-      const { hash, tables } = tablespace;
-      push(`/${hash}/${id}${id === TABLE_VIEW_ID && tables.length > 0 ? `/${tables[0]}` : ''}`);
+    handleChangeTab: ({ history, location, tableHash, tablespaceHash }): func => (id: string): void => {
+      const lastTableHash = get(location, 'state.tableHash');
+      history.push(`/${tablespaceHash}/${id}${lastTableHash ? `/${lastTableHash}` : ''}`, { tableHash });
     },
-    handleTrigger: ({ isOpened, setOpen }) => () =>
+    handleTrigger: ({ isOpened, setOpen }): func => (): void =>
       setOpen(!isOpened),
   }),
 )(Dashboard);

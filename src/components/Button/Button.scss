@@ -61,6 +61,24 @@
     }
   }
 
+  &Gradient {
+    &Green {
+      background: var(--gradient-green);
+
+      .Content {
+        color: var(--color-white);
+      }
+    }
+
+    &Purple {
+      background: var(--gradient-purple);
+
+      .Content {
+        color: var(--color-white);
+      }
+    }
+  }
+
   &Variant {
     &Filled {
       box-shadow: var(--shadow-down-z1);

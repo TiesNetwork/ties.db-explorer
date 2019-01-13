@@ -1,43 +1,54 @@
 .Root {
-  align-items: center;
   display: flex;
-  height: 100%;
-  width: 100%;
 }
 
-.Icon {
-  color: var(--color-gray);
-  flex: 0 0 24px;
-  font-size: 24px;
-  height: 24px;
-  width: 24px;
+.Control {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  margin: 0 0 0 12px;
+  max-width: calc(100% - 76px);
 }
 
 .Input {
+  background: transparent;
   border: 0;
-  color: inherit;
   font-family: inherit;
-  font-size: 24px;
+  font-size: 34px;
   font-weight: 400;
-  line-height: 28px;
-  height: 100%;
-  margin: 0 0 0 16px;
-  width: 100%;
+  letter-spacing: .3px;
+  line-height: 40px;
+  margin: 8px 0 0;
 
   &:focus {
     box-shadow: none !important;
+    outline: none;
   }
 
-  &::-webkit-input-placeholder {
-    color: var(--color-gray-500);
-  }
-  &::-moz-placeholder {
-    color: var(--color-gray-500);
-  }
-  &:-ms-input-placeholder {
-    color: var(--color-gray-500);
-  }
-  &:-moz-placeholder {
-    color: var(--color-gray-500);
-  }
+  &::-webkit-input-placeholder { color: var(--color-gray-400); }
+  &::-moz-placeholder { color: var(--color-gray-400); }
+  &:-ms-input-placeholder { color: var(--color-gray-400); }
+  &:-moz-placeholder { color: var(--color-gray-400); }
+}
+
+
+.Icon {
+  color: var(--color-gray);
+  height: 28px;
+  font-size: 28px;
+  width: 28px;
+}
+
+.Label {
+  color: var(--color-gray);
+}
+
+.Left {
+  align-items: center;
+  display: flex;
+  flex: 0 0 36px;
+  height: 64px;
+  justify-content: center;
+  padding-top: 24px;
+  width: 36px;
 }

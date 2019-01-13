@@ -13,6 +13,7 @@ import Transactions from './Transactions';
 
 // Ducks
 import { openModal } from 'services/modals';
+import { SEARCH_MODAL_ID } from 'containers/Search/ducks/constants';
 
 // import Title from '../components/Title';
 
@@ -46,6 +47,6 @@ export default compose(
   connect(null, { openModal }),
   withHandlers({
     handleClick: ({ openModal }) => () =>
-      openModal('search'),
+      openModal(SEARCH_MODAL_ID),
   }),
 )(MainHeader);

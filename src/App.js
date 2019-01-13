@@ -8,6 +8,7 @@ import Search from 'containers/Search';
 
 // Views
 import Dashboard from './views/Dashboard';
+import Init from './views/Init';
 import Preload from './views/Preload';
 import Welcome from './views/Welcome';
 
@@ -20,6 +21,7 @@ const App = ({ match }) => (
       <Route path={url.resolve(match.path, '/preload')} component={Preload} />
       <Route path={url.resolve(match.path, '/welcome')} component={Welcome} />
       <Route path={url.resolve(match.path, '/:tablespaceHash')} component={Dashboard} />
+      <Route path={url.resolve(match.path, '/')} component={Init} />
     </Switch>
 
     <Edit />

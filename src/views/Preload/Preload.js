@@ -105,11 +105,7 @@ export default compose(
   }),
   lifecycle({
     componentDidMount() {
-      const { fetchEntities, hasEntities, replace } = this.props;
-
-      // hasEntities
-      //   // ? replace('/')
-      //   : fetchEntities();
+      this.props.fetchEntities();
     },
   }),
 )(Preload);

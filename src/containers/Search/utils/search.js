@@ -1,58 +1,73 @@
-import { get, values } from 'lodash';
+import { get, isEmpty, values } from 'lodash';
 
-const ENTITIY = {
-  fields: {
-    icon: 'fas fa-browser',
-    title: 'Fields',
-  },
-  indexes: {
-    icon: 'fas fa-key',
-    title: 'Indexes',
-  },
-  triggers: {
-    icon: 'fas fa-hashtag',
-    title: 'Triggers',
-  },
-  tables: {
-    icon: 'fas fa-table',
-    title: 'Tables',
-  },
-  tablespaces: {
-    icon: 'fas fa-user-astronaut',
-    title: 'Tablespaces',
-  },
-};
+// Entities
+import { FIELDS_ENTITY_ID } from 'entities/fields';
+import { INDEXES_ENTITY_ID } from 'entities/indexes';
+import { TABLES_ENTITY_ID } from 'entities/tables';
+import { TABLESPACES_ENTITY_ID } from 'entities/tablespaces';
+import { TRIGGERS_ENTITY_ID } from 'entities/triggers';
 
-export default (
-  state: Object,
-  search: string = '',
-  {
-    limit = 3,
-    whitelist = [],
-  },
-) => {
-  const result = [];
 
-  if (state && search) {
-    whitelist.forEach((entity: string) => {
-      const items = values(get(state, entity, {}))
-        .filter(({ name }) => name.toLowerCase().indexOf(search.toLowerCase()) > -1)
-        .slice(0, limit)
-        .map(({ hash, name }) => ({
-          description: hash.substr(0, 16),
-          icon: get(ENTITIY, `${entity}.icon`, ''),
-          title: name,
-          to: '/0xfe1268890612408eff8ef387953e5cf8d44aa2733e19e5b00173e1c6d3b33260/table/0x67628b0a6c9eb165f0a4200ed8f01e5a49565111141bb9c60565187fae17e021',
-        }));
+const ACTIONS = ['create', 'edit', 'delete'];
+const ENTITIES = [
+  FIELDS_ENTITY_ID,
+  INDEXES_ENTITY_ID,
+  TABLES_ENTITY_ID,
+  TABLESPACES_ENTITY_ID,
+  TRIGGERS_ENTITY_ID,
+];
 
-      if (items && items.length > 0) {
-        result.push({
-          items,
-          title: get(ENTITIY, `${entity}.title`, ''),
-        });
-      }
-    });
+let currentResult: Object = {};
+let currentSearch: string = '';
+
+export default (state: Object, search: string = '', match: Object): Object => {
+  if (search === currentSearch) {
+    return currentResult;
   }
 
-  return result;
+  // eslint-disable-next-line
+  const matches = search.toLowerCase().match(new RegExp(`^(${ACTIONS.join(' |')} )?(${ENTITIES.join('? |')}|indexe?s? )?([a-zA-Z0-9\-\_\.]+)?$`));
+  const results = {};
+
+  const action = get(matches, '1', '').trim();
+  const entity = get(matches, '2', '').trim();
+  const query = get(matches, '3', '');
+
+  if (action === 'create' || entity || (!entity && query.length >= 3)) {
+    (entity ?
+      [`${entity}${entity[entity.length -1] === 's'
+        ? ''
+        : `${entity}es` === INDEXES_ENTITY_ID
+          ? 'es'
+          : 's'}`]
+      : ENTITIES
+    ).forEach((id: string): void => {
+        const entities = get(state, `entities.${id}`, []);
+
+        const result = action === 'create'
+          ? results[`${id}`] = [{
+              action,
+              entity: id,
+              name: query,
+              tableHash: get(match, 'params.tableHash'),
+              tablespaceHash: get(match, 'params.tablespaceHash'),
+            }]
+          : values(entities)
+              .filter(({ name }) => name.indexOf(query) > -1)
+              .slice(0, entity ? 5 : 3)
+              .map(({ hash, name, tableHash, tablespaceHash }) => ({
+                action, hash, name, tableHash, tablespaceHash,
+                entity: id,
+              }));
+
+        if (!isEmpty(result)) {
+          results[`${id}`] = result;
+        }
+      });
+  }
+
+  currentSearch = search;
+  currentResult = { query, results };
+
+  return currentResult;
 };

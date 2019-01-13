@@ -75,7 +75,6 @@ const TableEntities = ({
             columns={columns}
             data={items}
             minRows={0}
-            resizable={false}
             showPagination={false}
           />
         </div>

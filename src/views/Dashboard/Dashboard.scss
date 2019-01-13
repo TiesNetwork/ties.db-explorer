@@ -4,7 +4,7 @@
 
   &Is {
     &Opened {
-      .SidebarWrapper {
+      .Content {
         transform: translateY(100%);
         visibility: hidden;
       }
@@ -13,17 +13,32 @@
 
   &View {
     &Queries {
-      .SidebarList {
-        transform: translateX(-320px);
+      .Track {
+        transform: translateX(-50%);
       }
     }
 
     &Tables {
-      .SidebarList {
+      .Track {
         transform: translateX(0);
       }
     }
   }
+}
+
+.Content {
+  background: var(--color-blue-gray-900);
+  border-top: 1px solid var(--color-blue-gray-700);
+  display: flex;
+  flex-direction: column;
+  height: calc(100% - 72px);
+  max-width: 320px;
+  overflow: hidden;
+  position: absolute;
+  top: 72px;
+  transition: all .4s;
+  visibility: visible;
+  width: 100%;
 }
 
 .Main {
@@ -40,38 +55,13 @@
   flex-direction: column;
   max-width: 320px;
   overflow: hidden;
+}
 
-  &Container {
-    display: flex;
-    flex: 1 1 auto;
-    max-height: calc(100% - 72px);
-    overflow: hidden;
-  }
-
-  &List {
-    display: flex;
-    flex: 1 1 auto;
-    transform: translateX(0);
-    width: 640px;
-
-    & > * {
-      flex: 0 0 320px;
-      max-width: 320px;
-    }
-  }
-
-  &Wrapper {
-    background: var(--color-blue-gray-900);
-    border-top: 1px solid var(--color-blue-gray-700);
-    display: flex;
-    flex-direction: column;
-    height: calc(100% - 72px);
-    max-width: 320px;
-    position: absolute;
-    top: 72px;
-    transition: all .4s;
-    visibility: visible;
-  }
+.Slider {
+  display: flex;
+  flex: 1 1 auto;
+  max-height: calc(100% - 72px);
+  overflow: hidden;
 }
 
 .Tablespaces {
@@ -83,4 +73,18 @@
 
 .Tabs {
   height: 72px;
+}
+
+.Track {
+  display: flex;
+  flex: 1 1 auto;
+  position: absolute;
+  transform: translateX(0);
+  transition: all .4s;
+  width: 200%;
+
+  & > * {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
 }

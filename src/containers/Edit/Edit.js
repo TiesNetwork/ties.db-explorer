@@ -2,7 +2,9 @@ import React from 'react';
 
 // Components
 import Modal from 'components/Modal';
-import Form from './components/Form';
+
+// Containers
+import Form from './containers/Form';
 
 // Ducks
 import { EDIT_MODAL_ID } from './ducks';
@@ -17,8 +19,9 @@ const Edit = () => (
     }}
     id={EDIT_MODAL_ID}
   >
-    {({ hash, type }) => (
+    {({ hash, name, type }) => (
       <Form
+        name={name}
         hash={hash}
         type={type}
       />
