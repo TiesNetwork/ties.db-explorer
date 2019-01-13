@@ -50,28 +50,13 @@
   width: 480px;
 
   &Bar {
-    background: var(--background-dark);
-    border-radius: 4px;
-    height: 8px;
+    height: 6px;
     margin: 16px 0 0;
-    overflow: hidden;
-    position: relative;
-    width: 100%;
-
-    &:before {
-      animation: progress 1.8s linear infinite;
-      background: var(--color-primary);
-      content: '';
-      display: block;
-      height: 100%;
-      position: absolute;
-      width: 0%;
-    }
   }
 
   &Description {
     color: var(--color-gray);
-    margin: 12px 0 0;
+    margin: 8px 0 0;
   }
 
   &Title {
@@ -89,28 +74,4 @@
 .Title {
   display: flex;
   margin: 0 0 0 16px;
-}
-
-
-@keyframes progress {
-  0% {
-    left: 0%;
-    width: 0%;
-  }
-  25% {
-    left: 0%;
-    width: 25%;
-  }
-  50% {
-    left: 30%;
-    width: 60%;
-  }
-  75% {
-    left: 75%;
-    width: 35%;
-  }
-  100% {
-    left: 100%;
-    width: 0%;
-  }
 }

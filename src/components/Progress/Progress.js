@@ -9,6 +9,7 @@ import styles from './Progress.scss';
 
 const VARIANT = {
   CIRCLE: 'circle',
+  LINEAR: 'linear',
 };
 
 const Progress = ({
@@ -29,6 +30,7 @@ const Progress = ({
 
     // Variant
     [styles.RootVariantCircle]: variant === VARIANT.CIRCLE,
+    [styles.RootVariantLinear]: variant === VARIANT.LINEAR,
     [styles.RootVariantIndeterminate]: value === undefined,
   });
 
@@ -41,10 +43,10 @@ const Progress = ({
     <div className={rootClassNames}>
       <div
         className={progressClassNames}
-        style={{
+        style={variant === VARIANT.CIRCLE ? {
           height: displaySize,
           width: displaySize,
-        }}
+        } : null}
       >
         {variant === VARIANT.CIRCLE && (
           <svg
@@ -60,6 +62,13 @@ const Progress = ({
               strokeWidth={size / 10}
             />
           </svg>
+        )}
+
+        {variant === VARIANT.LINEAR && (
+          <div
+            className={styles.Line}
+            style={{ width: `${Math.max(0, Math.min(100, value))}%`}}
+          />
         )}
       </div>
     </div>

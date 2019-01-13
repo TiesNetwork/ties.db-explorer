@@ -10,7 +10,7 @@ import {
 
 import { UPDATE_ENTITIES } from 'entities/types';
 
-export const fetchEntities = () => (dispatch: func, getState: func, { api, schema }) => {
+export const fetchEntities = (callback: func) => (dispatch: func, getState: func, { api, schema }) => {
   dispatch({ type: FETCH_ENTITIES_REQUEST });
 
   api('schema.get')
@@ -19,6 +19,8 @@ export const fetchEntities = () => (dispatch: func, getState: func, { api, schem
 
       dispatch({ type: UPDATE_ENTITIES, data: normalizedData });
       dispatch({ type: FETCH_ENTITIES_SUCCESS, connections: normalizedData.result });
+
+      callback && callback();
     })
     .catch((error: Object) =>
       dispatch({ type: FETCH_ENTITIES_FAILURE, error: get(error, 'message') })

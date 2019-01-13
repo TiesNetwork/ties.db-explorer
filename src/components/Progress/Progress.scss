@@ -14,16 +14,52 @@
   }
 
   &Variant {
+    &Linear {
+      .Progress {
+        border-radius: 4px;
+        height: 6px;
+        overflow: hidden;
+        width: 100%;
+      }
+
+      &.RootColorPrimary {
+        .Line {
+          background: var(--color-primary);
+        }
+
+        .Progress {
+          background: var(--color-blue-300);
+        }
+      }
+    }
+
     &Indeterminate {
       .Circle {
         animation: progressCircularDash 1.6s ease-in-out infinite;
       }
 
-      .Progress {
-        animation: progressCircularRotate 1.6s linear infinite;
+      &.RootVariantCircle {
+        .Progress {
+          animation: progressCircularRotate 1.6s linear infinite;
+        }
+      }
+
+      &.RootVariantLinear {
+        .Line {
+          animation: progressLinear 1.6s linear infinite;
+        }
       }
     }
   }
+}
+
+.Line {
+  height: 100%;
+  position: absolute;
+}
+
+.Progress {
+  position: relative;
 }
 
 @keyframes progressCircularDash {
@@ -43,4 +79,28 @@
 
 @keyframes progressCircularRotate {
   100% { transform: rotate(360deg) }
+}
+
+
+@keyframes progressLinear {
+  0% {
+    left: 0%;
+    width: 0%;
+  }
+  25% {
+    left: 0%;
+    width: 25%;
+  }
+  50% {
+    left: 30%;
+    width: 60%;
+  }
+  75% {
+    left: 75%;
+    width: 35%;
+  }
+  100% {
+    left: 100%;
+    width: 0%;
+  }
 }
