@@ -26,7 +26,7 @@ export default (state: Object, search: string = '', match: Object): Object => {
   }
 
   // eslint-disable-next-line
-  const matches = search.toLowerCase().match(new RegExp(`^(${ACTIONS.join(' |')} )?(${ENTITIES.join('? |')}|indexe?s? )?([a-zA-Z0-9\-\_\.]+)?$`));
+  const matches = search.toLowerCase().match(new RegExp(`^(${ACTIONS.join(' |')} )?(${ENTITIES.join('? |')}|indexe?s? )?([a-zA-Z0-9\-_\.]+)?$`));
   const results = {};
 
   const action = get(matches, '1', '').trim();
@@ -53,7 +53,7 @@ export default (state: Object, search: string = '', match: Object): Object => {
               tablespaceHash: get(match, 'params.tablespaceHash'),
             }]
           : values(entities)
-              .filter(({ name }) => name.indexOf(query) > -1)
+              .filter(({ name }) => name.toLowerCase().indexOf(query) > -1)
               .slice(0, entity ? 5 : 3)
               .map(({ hash, name, tableHash, tablespaceHash }) => ({
                 action, hash, name, tableHash, tablespaceHash,

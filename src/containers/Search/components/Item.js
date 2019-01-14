@@ -63,7 +63,7 @@ const SearchItem = ({
     }
   );
 
-  const queryIndex = name.indexOf(query);
+  const queryIndex = name.toLowerCase().indexOf(query);
 
   return (
     <div

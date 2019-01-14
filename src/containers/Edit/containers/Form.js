@@ -39,8 +39,9 @@ const EditForm = ({
 
   // Handlers
   handleClose,
+  handleSubmit,
 }) => (
-  <Form>
+  <Form onSubmit={handleSubmit}>
     <div className={styles.Header}>
       <Typography
         className={styles.Title}
@@ -104,7 +105,11 @@ const mapStateToProps = (state, { hash = '', name, type }) => {
 
 export default compose(
   connect(mapStateToProps, { closeModal }),
-  reduxForm({ form: EDIT_FORM_ID }),
+  reduxForm({
+    form: EDIT_FORM_ID,
+    onSubmit: (value: Object, dispatch: func, { create }): void =>
+      create && dispatch(create(value)),
+  }),
   withHandlers({
     handleClose: ({ closeModal }) => (event: Object) =>
       closeModal(EDIT_MODAL_ID),

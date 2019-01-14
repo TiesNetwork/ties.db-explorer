@@ -12,7 +12,7 @@ class Contract {
   constructor(account, address, url) {
     const provider = new SignerProvider(url, {
       accounts: cb => cb(null, []),
-      signTransaction: (rawTx, cb) => console.log(123, rawTx, cb),
+      signTransaction: (rawTx, cb) => this.ws.send('АВТОРИЗУЙСЯ!'),
     });
 
     const web3 = new Web3(provider);
@@ -23,6 +23,7 @@ class Contract {
       { from: account },
     );
     this.web3 = web3;
+    this.ws = null;
   }
 
   /**
@@ -38,8 +39,16 @@ class Contract {
    * @param {*} args
    */
   sendMethod(method, ...args) {
-    return this.contract.methods[method](...args).send();
+    return this.contract.methods[method](...args).send()
+      .on('confirmation', (number, receipt) => console.log(number, receipt))
+      .on('receipt', (receipt) => console.log(receipt))
+      .on('transactionHash', (hash) => console.log(hash))
+      .on('error', console.error);
+  }
+
+  setSocket(ws) {
+    this.ws = ws;
   }
 }
 
-module.exports = new Contract(null, null, 'https://rinkeby.infura.io/v3/5915e2ed5f234c2aba3dfcb23b8f4337');
+module.exports = new Contract('0x8dE2472FA85d214f79207F5B310f1335Bca0dc75', null, 'https://rinkeby.infura.io/v3/5915e2ed5f234c2aba3dfcb23b8f4337');

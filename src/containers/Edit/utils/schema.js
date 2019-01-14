@@ -2,7 +2,13 @@
 import { FIELDS_ENTITY_ID } from 'entities/fields';
 import { INDEXES_ENTITY_ID } from 'entities/indexes';
 import { TABLES_ENTITY_ID } from 'entities/tables';
-import { TABLESPACES_ENTITY_ID } from 'entities/tablespaces';
+import {
+  // Actions
+  createTablespace,
+
+  // Types
+  TABLESPACES_ENTITY_ID,
+} from 'entities/tablespaces';
 import { TRIGGERS_ENTITY_ID } from 'entities/triggers';
 
 const SCHEMA = {
@@ -22,6 +28,7 @@ const SCHEMA = {
     title: 'Table',
   },
   [TABLESPACES_ENTITY_ID]: {
+    create: createTablespace,
     entity: 'tablespaces',
     name: 'tablespace',
     title: 'Tablespace',

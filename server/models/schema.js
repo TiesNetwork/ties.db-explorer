@@ -1,5 +1,5 @@
 /* eslint-disable */
-const Contract = require('../../contract');
+const Contract = require('../contract');
 const { Field } = require('tiesdb-client');
 const express = require('express');
 const app = express();
