@@ -2,6 +2,7 @@ import React from 'react';
 
 // Components
 import Fields from '../components/Fields';
+import Text from '../components/Text';
 
 // Entities
 import { FIELDS_ENTITY_ID } from 'entities/fields';
@@ -21,16 +22,19 @@ const SCHEMA = {
       },
       {
         accessor: 'name',
+        Cell: ({ value }) => <Text title={value} />,
         Header: 'Name',
         width: 260,
       },
       {
         accessor: 'type',
+        Cell: ({ value }) => <Text title={value} />,
         Header: 'Type',
         width: 120,
       },
       {
         accessor: 'defaultValue',
+        Cell: ({ value }) => <Text title={value} />,
         Header: 'Default',
         width: 240,
       },
@@ -50,17 +54,19 @@ const SCHEMA = {
       },
       {
         accessor: 'name',
+        Cell: ({ value }) => <Text title={value} variant={Text.VARIANT.LIGHT} />,
         Header: 'Name',
         width: 160,
       },
       {
         accessor: 'type',
+        Cell: ({ value }) => <Text title={value} variant={Text.VARIANT.LIGHT} />,
         Header: 'Type',
         width: 80,
       },
       {
         accessor: 'fields',
-        Cell: ({ original }) => <Fields {...original} />,
+        Cell: ({ original }) => <Fields {...original} variant={Text.VARIANT.LIGHT} />,
         Header: 'Fields',
         width: 240,
       },
@@ -81,11 +87,13 @@ const SCHEMA = {
       },
       {
         accessor: 'name',
+        Cell: ({ value }) => <Text title={value} variant={Text.VARIANT.LIGHT} />,
         Header: 'Name',
         width: 200,
       },
       {
         accessor: 'payload',
+        Cell: ({ value }) => <Text title={value} variant={Text.VARIANT.LIGHT} />,
         Header: 'Payload',
         width: 120,
       },

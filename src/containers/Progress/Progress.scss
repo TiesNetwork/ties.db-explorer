@@ -1,0 +1,129 @@
+.Root {
+  background: var(--color-blue-200);
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  height: 52px;
+  max-width: 500px;
+  overflow: hidden;
+  width: 100%;
+
+  &Variant {
+    &Default {
+      background: var(--color-gray-200);
+
+      .Icon,
+      .Info,
+      .Title {
+        color: var(--color-gray);
+      }
+
+      .SubTitle {
+        color: var(--color-gray-500);
+      }
+
+      .Progress {
+        background: var(--color-gray-400);
+      }
+    }
+
+    &Error {
+      background: var(--color-red-200);
+
+      .Icon,
+      .Info,
+      .Title {
+        color: var(--color-red);
+      }
+
+      .SubTitle {
+        color: var(--color-red-400);
+      }
+
+      .Progress {
+        background: var(--color-red-400);
+      }
+    }
+
+    &Progress {
+      background: var(--color-blue-200);
+
+      .Icon,
+      .Info,
+      .Title {
+        color: var(--color-blue);
+      }
+
+      .SubTitle {
+        color: var(--color-blue-400);
+      }
+
+      .Progress {
+        background: var(--color-blue-400);
+      }
+    }
+
+    &Success {
+      background: var(--color-green-100);
+
+      .Icon,
+      .Info,
+      .Title {
+        color: var(--color-green);
+      }
+
+      .SubTitle {
+        color: var(--color-green-400);
+      }
+
+      .Progress {
+        background: var(--color-green);
+      }
+    }
+  }
+}
+
+.Container {
+  align-items: center;
+  display: flex;
+  flex: 1 1 auto;
+  justify-content: space-between;
+  max-height: calc(100% - 4px);
+  padding: 0 16px;
+  width: 100%;
+}
+
+.Content {
+  flex: 1 1 auto;
+  margin: 0 16px;
+  max-width: calc(100% - 88px);
+  text-align: center;
+}
+
+.Icon {
+  align-items: center;
+  color: var(--color-blue-600);
+  display: flex;
+  flex: 0 0 20px;
+  font-size: 16px;
+  height: 20px;
+  justify-content: center;
+  width: 20px;
+}
+
+.Info {
+  color: var(--color-blue);
+  flex: 0 0 36px;
+  text-align: right;
+}
+
+.Progress {
+  background: var(--color-blue-400);
+  flex: 0 0 4px;
+  width: 100%;
+
+  &Bar {
+    border-radius: 0 !important;
+    height: 4px !important;
+  }
+}

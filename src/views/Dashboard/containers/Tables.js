@@ -1,7 +1,7 @@
 import { get } from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { matchPath, withRouter } from 'react-router-dom';
 import { compose, withHandlers } from 'recompose';
 
 // Components
@@ -49,7 +49,8 @@ const DashboardTables = ({
   </div>
 );
 
-const mapStateToProps = ({ entities, views }, { match }): Object => {
+const mapStateToProps = ({ entities, views }, { location }): Object => {
+  const match = matchPath(get(location, 'pathname'), { path: '/:tablespaceHash?' });
   const tablespaceHash = get(match, 'params.tablespaceHash');
   const tablespace = get(entities, `tablespaces.${tablespaceHash}`);
 

@@ -17,6 +17,7 @@ const Progress = ({
   classNames: {
     root: rootClassName,
     circle: circleClassName,
+    line: lineClassName,
     progress: progressClassName,
   } = {},
   color = COLOR.PRIMARY,
@@ -35,6 +36,7 @@ const Progress = ({
   });
 
   const circleClassNames = classNames(circleClassName, styles.Circle);
+  const lineClassNames = classNames(lineClassName, styles.Line);
   const progressClassNames = classNames(progressClassName, styles.Progress);
 
   const displaySize = size + size / 10;
@@ -66,7 +68,7 @@ const Progress = ({
 
         {variant === VARIANT.LINEAR && (
           <div
-            className={styles.Line}
+            className={lineClassNames}
             style={{ width: `${Math.max(0, Math.min(100, value))}%`}}
           />
         )}

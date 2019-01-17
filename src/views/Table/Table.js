@@ -85,7 +85,6 @@ Table.propTypes = {
 const mapStateToProps = ({ entities }, { hash }) =>
   get(entities, `tables.${hash}`);
 
-
 export default compose(
   withProps(({ match }) => ({
     hash: get(match, 'params.tableHash'),

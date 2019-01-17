@@ -1,5 +1,6 @@
 /* eslint-disable */
 const Contract = require('../contract');
+const Progress = require('./progress/controller');
 const { Field } = require('tiesdb-client');
 const express = require('express');
 const app = express();
@@ -12,98 +13,105 @@ async function asyncForEach(array, callback) {
   }
 }
 
-app.ws('/', (ws, req) => {
-  console.log(ws);
-  ws.on('close', () => console.log('Close!'));
+app.get('/', async (req, res) => {
+  const { tablespaces = [] } = await Contract.callMethod('getStorage');
 
-  app.get('/', async (req, res) => {
-    const { tablespaces } = await Contract.callMethod('getStorage');
+  await asyncForEach(tablespaces, async (tablespaceHash, index) => {
+    const { name, tables = [] } = await Contract.callMethod('getTablespace', tablespaceHash);
+    const progressPart = 100 / tablespaces.length;
 
-    await asyncForEach(tablespaces, async (tablespaceHash, index) => {
-      const { name, tables = [] } = await Contract.callMethod('getTablespace', tablespaceHash);
-      const part = Math.ceil(100 / tablespaces.length);
-      const progress = Math.ceil(index / tablespaces.length * 100);
+    Progress.send({
+      count: tables.length,
+      current: 0,
+      id: 'sync',
+      title: `Sync tablespace «${name}»`,
+      type: 'progress',
+      value: progressPart * index,
+    });
 
-      ws.readyState === ws.OPEN && ws.send(JSON.stringify({ name, count: tables.length, value: 1 }));
+    await asyncForEach(tables, async(tableHash, tableIndex) => {
+      const {
+        fields,
+        indexes,
+        name,
+        ranges,
+        replicas,
+        triggers,
+      } = await Contract.callMethod('getTable', tableHash);
 
-      await asyncForEach(tables, async(tableHash, index) => {
+      Progress.send({
+        count: tables.length,
+        current: tableIndex,
+        id: 'sync',
+        type: 'progress',
+        value: progressPart * index + progressPart / tables.length * tableIndex,
+      });
+
+      await asyncForEach(fields, async(fieldHash, index) => {
         const {
-          fields,
-          indexes,
+          def: defaultValue,
+          fType: type,
           name,
-          ranges,
-          replicas,
-          triggers,
-        } = await Contract.callMethod('getTable', tableHash);
+        } = await Contract.callMethod('getField', tableHash, fieldHash);
 
-        ws.readyState === ws.OPEN && ws.send(JSON.stringify({
-          progress: progress + (part / tables.length * (index + 1)),
-          value: index + 1
-        }));
+        let decodedDefaultValue = defaultValue || '0';
 
-        await asyncForEach(fields, async(fieldHash, index) => {
-          const {
-            def: defaultValue,
-            fType: type,
-            name,
-          } = await Contract.callMethod('getField', tableHash, fieldHash);
+        try {
+          decodedDefaultValue = Field.decodeValue(
+            type.toLowerCase(),
+            Buffer.from(defaultValue.replace('0x', ''), 'hex'),
+          ).toString();
+        } catch (e) {}
 
-          let decodedDefaultValue = defaultValue || '0';
-
-          try {
-            decodedDefaultValue = Field.decodeValue(
-              type.toLowerCase(),
-              Buffer.from(defaultValue.replace('0x', ''), 'hex'),
-            ).toString();
-          } catch (e) {}
-
-          fields[index] = {
-            fieldHash, name, tableHash, tablespaceHash, type,
-            defaultValue: decodedDefaultValue,
-            hash: `${tableHash}_${fieldHash}`,
-          };
-        });
-
-        await asyncForEach(indexes, async(indexHash, index) => {
-          const {
-            fields,
-            iType: type,
-            name,
-          } = await Contract.callMethod('getIndex', tableHash, indexHash);
-
-          indexes[index] = {
-            fields, indexHash, name, tableHash, tablespaceHash, type,
-            hash: `${tableHash}_${indexHash}`,
-          };
-        });
-
-        await asyncForEach(triggers, async(triggerHash, index) => {
-          const { name, payload } = await Contract.callMethod('getTrigger', tableHash, triggerHash);
-
-          triggers[index] = {
-            name, payload, tableHash, tablespaceHash, triggerHash,
-            hash: `${tableHash}_${triggerHash}`,
-          };
-        });
-
-        tables[index] = {
-          tablespaceHash,
-          hash: tableHash,
-          name,
-          fields, indexes, triggers,
-          ranges, replicas,
+        fields[index] = {
+          fieldHash, name, tableHash, tablespaceHash, type,
+          defaultValue: decodedDefaultValue,
+          hash: `${tableHash}_${fieldHash}`,
         };
       });
 
-      tablespaces[index] = {
-        hash: tablespaceHash,
-        name, tables,
-      };
+      await asyncForEach(indexes, async(indexHash, index) => {
+        const {
+          fields,
+          iType: type,
+          name,
+        } = await Contract.callMethod('getIndex', tableHash, indexHash);
 
-      ws.readyState === ws.OPEN && ws.send(JSON.stringify({ progress: Math.ceil((index + 1) / tablespaces.length * 100) }));
+        indexes[index] = {
+          fields, indexHash, name, tableHash, tablespaceHash, type,
+          hash: `${tableHash}_${indexHash}`,
+        };
+      });
+
+      await asyncForEach(triggers, async(triggerHash, index) => {
+        const { name, payload } = await Contract.callMethod('getTrigger', tableHash, triggerHash);
+
+        triggers[index] = {
+          name, payload, tableHash, tablespaceHash, triggerHash,
+          hash: `${tableHash}_${triggerHash}`,
+        };
+      });
+
+      tables[tableIndex] = {
+        tablespaceHash,
+        hash: tableHash,
+        name,
+        fields, indexes, triggers,
+        ranges, replicas,
+      };
     });
 
-    res.json(tablespaces);
+    tablespaces[index] = {
+      hash: tablespaceHash,
+      name, tables,
+    };
+  });
+
+
+  Progress.send({
+    id: 'sync',
+    title: 'Sync completed',
+    type: 'success',
   });
 });
 

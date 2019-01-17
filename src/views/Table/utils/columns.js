@@ -14,7 +14,7 @@ export default (schema: Object, isDistributed: bool): Array<Object> => {
   return !isFields || (isFields && !isDistributed)
     ? [...columns, {
         accessor: 'actions',
-        Cell: ({ value }) => <Actions {...value} color={get(schema, 'actionsColor')} />,
+        Cell: ({ original, value }) => !!get(original, 'name') && <Actions {...value} color={get(schema, 'actionsColor')} />,
         Header: 'Actions',
         sortable: false,
         width: 120,

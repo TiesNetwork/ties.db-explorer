@@ -1,0 +1,17 @@
+.Root {
+  &Is {
+    &Empty {
+      border-radius: 4px;
+      height: 16px;
+      width: 100%;
+
+      &.RootVariantDark {
+        background: var(--color-gray-500);
+      }
+
+      &.RootVariantLight {
+        background: var(--color-gray-100);
+      }
+    }
+  }
+}

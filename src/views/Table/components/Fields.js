@@ -22,7 +22,7 @@ const TableFields = ({
   </div>
 );
 
-const mapStateToProps = ({ entities }, { fields, tableHash }): Object => ({
+const mapStateToProps = ({ entities }, { fields = [], tableHash }): Object => ({
   items: fields.map((hash: string) => get(entities, `fields.${tableHash}_${hash}.name`)),
 });
 

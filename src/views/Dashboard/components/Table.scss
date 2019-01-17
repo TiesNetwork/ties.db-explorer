@@ -24,11 +24,26 @@
         max-width: calc(100% - 40px);
       }
     }
-  }
-}
 
-.Hash {
-  color: var(--color-gray);
+    &NotSync {
+      pointer-events: none;
+
+      .Hash {
+        background: var(--background-dark);
+        border-radius: 4px;
+        height: 16px;
+        margin: 4px 0 0;
+        min-width: 120px;
+      }
+
+      .Name {
+        background: var(--color-gray-500);
+        border-radius: 4px;
+        height: 24px;
+        min-width: 80px;
+      }
+    }
+  }
 }
 
 .Distributed {
@@ -44,7 +59,15 @@
   }
 }
 
+.Hash {
+  color: var(--color-gray);
+}
+
 .Info {
+  align-items: flex-start;
+  display: flex;
   flex: 1 1 auto;
+  flex-direction: column;
   max-width: 100%;
+  overflow: hidden;
 }

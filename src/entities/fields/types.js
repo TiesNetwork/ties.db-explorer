@@ -1,14 +1,14 @@
-export const BIG_INT = 'BigInt';
-export const BINARY = 'Binary';
-export const BOOLEAN = 'Boolean';
-export const DECIMAL = 'Decimal';
-export const DOUBLE = 'Double';
-export const DURATION = 'Duration';
-export const FLOAT = 'Float';
-export const INTEGER = 'Integer';
-export const LONG = 'Long';
-export const STRING = 'String';
-export const TIME = 'Time';
-export const UUID = 'Uuid';
+export const CREATE_FIELD = 'ENTITIES/FIELDS/CREATE_FIELD';
+export const CREATE_FIELD_REQUEST = 'ENTITIES/FIELDS/CREATE_FIELD_REQUEST';
+export const CREATE_FIELD_SUCCESS = 'ENTITIES/FIELDS/CREATE_FIELD_SUCCESS';
+export const CREATE_FIELD_FAILURE = 'ENTITIES/FIELDS/CREATE_FIELD_FAILURE';
 
-export const FIELDS_ENTITY_ID = 'fields';
+export const DELETE_FIELD = 'ENTITIES/FIELDS/DELETE_FIELD';
+export const DELETE_FIELD_REQUEST = 'ENTITIES/FIELDS/DELETE_FIELD_REQUEST';
+export const DELETE_FIELD_SUCCESS = 'ENTITIES/FIELDS/DELETE_FIELD_SUCCESS';
+export const DELETE_FIELD_FAILURE = 'ENTITIES/FIELDS/DELETE_FIELD_FAILURE';
+
+export const UPDATE_FIELD = 'ENTITIES/FIELDS/UPDATE_FIELD';
+export const UPDATE_FIELD_REQUEST = 'ENTITIES/FIELDS/UPDATE_FIELD_REQUEST';
+export const UPDATE_FIELD_SUCCESS = 'ENTITIES/FIELDS/UPDATE_FIELD_SUCCESS';
+export const UPDATE_FIELD_FAILURE = 'ENTITIES/FIELDS/UPDATE_FIELD_FAILURE';

@@ -22,6 +22,7 @@ const DashboardTable = ({
   const className = classNames(styles.Root, {
     [styles.RootIsCurrent]: !!isCurrent,
     [styles.RootIsDistributed]: !!isDistributed,
+    [styles.RootIsNotSync]: !name,
   });
 
   return (
@@ -31,6 +32,7 @@ const DashboardTable = ({
     >
       <div className={styles.Info}>
         <Typography
+          className={styles.Name}
           noWrap
           variant={Typography.VARIANT.SUBTITLE1}
         >
@@ -42,11 +44,11 @@ const DashboardTable = ({
           noWrap
           variant={Typography.VARIANT.CAPTION}
         >
-          {hash}
+          {!!name && hash.substr(0, 16)}
         </Typography>
       </div>
 
-      {isDistributed && (
+      {!!name && isDistributed && (
         <Tooltip
           className={styles.Distributed}
           title="Distributed"
@@ -66,14 +68,10 @@ DashboardTable.propTypes = {
   tablespaceHash: PropTypes.string,
 };
 
-const mapStateToProps = ({ entities }, { hash, match, location }) => {
-  const pathname = get(location, 'pathname');
+const mapStateToProps = ({ entities }, { hash, location }) => {
+  const match = matchPath(get(location, 'pathname'), { path: '/:tablespaceHash/table/:tableHash' });
   const table = get(entities, `tables.${hash}`);
-  const tableMatch = matchPath(pathname, {
-    exact: true,
-    path: '/:tablespaceHash/table/:tableHash',
-  });
-  const currentTableHash = get(tableMatch, 'params.tableHash');
+  const currentTableHash = get(match, 'params.tableHash');
 
   return {
     ...table,

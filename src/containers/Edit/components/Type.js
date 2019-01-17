@@ -30,7 +30,7 @@ const FieldType = (props: Object) => (
   >
     {({ inputValue, onClick }) => (
       TYPES
-        .filter((type: string) => type.indexOf(inputValue) > -1)
+        .filter((type: string) => type.toLowerCase().indexOf(inputValue) > -1)
         .map((type: string, index: number) => (
           <Item
             key={index}

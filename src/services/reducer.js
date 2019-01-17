@@ -2,9 +2,11 @@ import { combineReducers } from 'redux';
 
 // Reducers
 import modals from './modals';
+import progress from './progress';
 
 const servicesReducer = combineReducers({
   modals,
+  progress,
 });
 
 export default (state = {}, action: Object) => {

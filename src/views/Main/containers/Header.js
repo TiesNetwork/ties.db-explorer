@@ -11,6 +11,8 @@ import Favorites from './Favorites';
 import Notifications from './Notifications';
 import Transactions from './Transactions';
 
+import Progress from 'containers/Progress';
+
 // Ducks
 import { openModal } from 'services/modals';
 import { SEARCH_MODAL_ID } from 'containers/Search/ducks/constants';
@@ -32,6 +34,10 @@ const MainHeader = ({
       >
         Search
       </Button>
+    </div>
+
+    <div className={styles.Progress}>
+      <Progress />
     </div>
 
     <div className={styles.Actions}>

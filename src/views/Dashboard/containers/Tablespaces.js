@@ -3,7 +3,7 @@ import { get, keys } from 'lodash';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { matchPath, withRouter } from 'react-router-dom';
 import { compose, withHandlers } from 'recompose';
 
 // Components
@@ -75,7 +75,8 @@ DashboardTablespaces.propTypes = {
   onTrigger: PropTypes.func,
 };
 
-const mapStateToProps = ({ entities, views }, { match }) => {
+const mapStateToProps = ({ entities, views }, { location }) => {
+  const match = matchPath(get(location, 'pathname'), { path: '/:tablespaceHash?' });
   const tablespaceHash = get(match, 'params.tablespaceHash');
 
   return {

@@ -1,9 +1,6 @@
 import classNames from 'classnames';
-import { get } from 'lodash';
 import React from 'react';
-import { connect } from 'react-redux';
-import { Route, Switch, matchPath } from 'react-router-dom';
-import { compose, withHandlers, withProps, withState } from 'recompose';
+import { Route, Switch } from 'react-router-dom';
 
 // Components
 import Tabs, { Tab } from 'components/Tabs';
@@ -68,52 +65,11 @@ const Dashboard = ({
 
       <div className={styles.Main}>
         <Switch>
-          <Route path={match.path} component={Main} />
+          <Route path={`${match.path}:tablespaceHash`} component={Main} />
         </Switch>
       </div>
     </div>
   );
 }
 
-const mapStateToProps = ({ entities }, { tablespaceHash }) => ({
-  tablespace: get(entities, `tablespaces.${tablespaceHash}`),
-});
-
-export default compose(
-  // Parse props
-  withProps(({ history, location, tablespace }) => {
-    const match = matchPath(get(location, 'pathname', ''), {
-      path: '/:tablespaceHash/:viewId?/:tableHash?',
-    });
-
-    const tablespaceHash = get(match, 'params.tablespaceHash');
-    const tableHash = get(match, 'params.tableHash');
-    const viewId = get(match, 'params.viewId');
-
-    return {
-      currentTab: viewId,
-      tableHash,
-      tablespaceHash,
-    };
-  }),
-
-  connect(mapStateToProps),
-
-  // Redirect rules
-  withProps(({ currentTab, history, tablespace, tablespaceHash, tableHash }): void => {
-    if ((!currentTab || (currentTab === TABLE_VIEW_ID && !tableHash)) && tablespace && get(tablespace, 'tables', []).length > 0) {
-      history.push(`/${tablespaceHash}/${TABLE_VIEW_ID}/${get(tablespace, 'tables.0')}`);
-    }
-  }),
-
-  withState('isOpened', 'setOpen', false),
-
-  withHandlers({
-    handleChangeTab: ({ history, location, tableHash, tablespaceHash }): func => (id: string): void => {
-      const lastTableHash = get(location, 'state.tableHash');
-      history.push(`/${tablespaceHash}/${id}${lastTableHash ? `/${lastTableHash}` : ''}`, { tableHash });
-    },
-    handleTrigger: ({ isOpened, setOpen }): func => (): void =>
-      setOpen(!isOpened),
-  }),
-)(Dashboard);
+export default Dashboard;
