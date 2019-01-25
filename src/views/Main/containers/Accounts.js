@@ -16,7 +16,6 @@ import { openModal } from 'services/modals';
 import { getCurrentAccount } from 'services/session';
 
 // Styles
-import { Typography } from 'styles';
 import styles from './Accounts.scss';
 
 const MainAccountsTrigger = ({

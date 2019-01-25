@@ -1,0 +1,27 @@
+.Root {
+  padding: 16px;
+
+  &:hover {
+    background: var(--background-lighter);
+  }
+}
+
+.Header {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.Info {
+  color: var(--color-gray);
+
+  &:hover {
+    .InfoIcon {
+      color: var(--color-primary);
+    }
+  }
+}
+
+.Name {
+  color: var(--color-gray);
+}

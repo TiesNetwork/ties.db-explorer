@@ -22,6 +22,7 @@ const Dropdown = ({
     dropdown: dropdownClassName,
     list: listClassName,
   },
+  dot,
   icon,
   tooltip,
   trigger,
@@ -34,11 +35,11 @@ const Dropdown = ({
   registerRoot,
 
   // State
-  isOpened,
+  _isOpened,
 }) => {
   const rootClassNames = classNames(rootClassName || className, styles.Root, {
     [styles.RootAlignLeft]: align === 'left',
-    [styles.RootIsOpened]: !!isOpened,
+    [styles.RootIsOpened]: !!_isOpened,
   });
 
   const dropdownClassNames = classNames(dropdownClassName, styles.Dropdown);
@@ -67,6 +68,8 @@ const Dropdown = ({
           />
         </Tooltip>
       )}
+
+      {dot && <div className={styles.Dot} />}
 
       <div className={dropdownClassNames}>
         {children && (
@@ -97,7 +100,7 @@ Dropdown.propTypes = {
 };
 
 export default compose(
-  withState('isOpened', 'setOpen', ({ isOpened }) => isOpened),
+  withState('_isOpened', 'setOpen', ({ isOpened }) => isOpened),
   withHandlers(() => {
     let rootRef;
 
@@ -119,6 +122,10 @@ export default compose(
   lifecycle({
     componentDidMount() {
       document.addEventListener('click', this.props.handleOutside, false);
-    }
+    },
+    componentDidUpdate({ isOpened: prevIsOpened }) {
+      const { isOpened, setOpen } = this.props;
+      !prevIsOpened && isOpened && setOpen(true);
+    },
   }),
 )(Dropdown);

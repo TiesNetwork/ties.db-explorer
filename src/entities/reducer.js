@@ -2,26 +2,26 @@ import { merge } from 'lodash';
 import { combineReducers } from 'redux';
 
 // Models
-import connections from './connections';
-
 import accounts from './accounts';
+import connections from './connections';
 import fields from './fields';
 import indexes from './indexes';
 import tables from './tables';
 import tablespaces from './tablespaces';
+import transactions from './transactions';
 import triggers from './triggers';
 
 // Types
 import { UPDATE_ENTITIES } from './types';
 
 const modelsReducer = combineReducers({
-  connections,
-
   accounts,
+  connections,
   fields,
   indexes,
   tables,
   tablespaces,
+  transactions,
   triggers,
 });
 

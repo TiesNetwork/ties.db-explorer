@@ -11,7 +11,6 @@ import {
 } from './types';
 
 export const setCurrentAccount = (hash: string): func => (dispatch: func): Object => {
-  console.log(123);
   localStorage.setItem(CURRENT_ACCOUNT_STORAGE_ID, hash);
   sessionStorage.removeItem(PRIVATE_KEY_STORAGE_ID);
   dispatch({ type: SET_CURRENT_ACCOUNT, hash });

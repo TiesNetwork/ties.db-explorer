@@ -57,7 +57,7 @@ const ComposedImportJson = compose(
           try {
             const json = JSON.parse(get(reader, 'result'));
             onChange && onChange(json);
-          } catch(e) { console.error('Valid JSON!') }
+          } catch(e) { console.error(e) } // eslint-disable-line
         };
 
         reader.readAsText(file);

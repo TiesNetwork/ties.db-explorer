@@ -1,7 +1,6 @@
 const { get, uniq } = require('lodash');
 const SignerProvider = require('ethjs-provider-signer');
 const Web3 = require('web3');
-const abiDecoder = require('abi-decoder');
 
 const contractInterface = require('./interface.json');
 
@@ -16,10 +15,13 @@ class Contract {
       accounts: cb => cb(null, this.accounts),
       signTransaction: (rawTx, cb) => {
         this.send({
+          ...this.confirm,
+          hash: get(rawTx, 'nonce'),
           transaction: rawTx,
           type: 'confirm',
         });
 
+        this.confirm = {};
         this.transaction[get(rawTx, 'nonce')] = cb;
       },
     });
@@ -33,6 +35,7 @@ class Contract {
       '0x22d1b55ebb5bcd17084c3c9d690056875263fec1',
       { from: account },
     );
+    this.nonce = 0;
     this.transaction = {};
     this.socket = null;
     this.web3 = web3;
@@ -77,8 +80,10 @@ class Contract {
    * @param {string} method
    * @param {*} args
    */
-  sendMethod(method, hash, ...args) {
-    return this.contract.methods[method](...args).send()
+  sendMethod(method, { data, ...props }) {
+    this.confirm = { ...props };
+
+    return this.contract.methods[method].apply(this, data).send()
       .on('confirmation', (number, receipt) => console.log(number, receipt))
       .on('receipt', (receipt) => console.log(receipt))
       .on('transactionHash', (hash) => console.log(hash))
