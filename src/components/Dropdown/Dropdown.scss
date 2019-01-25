@@ -10,6 +10,10 @@
         }
       }
 
+      .Button {
+        background: var(--background-dark);
+      }
+
       .Dropdown {
         left: calc(50% - 160px);
         opacity: 1;
@@ -17,14 +21,6 @@
         transition: all .2s, left .0s;
         visibility: visible;
       }
-    }
-  }
-}
-
-.Button {
-  &:hover {
-    .ButtonIcon {
-      color: var(--color-alert);
     }
   }
 }
@@ -53,4 +49,9 @@
       border-bottom-width: 1px;
     }
   }
+}
+
+.Tooltip {
+  position: relative;
+  z-index: 2;
 }

@@ -1,3 +1,4 @@
+import { get } from 'lodash';
 import React from 'react';
 import { compose, lifecycle, withState } from 'recompose';
 
@@ -18,7 +19,8 @@ export default compose(
       const socket = new WebSocket('ws://localhost:3001/transactions');
 
       socket.onmessage = (event: Object): void => {
-        console.log(event);
+        const data = JSON.parse(get(event, 'data', ''));
+        console.log(data);
       };
 
       socket.onopen = (): void => {

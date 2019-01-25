@@ -4,8 +4,13 @@
   }
 }
 
+.Error {
+  color: var(--color-danger);
+}
+
 .Header {
   display: flex;
+  justify-content: space-between;
   margin: 0 0 8px;
 }
 

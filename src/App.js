@@ -4,6 +4,7 @@ import url from 'url';
 
 // Containers
 import Edit from 'containers/Edit';
+import Import from 'containers/Import';
 import Search from 'containers/Search';
 import Transactions from 'containers/Transactions';
 
@@ -22,6 +23,7 @@ const App = ({ match }) => (
     </Switch>
 
     <Edit />
+    <Import />
     <Search />
     <Transactions />
   </div>

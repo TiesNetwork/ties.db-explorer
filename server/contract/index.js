@@ -1,5 +1,7 @@
+const { get, uniq } = require('lodash');
 const SignerProvider = require('ethjs-provider-signer');
 const Web3 = require('web3');
+const abiDecoder = require('abi-decoder');
 
 const contractInterface = require('./interface.json');
 
@@ -11,19 +13,36 @@ class Contract {
    */
   constructor(account, address, url) {
     const provider = new SignerProvider(url, {
-      accounts: cb => cb(null, []),
-      signTransaction: (rawTx, cb) => this.ws.send('АВТОРИЗУЙСЯ!'),
+      accounts: cb => cb(null, this.accounts),
+      signTransaction: (rawTx, cb) => {
+        this.send({
+          transaction: rawTx,
+          type: 'confirm',
+        });
+
+        this.transaction[get(rawTx, 'nonce')] = cb;
+      },
     });
 
     const web3 = new Web3(provider);
 
+    this.accounts = ['ad9f6a020fa81297b9cb29c271e3816f27c9331f'];
+    this.confirm = {};
     this.contract = new web3.eth.Contract(
       contractInterface,
       '0x22d1b55ebb5bcd17084c3c9d690056875263fec1',
       { from: account },
     );
+    this.transaction = {};
+    this.socket = null;
     this.web3 = web3;
-    this.ws = null;
+  }
+
+  /**
+   * @param {string} account
+   */
+  addAccount(account) {
+    this.accounts = uniq([...this.accounts, account])
   }
 
   /**
@@ -35,10 +54,30 @@ class Contract {
   }
 
   /**
+   * @param {string} account
+   */
+  deleteAccount(account) {
+    this.accounts = this.accounts.filter((hash) => account !== hash);
+  }
+
+  getSocket() {
+    return this.socket;
+  }
+
+  /**
+   * @param {string} any
+   */
+  send(data) {
+    this.socket &&
+    this.socket.readyState === this.socket.OPEN &&
+    this.socket.send(JSON.stringify(data));
+  }
+
+  /**
    * @param {string} method
    * @param {*} args
    */
-  sendMethod(method, ...args) {
+  sendMethod(method, hash, ...args) {
     return this.contract.methods[method](...args).send()
       .on('confirmation', (number, receipt) => console.log(number, receipt))
       .on('receipt', (receipt) => console.log(receipt))
@@ -46,8 +85,8 @@ class Contract {
       .on('error', console.error);
   }
 
-  setSocket(ws) {
-    this.ws = ws;
+  setSocket(socket) {
+    this.socket = socket;
   }
 }
 

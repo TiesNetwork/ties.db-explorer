@@ -1,20 +1,98 @@
 .Root {
-  align-items: center;
-  border-radius: 0;
   border-bottom-color: var(--background-dark);
-  box-shadow: none;
-  color: inherit;
-  display: flex;
-  height: 88px;
-  padding: 0 16px;
-  text-decoration: none;
-  width: 100%;
+  position: relative;
 
-  &:hover {
-    background: var(--background-light);
-    box-shadow: none;
-    cursor: pointer;
+  &:not(.RootIsDensed) {
+    .Button {
+      border-radius: 0;
+      height: 72px;
+    }
   }
+
+  &Color {
+    &Blue {
+      .Avatar {
+        background: var(--gradient-blue);
+      }
+    }
+
+    &BluePurple {
+      .Avatar {
+        background: var(--gradient-blue-purple);
+      }
+    }
+
+    &Green {
+      .Avatar {
+        background: var(--gradient-green);
+      }
+    }
+
+    &Purple {
+      .Avatar {
+        background: var(--gradient-purple);
+      }
+    }
+
+    &Red {
+      .Avatar {
+        background: var(--gradient-red);
+      }
+    }
+  }
+
+  &Is {
+    &Densed {
+      .Button {
+        height: 56px;
+        max-width: 260px;
+
+        &Content {
+          flex-direction: row-reverse;
+        }
+      }
+
+      .Info {
+        margin: 0 16px 0 0;
+        max-width: calc(100% - 56px);
+      }
+    }
+
+    &Empty {
+      .Button {
+        height: 48px;
+      }
+
+      .Info {
+        margin: 0;
+        max-width: 100%;
+      }
+    }
+
+    &Preview {
+      .Button {
+        background: var(--color-white);
+        border-radius: 8px !important;
+        box-shadow: var(--shadow-down-z3);
+
+        &:hover {
+          pointer-events: none;
+        }
+      }
+
+      .Info {
+        max-width: calc(100% - 56px);
+      }
+    }
+  }
+}
+
+.Actions {
+  height: 32px;
+  position: absolute;
+  right: 16px;
+  top: calc(50% - 16px);
+  z-index: 2;
 }
 
 .Address {
@@ -34,19 +112,42 @@
   color: var(--color-gray);
 }
 
-.Content {
+.Button {
+  align-items: center;
+  box-shadow: none;
+  color: inherit;
   display: flex;
+  padding: 0 16px;
+  text-decoration: none;
   width: 100%;
+
+  &:hover {
+    background: var(--background-light);
+    box-shadow: none;
+    cursor: pointer;
+  }
+
+  &Content {
+    display: flex;
+    width: 100%;
+  }
 }
 
 .Dropdown {
   left: calc(50% - 300px);
 }
 
+.Edit {
+  color: var(--color-gray);
+}
+
 .Info {
+  display: flex;
   flex: 1 1 auto;
+  flex-direction: column;
+  justify-content: center;
   margin: 0 0 0 16px;
-  max-width: calc(100% - 56px);
+  max-width: calc(100% - 96px);
 }
 
 .Logo {

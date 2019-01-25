@@ -5,6 +5,11 @@
   overflow: hidden;
 
   &Is {
+    &Erred {
+      border-color: var(--color-danger);
+      box-shadow: 0 0 0 1px var(--color-danger);
+    }
+
     &Focused {
       border-color: var(--color-blue);
       box-shadow: 0 0 0 1px var(--color-blue);

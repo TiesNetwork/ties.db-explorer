@@ -1,5 +1,6 @@
 /* eslint-disable */
 const Contract = require('../../contract');
+const { Field } = require('tiesdb-client');
 const Progress = require('../progress/controller');
 
 class Schema {

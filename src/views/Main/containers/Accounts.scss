@@ -11,6 +11,19 @@
   width: 40px;
 }
 
+.Import {
+  border: 0;
+  border-radius: none;
+  box-shadow: none;
+  height: 48px;
+  width: 100%;
+
+  &:hover {
+    background: var(--background-light);
+    box-shadow: none;
+  }
+}
+
 .Info {
   align-items: center;
   display: flex;
@@ -18,15 +31,4 @@
 
 .Name {
   white-space: nowrap;
-}
-
-.Trigger {
-  background: transparent;
-  box-shadow: none;
-  height: 48px;
-
-  &:hover {
-    background: var(--background-dark);
-    box-shadow: none;
-  }
 }

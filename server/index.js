@@ -8,6 +8,7 @@ const app = express();
 const expressWs = require('express-ws')(app);
 
 // Routes
+const accounts = require('./models/accounts');
 const progress = require('./models/progress/route');
 const connections = require('./models/connections/route');
 const schema = require('./models/schema/route');
@@ -16,17 +17,17 @@ const transactions = require('./models/transactions');
 
 app.use(cors());
 app.use(bodyParser.json());
+app.use((err, req, res, next) => {
+  if (err && req.xhr) {
+    res.status(400).send({ error: err.message });
+  }
+});
 
+app.use('/accounts', accounts);
 app.use('/connections', connections);
 app.use('/progress', progress);
 app.use('/schema', schema);
 app.use('/tablespaces', tablespaces);
 app.use('/transactions', transactions);
-
-app.ws('/', (ws, req) => {
-  ws.on('message', (message) => {
-    // console.log(message);
-  });
-});
 
 app.listen(3001);

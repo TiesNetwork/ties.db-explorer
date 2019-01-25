@@ -28,16 +28,20 @@ import styles from './Table.scss';
 
 const Table = ({
   handleEdit,
+  hash,
   name,
 }) => (
   <div className={styles.Root}>
     <div className={styles.Header}>
-      <Typography
-        className={styles.Title}
-        variant={Typography.VARIANT.H4}
-      >
-        {name}
-      </Typography>
+      <div className={styles.HeaderLeft}>
+        <Typography variant={Typography.VARIANT.H4}>
+          {name}
+        </Typography>
+
+        <Typography variant={Typography.VARIANT.OVERLINE}>
+          {hash}
+        </Typography>
+      </div>
 
       <div className={styles.Actions}>
         <Button

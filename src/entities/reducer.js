@@ -4,6 +4,7 @@ import { combineReducers } from 'redux';
 // Models
 import connections from './connections';
 
+import accounts from './accounts';
 import fields from './fields';
 import indexes from './indexes';
 import tables from './tables';
@@ -16,6 +17,7 @@ import { UPDATE_ENTITIES } from './types';
 const modelsReducer = combineReducers({
   connections,
 
+  accounts,
   fields,
   indexes,
   tables,

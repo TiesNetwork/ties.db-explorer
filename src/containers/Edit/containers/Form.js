@@ -39,6 +39,7 @@ const EditForm = ({
 
   // Handlers
   handleClose,
+  handleDelete,
   handleSubmit,
 }) => (
   <Form onSubmit={handleSubmit}>
@@ -75,7 +76,10 @@ const EditForm = ({
     <div className={styles.Actions}>
       <div className={styles.Left}>
         {hash && (
-          <Button color={COLOR.DANGER}>
+          <Button
+            color={COLOR.DANGER}
+            onClick={handleDelete}
+          >
             Delete
           </Button>
         )}
@@ -86,8 +90,11 @@ const EditForm = ({
           Cancel
         </Button>
 
-        <Button color={COLOR.SUCCESS} type="submit">
-          Save
+        <Button
+          color={hash ? COLOR.SUCCESS : COLOR.PRIMARY}
+          type="submit"
+        >
+          {hash ? 'Update' : 'Create'}
         </Button>
       </div>
     </div>
@@ -107,11 +114,16 @@ export default compose(
   connect(mapStateToProps, { closeModal }),
   reduxForm({
     form: EDIT_FORM_ID,
-    onSubmit: (value: Object, dispatch: func, { create }): void =>
-      create && dispatch(create(value)),
+    onSubmit: ({ hash, ...value }, dispatch, { create, update }): void =>
+      dispatch(hash
+        ? update(hash, value)
+        : create(value)
+      ),
   }),
   withHandlers({
-    handleClose: ({ closeModal }) => (event: Object) =>
+    handleClose: ({ closeModal }): func => (event: Object): void =>
       closeModal(EDIT_MODAL_ID),
+    handleDelete: ({ dispatch, delete: deleteEntity, hash }): func => (): void =>
+      dispatch(deleteEntity(hash)),
   }),
 )(EditForm);

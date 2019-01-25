@@ -1,4 +1,4 @@
-import { get } from 'lodash';
+import { get, isEmpty, values } from 'lodash';
 import { connect } from 'react-redux';
 import { matchPath } from 'react-router-dom';
 import { compose, lifecycle, withHandlers, withProps, withState } from 'recompose';
@@ -18,7 +18,8 @@ import { TABLE_VIEW_ID } from './ducks/types';
 import Dashboard from './Dashboard';
 
 const mapStateToProps = ({ entities }, { tablespaceHash }) => ({
-  tablespace: get(entities, `tablespaces.${tablespaceHash}`),
+  hasEntities: !isEmpty(get(entities, 'tablespaces')),
+  tablespace: get(entities, `tablespaces.${tablespaceHash}`, values(get(entities, 'tablespaces', []))[0]),
 });
 
 export default compose(
@@ -50,7 +51,9 @@ export default compose(
 
   // Redirect rules
   withProps(({ currentTab, history, tablespace, tablespaceHash, tableHash }): void => {
-    if ((!currentTab || (currentTab === TABLE_VIEW_ID && !tableHash)) && tablespace && get(tablespace, 'tables', []).length > 0) {
+    if (tablespace && !tablespaceHash) {
+      history.push(`/${get(tablespace, 'hash')}`);
+    } else if ((!currentTab || (currentTab === TABLE_VIEW_ID && !tableHash)) && tablespace && get(tablespace, 'tables', []).length > 0) {
       history.push(`/${tablespaceHash}/${TABLE_VIEW_ID}/${get(tablespace, 'tables.0')}`);
     }
   }),
@@ -72,6 +75,7 @@ export default compose(
     componentDidMount() {
       const {
         fetchEntities,
+        hasEntities,
         saveField,
         saveIndex,
         saveTrigger,
@@ -80,8 +84,6 @@ export default compose(
         setConnected,
         setSocket,
       } = this.props;
-
-      fetchEntities();
 
       const socket = new WebSocket('ws://localhost:3001/schema');
 
@@ -114,6 +116,8 @@ export default compose(
       socket.onopen = (): void => {
         setConnected(true);
         setSocket(socket);
+
+        !hasEntities && fetchEntities();
       };
     },
     componentWillUnmount() {

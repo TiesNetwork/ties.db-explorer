@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React, { cloneElement } from 'react';
-import { compose, withHandlers, withState } from 'recompose';
+import { compose, lifecycle, withHandlers, withState } from 'recompose';
 
 // Components
 import Button from 'components/Button';
@@ -11,6 +11,7 @@ import Tooltip from 'components/Tooltip';
 import styles from './Dropdown.scss';
 
 const Dropdown = ({
+  // Props
   align,
   children,
   className,
@@ -21,13 +22,19 @@ const Dropdown = ({
     dropdown: dropdownClassName,
     list: listClassName,
   },
-  handleBlur,
-  handleClick,
   icon,
-  isOpened,
-  registerRoot,
   tooltip,
   trigger,
+
+  // Handlers
+  handleBlur,
+  handleClick,
+
+  // Registers
+  registerRoot,
+
+  // State
+  isOpened,
 }) => {
   const rootClassNames = classNames(rootClassName || className, styles.Root, {
     [styles.RootAlignLeft]: align === 'left',
@@ -45,7 +52,10 @@ const Dropdown = ({
       tabIndex={-1}
     >
       {trigger ? cloneElement(trigger, { onClick: handleClick }) : (
-        <Tooltip title={tooltip}>
+        <Tooltip
+          className={styles.Tooltip}
+          title={tooltip}
+        >
           <Button
             classNames={{
               root: classNames(buttonClassName, styles.Button),
@@ -87,18 +97,28 @@ Dropdown.propTypes = {
 };
 
 export default compose(
-  withState('isOpened', 'setOpen', false),
+  withState('isOpened', 'setOpen', ({ isOpened }) => isOpened),
   withHandlers(() => {
     let rootRef;
 
     return {
-      handleBlur: ({ setOpen }) => (event: Object) =>
+      // Handlers
+      handleBlur: ({ setOpen }): func => (event: Object): void =>
         !rootRef.contains(event.relatedTarget) && setOpen(false),
-      handleClick: ({ setOpen }) => () => setOpen(true),
+      handleClick: ({ setOpen }): func => (): void =>
+        setOpen(true),
+      handleOutside: ({ isOpened, setOpen }): func => (event: Object): void =>
+        isOpened && !rootRef.contains(event.target) && setOpen(false),
 
+      // Registers
       registerRoot: () => (node: HTMLElement) => {
         rootRef = node;
       },
     };
+  }),
+  lifecycle({
+    componentDidMount() {
+      document.addEventListener('click', this.props.handleOutside, false);
+    }
   }),
 )(Dropdown);

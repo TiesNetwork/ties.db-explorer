@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import uniqueId from 'lodash/uniqueId';
 import PropTypes from 'prop-types';
 import React, { Component, cloneElement } from 'react';
@@ -16,18 +15,13 @@ class FormField extends Component {
   state = { id: uniqueId('field_') }
 
   render() {
-    const { children, withoutLabel } = this.props;
+    const { children, type, withoutLabel } = this.props;
     const { id } = this.state;
-    const error = true;
-
-    const rootClassNames = classNames(styles.Root, {
-      [styles.RootIsErred]: !!error,
-    });
 
     return (
-      <Field {...this.props} component={reduxFieldAdapter}>
-        {({ label, ...props }) => (
-          <div className={rootClassNames}>
+      <Field {...this.props} component={reduxFieldAdapter} type={type}>
+        {({ error, label, ...props }) => (
+          <div className={styles.Root}>
             {!withoutLabel && label && (
               <div className={styles.Header}>
                 <Typography
@@ -38,13 +32,22 @@ class FormField extends Component {
                 >
                   {label}
                 </Typography>
+
+                {error && (
+                  <Typography
+                    className={styles.Error}
+                    variant={Typography.VARIANT.OVERLINE}
+                  >
+                    {error}
+                  </Typography>
+                )}
               </div>
             )}
 
             <div className={styles.Control}>
               {typeof children === 'function'
-                ? children({ ...props, id, label, isErred: !!error })
-                : cloneElement(children, { ...props, id, label, isErred: !!error })
+                ? children({ ...props, id, label, type, isErred: !!error })
+                : cloneElement(children, { ...props, id, label, type, isErred: !!error })
               }
             </div>
           </div>

@@ -1,0 +1,57 @@
+.Actions {
+  display: flex;
+  justify-content: space-between;
+  margin: 40px 0 0;
+}
+
+.Error {
+  background: var(--color-red-200);
+  border: 2px solid var(--color-red-400);
+  border-radius: 4px;
+  display: flex;
+  margin: 0 0 20px 0;
+  padding: 16px;
+
+  &Content {
+    color: var(--color-danger);
+    margin: 0 0 0 16px;
+  }
+
+  &Icon {
+    color: var(--color-danger);
+    flex: 0 0 24px;
+    font-size: 24px;
+    height: 24px;
+    width: 24px;
+  }
+}
+
+.Form {
+  margin: 20px 0 0;
+}
+
+.Header {
+  margin: 0 0 20px 0;
+}
+
+.Left {
+  flex: 1 1 auto;
+  max-width: 200px;
+}
+
+.Name {
+  color: var(--color-gray);
+  margin: 0 0 0 8px;
+}
+
+.Right {
+  display: flex;
+
+  & > *:not(:first-child) {
+    margin: 0 0 0 8px;
+  }
+}
+
+.Title {
+  display: flex;
+}

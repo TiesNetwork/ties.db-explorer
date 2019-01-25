@@ -11,6 +11,7 @@ import styles from './Input.scss';
 
 const FormInput = ({
   id,
+  error,
   name,
   onChange,
   placeholder,

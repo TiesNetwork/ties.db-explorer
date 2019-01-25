@@ -1,50 +1,69 @@
+import { get, keys } from 'lodash';
 import React from 'react';
+import { connect } from 'react-redux';
+import { compose, withHandlers } from 'recompose';
 
 // Components
 import Button from 'components/Button';
 import Dropdown from 'components/Dropdown';
 import Account from '../components/Account';
 
+// Containers
+import { IMPORT_MODAL_ID } from 'containers/Import';
+
+// Services
+import { openModal } from 'services/modals';
+import { getCurrentAccount } from 'services/session';
+
 // Styles
 import { Typography } from 'styles';
 import styles from './Accounts.scss';
 
-const MainFavoritesTrigger = (props: Object) => (
-  <Button {...props}
-    className={styles.Trigger}
-    removeAutoBlur={false}
-  >
-    <div className={styles.Info}>
-      <Typography className={styles.Name}>
-        Account 1
-      </Typography>
-
-      <div className={styles.Avatar} />
-    </div>
-  </Button>
+const MainAccountsTrigger = ({
+  hash,
+  ...props,
+}) => (
+  <Account {...props} hash={hash} />
 );
 
-const MainFavorites = () => (
+const MainAccounts = ({
+  currentAccount,
+  items,
+
+  // Handlers
+  handleCreate,
+}) => (
   <Dropdown
     align="left"
     classNames={{
       root: styles.Root,
       dropdown: styles.Dropdown,
     }}
-    trigger={<MainFavoritesTrigger />}
+    trigger={<MainAccountsTrigger {...currentAccount} isDensed />}
   >
-    <Account
-      address="0x67628b0a6c9eb165f0a4200ed8f01e5"
-      balance="0.23321"
-      name="Account 1"
-    />
+    {items.map((accountHash: string) => (
+      <Account hash={accountHash} key={accountHash} />
+    ))}
 
-    <Account
-      address="0x67628b0a6c9eb165f0a4200ed8f01e5"
-      balance="43.123213"
-      name="Account 2"
-    />
+    <Button
+      className={styles.Import}
+      icon="far fa-plus"
+      onClick={handleCreate}
+    >
+      Import new account
+    </Button>
   </Dropdown>
 );
 
-export default MainFavorites;
+const mapStateToProps = (state: Object): Object => ({
+  currentAccount: getCurrentAccount(state),
+  items: keys(get(state, 'entities.accounts', [])),
+});
+
+export default compose(
+  connect(mapStateToProps, { openModal }),
+  withHandlers({
+    handleCreate: ({ openModal }): func => (): Object =>
+      openModal(IMPORT_MODAL_ID),
+  }),
+)(MainAccounts);

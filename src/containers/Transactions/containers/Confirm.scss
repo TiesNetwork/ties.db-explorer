@@ -1,0 +1,76 @@
+.Root {
+  padding: 16px;
+
+  &:hover {
+    background: var(--background-lighter);
+  }
+}
+
+.Account {
+  margin: 20px 0 0;
+}
+
+.Actions {
+  display: flex;
+  margin: 20px 0 0;
+
+  & > * {
+    flex: 0 0 50%;
+    max-width: calc(50% - 4px);
+
+    &:not(:first-child) {
+      margin: 0 0 0 8px;
+    }
+  }
+}
+
+.Amount {
+  align-items: center;
+  border-top: 1px solid var(--background-dark);
+  display: flex;
+  justify-content: space-between;
+  margin: 20px -16px 0;
+  padding: 20px 16px 0;
+
+  &Label {
+    color: var(--color-gray);
+  }
+}
+
+.Header {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.Icon {
+  align-items: center;
+  background: var(--background-dark);
+  border-radius: 100%;
+  display: flex;
+  flex: 0 0 24px;
+  font-size: 12px;
+  height: 24px;
+  justify-content: center;
+  margin: 0 12px 0 0;
+  width: 24px;
+}
+
+.Info {
+  color: var(--color-gray);
+
+  &:hover {
+    color: var(--color-primary);
+  }
+}
+
+.Name {
+  color: var(--color-gray);
+}
+
+.Private {
+  align-items: center;
+  color: var(--color-gray);
+  display: flex;
+  margin: 16px 0 0;
+}

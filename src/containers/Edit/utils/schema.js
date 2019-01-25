@@ -1,4 +1,12 @@
 // Entities
+import {
+  // Actions
+  deleteAccount,
+  updateAccount,
+
+  // Types
+  ACCOUNTS_ENTITY_ID,
+} from 'entities/accounts';
 import { FIELDS_ENTITY_ID } from 'entities/fields';
 import { INDEXES_ENTITY_ID } from 'entities/indexes';
 import { TABLES_ENTITY_ID } from 'entities/tables';
@@ -12,6 +20,13 @@ import {
 import { TRIGGERS_ENTITY_ID } from 'entities/triggers';
 
 const SCHEMA = {
+  [ACCOUNTS_ENTITY_ID]: {
+    delete: deleteAccount,
+    entity: 'accounts',
+    name: 'account',
+    title: 'Account',
+    update: updateAccount,
+  },
   [FIELDS_ENTITY_ID]: {
     entity: 'fields',
     name: 'field',
