@@ -1,5 +1,7 @@
 import classNames from 'classnames';
 import React from 'react';
+import { connect } from 'react-redux';
+import { compose } from 'recompose';
 import { reduxForm } from 'redux-form';
 
 // Components
@@ -7,6 +9,9 @@ import Button from 'components/Button';
 import Form from 'components/Form';
 
 import Account from '../components/Account';
+
+// Services
+import { getCurrentAccount } from 'services/session';
 
 // Styles
 import { COLOR, Typography } from 'styles';
@@ -17,7 +22,7 @@ const TransactionsConfirmForm = ({
   handleDiscard,
   handleSubmit,
 }) => {
-  const infoIconClassNames = classNames(styles.Icon, styles.InfoIcon, 'far', 'fa-info-circle');
+  const infoIconClassNames = classNames(styles.Icon, styles.InfoIcon, 'fas', 'fa-info');
   const privateIconClassNames = classNames(styles.Icon, styles.PrivateIcon, 'far', 'fa-lock-alt');
 
   return (
@@ -70,8 +75,17 @@ const TransactionsConfirmForm = ({
       </div>
     </Form>
   );
-}
+};
 
-export default reduxForm({
-  form: 'confirmForm',
-})(TransactionsConfirmForm);
+const mapStateToProps = (state: Object): Object => ({
+  initialValues: {
+    address: getCurrentAccount(state).hash,
+  },
+});
+
+export default compose(
+  connect(mapStateToProps),
+  reduxForm({
+    form: 'confirmForm',
+  })
+)(TransactionsConfirmForm);

@@ -85,16 +85,17 @@ const TableEntities = ({
 
 const mapStateToProps = (state, { id, handleEdit, location }) => {
   const schema = createSchema(state, id);
-
   const match = matchPath(get(location, 'pathname'), {
     path: '/:tablespaceHash/table/:tableHash',
   });
-  const table = get(state, `entities.tables.${get(match, 'params.tableHash')}`);
+
+  const tableHash = get(match, 'params.tableHash');
+  const table = get(state, `entities.tables.${tableHash}`);
 
   const isDistributed = get(table, 'ranges', 0) > 0;
 
   return {
-    ...schema, isDistributed,
+    ...schema, isDistributed, tableHash,
     columns: createColumns(schema, isDistributed),
     items: get(table, get(schema, 'entity'), [])
       .map((hash: string, index: number) => ({
@@ -109,12 +110,12 @@ const mapStateToProps = (state, { id, handleEdit, location }) => {
 };
 
 export default withRouter(compose(
-  connect(null, { openModal }),
+  connect(mapStateToProps, { openModal }),
   withHandlers({
-    handleCreate: ({ id, openModal }) => () =>
-      openModal(EDIT_MODAL_ID, { type: id }),
-    handleEdit: ({ id, openModal }) => (hash: string) =>
-      openModal(EDIT_MODAL_ID, { hash, type: id })
+    handleCreate: ({ id, openModal, tableHash }) => () =>
+      openModal(EDIT_MODAL_ID, { tableHash, type: id }),
+    handleEdit: ({ id, openModal, tableHash }) => (hash: string) =>
+      openModal(EDIT_MODAL_ID, { hash, tableHash, type: id })
   }),
   connect(mapStateToProps),
 )(TableEntities));

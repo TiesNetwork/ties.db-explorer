@@ -43,6 +43,15 @@ const TransactionsSmall = ({
     onMouseEnter={handleHover}
   >
     <div className={styles.Header}>
+      <Typography
+        className={styles.Nonce}
+        variant={Typography.VARIANT.CAPTION}
+      >
+        #{parseInt(hash, 16)}
+      </Typography>
+    </div>
+
+    <div className={styles.Content}>
       <div className={styles.Left}>
         <Typography variant={Typography.VARIANT.H6}>
           {capitalize(action)}&nbsp;

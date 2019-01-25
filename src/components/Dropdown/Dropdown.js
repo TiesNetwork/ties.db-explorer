@@ -110,8 +110,8 @@ export default compose(
         !rootRef.contains(event.relatedTarget) && setOpen(false),
       handleClick: ({ setOpen }): func => (): void =>
         setOpen(true),
-      handleOutside: ({ isOpened, setOpen }): func => (event: Object): void =>
-        isOpened && !rootRef.contains(event.target) && setOpen(false),
+      handleOutside: ({ _isOpened, setOpen }): func => (event: Object): void =>
+        _isOpened && !rootRef.contains(event.target) && setOpen(false),
 
       // Registers
       registerRoot: () => (node: HTMLElement) => {
@@ -123,6 +123,7 @@ export default compose(
     componentDidMount() {
       document.addEventListener('click', this.props.handleOutside, false);
     },
+
     componentDidUpdate({ isOpened: prevIsOpened }) {
       const { isOpened, setOpen } = this.props;
       !prevIsOpened && isOpened && setOpen(true);

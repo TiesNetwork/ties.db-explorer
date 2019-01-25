@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React from 'react';
 import { connect } from 'react-redux';
-import { compose, withHandlers, withState } from 'recompose';
+import { compose } from 'recompose';
 
 // Components
 import Dropdown from 'components/Dropdown';

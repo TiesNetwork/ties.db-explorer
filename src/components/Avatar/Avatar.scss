@@ -1,0 +1,31 @@
+.Root {
+  align-items: center;
+  border-radius: 4px;
+  color: var(--color-white);
+  display: flex;
+  height: 40px;
+  justify-content: center;
+  width: 40px;
+
+  &Color {
+    &Blue {
+      background: var(--gradient-blue);
+    }
+
+    &BluePurple {
+      background: var(--gradient-blue-purple);
+    }
+
+    &Green {
+      background: var(--gradient-green);
+    }
+
+    &Purple {
+      background: var(--gradient-purple);
+    }
+
+    &Red {
+      background: var(--gradient-red);
+    }
+  }
+}

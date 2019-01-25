@@ -9,38 +9,6 @@
     }
   }
 
-  &Color {
-    &Blue {
-      .Avatar {
-        background: var(--gradient-blue);
-      }
-    }
-
-    &BluePurple {
-      .Avatar {
-        background: var(--gradient-blue-purple);
-      }
-    }
-
-    &Green {
-      .Avatar {
-        background: var(--gradient-green);
-      }
-    }
-
-    &Purple {
-      .Avatar {
-        background: var(--gradient-purple);
-      }
-    }
-
-    &Red {
-      .Avatar {
-        background: var(--gradient-red);
-      }
-    }
-  }
-
   &Is {
     &Densed {
       .Button {
@@ -100,11 +68,8 @@
 }
 
 .Avatar {
-  background: var(--gradient-purple);
   border-radius: 100%;
   flex: 0 0 40px;
-  height: 40px;
-  width: 40px;
 }
 
 .Address,

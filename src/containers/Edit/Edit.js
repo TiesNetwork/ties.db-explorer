@@ -19,12 +19,8 @@ const Edit = () => (
     }}
     id={EDIT_MODAL_ID}
   >
-    {({ hash, name, type }) => (
-      <Form
-        name={name}
-        hash={hash}
-        type={type}
-      />
+    {(props: Object): func => (
+      <Form {...props} />
     )}
   </Modal>
 );

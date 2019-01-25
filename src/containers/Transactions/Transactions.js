@@ -25,8 +25,10 @@ export default compose(
       const socket = new WebSocket('ws://localhost:3001/transactions');
 
       socket.onmessage = (event: Object): void => {
-        const { hash, ...payload } = JSON.parse(get(event, 'data', ''));
-        hash && saveTransaction(hash, payload);
+        try {
+          const { hash, ...payload } = JSON.parse(get(event, 'data', ''));
+          hash && saveTransaction(hash, payload);
+        } catch(e) { } // eslint-disable-line
       };
 
       socket.onopen = (): void => {

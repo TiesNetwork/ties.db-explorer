@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { compose, withHandlers } from 'recompose';
 
 // Components
+import Avatar from 'components/Avatar';
 import Button from 'components/Button';
 
 // Containers
@@ -21,18 +22,9 @@ import { setCurrentAccount } from 'services/session';
 import { Typography } from 'styles';
 import styles from './Account.scss';
 
-const COLOR = [
-  { className: styles.RootColorBlue, value: [0, 1] },
-  { className: styles.RootColorBluePurple, value: [2, 3] },
-  { className: styles.RootColorGreen, value: [4, 5] },
-  { className: styles.RootColorPurple, value: [6, 7] },
-  { className: styles.RootColorRed, value: [8, 9] },
-];
-
 const MainAccount = ({
   address,
   balance,
-  color = COLOR[0],
   hash,
   isDensed,
   isPreview,
@@ -42,7 +34,7 @@ const MainAccount = ({
   handleClick,
   handleEdit,
 }) => {
-  const rootClassNames = classNames(styles.Root, color.className, {
+  const rootClassNames = classNames(styles.Root, {
     [styles.RootIsDensed]: !!isDensed,
     [styles.RootIsEmpty]: !hash,
     [styles.RootIsPreview]: !!isPreview,
@@ -58,7 +50,13 @@ const MainAccount = ({
         onClick={handleClick}
         removeAutoBlur={!isDensed}
       >
-        {hash && <div className={styles.Avatar} />}
+        {hash && (
+          <Avatar
+            className={styles.Avatar}
+            hash={hash}
+            title={name}
+          />
+        )}
 
         <div className={styles.Info}>
           {!isDensed && (
@@ -94,17 +92,8 @@ const MainAccount = ({
   );
 };
 
-const mapStateToProps = ({ entities }, { hash }) => {
-  const account = get(entities, `accounts.${hash}`);
-
-  const hashInt = parseInt(hash, 16);
-  const colorNumber = parseInt(hashInt.toString().substr(0, 1), 10);
-
-  return {
-    ...account,
-    color: COLOR.filter(({ value }) => value.indexOf(colorNumber) > -1)[0],
-  };
-};
+const mapStateToProps = ({ entities }, { hash }) =>
+  get(entities, `accounts.${hash}`);
 
 export default compose(
   connect(mapStateToProps, { openModal, setCurrentAccount }),

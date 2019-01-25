@@ -35,6 +35,7 @@ const EditForm = ({
   hash,
   initialValues,
   title,
+  tableHash,
   type,
 
   // Handlers
@@ -70,7 +71,7 @@ const EditForm = ({
         />
       )}
 
-      {type === INDEXES_ENTITY_ID && <Fields tableHash={get(initialValues, 'tableHash')} />}
+      {type === INDEXES_ENTITY_ID && <Fields tableHash={tableHash} />}
     </div>
 
     <div className={styles.Actions}>
