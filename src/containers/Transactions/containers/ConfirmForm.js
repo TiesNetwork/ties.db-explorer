@@ -68,7 +68,7 @@ const TransactionsConfirmForm = ({
 
         <Button
           color={COLOR.PRIMARY}
-          type="submit"
+          onClick={handleDiscard}
         >
           Confirm
         </Button>

@@ -28,7 +28,7 @@ class Contract {
 
     const web3 = new Web3(provider);
 
-    this.accounts = ['ad9f6a020fa81297b9cb29c271e3816f27c9331f'];
+    this.accounts = ['321cf3f66872359c3d8d0234cf1c777ef950a4c1'];
     this.confirm = {};
     this.contract = new web3.eth.Contract(
       contractInterface,

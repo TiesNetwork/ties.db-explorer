@@ -17,13 +17,20 @@ import Progress from 'containers/Progress';
 import { openModal } from 'services/modals';
 import { SEARCH_MODAL_ID } from 'containers/Search/ducks/constants';
 
+// Entities
+import { hasAccounts } from 'entities/accounts';
+
 // import Title from '../components/Title';
 
 // Styles
 import styles from './Header.scss';
 
 const MainHeader = ({
+  // Handlers
   handleClick,
+
+  // State
+  isAuthorized,
 }) => (
   <header className={styles.Root}>
     <div className={styles.Search}>
@@ -41,7 +48,8 @@ const MainHeader = ({
     </div>
 
     <div className={styles.Actions}>
-      <Transactions />
+      {isAuthorized && <Transactions />}
+
       <Notifications />
       <Favorites />
       <Accounts />
@@ -49,8 +57,12 @@ const MainHeader = ({
   </header>
 );
 
+const mapStateToProps = (state: Object) => ({
+  isAuthorized: hasAccounts(state),
+});
+
 export default compose(
-  connect(null, { openModal }),
+  connect(mapStateToProps, { openModal }),
   withHandlers({
     handleClick: ({ openModal }) => () =>
       openModal(SEARCH_MODAL_ID),

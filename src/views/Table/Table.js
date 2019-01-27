@@ -14,6 +14,7 @@ import Entities from './containers/Entities';
 import { EDIT_MODAL_ID } from 'containers/Edit';
 
 // Entities
+import { hasAccounts } from 'entities/accounts';
 import { FIELDS_ENTITY_ID } from 'entities/fields';
 import { INDEXES_ENTITY_ID } from 'entities/indexes';
 import { TABLES_ENTITY_ID } from 'entities/tables';
@@ -30,6 +31,9 @@ const Table = ({
   handleEdit,
   hash,
   name,
+
+  // State
+  isAuthorized,
 }) => (
   <div className={styles.Root}>
     <div className={styles.Header}>
@@ -54,12 +58,14 @@ const Table = ({
           Favorite
         </Button>
 
-        <Button
-          className={styles.Edit}
-          onClick={handleEdit}
-        >
-          Edit Table
-        </Button>
+        {isAuthorized && (
+          <Button
+            className={styles.Edit}
+            onClick={handleEdit}
+          >
+            Edit Table
+          </Button>
+        )}
       </div>
     </div>
 
@@ -86,8 +92,10 @@ Table.propTypes = {
   name: PropTypes.string,
 };
 
-const mapStateToProps = ({ entities }, { hash }) =>
-  get(entities, `tables.${hash}`);
+const mapStateToProps = ({ entities, ...state }, { hash }) => ({
+  ...get(entities, `tables.${hash}`),
+  isAuthorized: hasAccounts(state),
+});
 
 export default compose(
   withProps(({ match }) => ({

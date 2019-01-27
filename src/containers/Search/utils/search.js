@@ -1,6 +1,7 @@
 import { get, isEmpty, values } from 'lodash';
 
 // Entities
+import { hasAccounts } from 'entities/accounts';
 import { FIELDS_ENTITY_ID } from 'entities/fields';
 import { INDEXES_ENTITY_ID } from 'entities/indexes';
 import { TABLES_ENTITY_ID } from 'entities/tables';
@@ -25,11 +26,13 @@ export default (state: Object, search: string = '', match: Object): Object => {
     return currentResult;
   }
 
+  const isAuthorized = hasAccounts(state);
+
   // eslint-disable-next-line
   const matches = search.toLowerCase().match(new RegExp(`^(${ACTIONS.join(' |')} )?(${ENTITIES.join('? |')}|indexe?s? )?([a-zA-Z0-9\-_\.]+)?$`));
   const results = {};
 
-  const action = get(matches, '1', '').trim();
+  const action = isAuthorized && get(matches, '1', '').trim();
   const entity = get(matches, '2', '').trim();
   const query = get(matches, '3', '');
 

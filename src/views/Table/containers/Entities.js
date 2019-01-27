@@ -13,6 +13,7 @@ import Table from 'components/Table';
 import { EDIT_MODAL_ID } from 'containers/Edit';
 
 // Entities
+import { hasAccounts } from 'entities/accounts';
 import { INDEXES_ENTITY_ID } from 'entities/indexes';
 import { TRIGGERS_ENTITY_ID } from 'entities/triggers';
 
@@ -33,13 +34,16 @@ const TableEntities = ({
   columns,
   id,
   items,
-  isDistributed,
   name,
   title,
 
   // Handlers
   handleCreate,
   handleEdit,
+
+  // State
+  isAuthorized,
+  isDistributed,
 }) => {
   const rootClassNames = classNames(styles.Root, {
     [styles.RootIsDistributed]: !!isDistributed,
@@ -59,12 +63,14 @@ const TableEntities = ({
         </Typography>
 
         <div className={styles.Actions}>
-          <Button
-            color={color}
-            onClick={handleCreate}
-          >
-            Create {name}
-          </Button>
+          {isAuthorized && (
+            <Button
+              color={color}
+              onClick={handleCreate}
+            >
+              Create {name}
+            </Button>
+          )}
         </div>
       </div>
 
@@ -84,19 +90,21 @@ const TableEntities = ({
 };
 
 const mapStateToProps = (state, { id, handleEdit, location }) => {
-  const schema = createSchema(state, id);
   const match = matchPath(get(location, 'pathname'), {
     path: '/:tablespaceHash/table/:tableHash',
   });
 
+  const schema = createSchema(state, id);
+
   const tableHash = get(match, 'params.tableHash');
   const table = get(state, `entities.tables.${tableHash}`);
 
+  const isAuthorized = hasAccounts(state);
   const isDistributed = get(table, 'ranges', 0) > 0;
 
   return {
-    ...schema, isDistributed, tableHash,
-    columns: createColumns(schema, isDistributed),
+    ...schema, isAuthorized, isDistributed, tableHash,
+    columns: createColumns(schema, isDistributed, isAuthorized),
     items: get(table, get(schema, 'entity'), [])
       .map((hash: string, index: number) => ({
         ...get(state, `entities.${get(schema, 'entity')}.${hash}`),
