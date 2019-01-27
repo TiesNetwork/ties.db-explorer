@@ -1,7 +1,7 @@
 import { get, keys } from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
-import { compose, withHandlers } from 'recompose';
+import { compose, lifecycle, withHandlers } from 'recompose';
 
 // Components
 import Button from 'components/Button';
@@ -10,6 +10,9 @@ import Account from '../components/Account';
 
 // Containers
 import { IMPORT_MODAL_ID } from 'containers/Import';
+
+// Entities
+import { fetchAccounts } from 'entities/accounts';
 
 // Services
 import { openModal } from 'services/modals';
@@ -60,9 +63,14 @@ const mapStateToProps = (state: Object): Object => ({
 });
 
 export default compose(
-  connect(mapStateToProps, { openModal }),
+  connect(mapStateToProps, { fetchAccounts, openModal }),
   withHandlers({
     handleCreate: ({ openModal }): func => (): Object =>
       openModal(IMPORT_MODAL_ID),
+  }),
+  lifecycle({
+    componentDidMount() {
+      this.props.fetchAccounts();
+    },
   }),
 )(MainAccounts);

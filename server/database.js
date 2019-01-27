@@ -4,6 +4,9 @@ const RxDB = require('rxdb');
 RxDB.plugin(require('pouchdb-adapter-node-websql'));
 RxDB.plugin(require('pouchdb-adapter-http'));
 
+// Schemas
+const accountSchema = require('./models/accounts/schema');
+
 const Database = {};
 const SYNC_URL = 'http://localhost:3001';
 
@@ -30,8 +33,17 @@ const create = async () => {
   });
 
   await database.collection({
+    name: 'accounts',
+    schema: accountSchema,
+  });
+
+  await database.collection({
     name: 'connections',
     schema: connectionSchema,
+  });
+
+  database.collections.accounts.sync({
+    remote: `${SYNC_URL}/accounts`,
   });
 
   database.collections.connections.sync({
@@ -45,7 +57,7 @@ let createPromise = null;
 
 Database.get = async () => {
   if (!createPromise) {
-    createPromise = create();
+    createPromise = await create();
   }
 
   return createPromise;

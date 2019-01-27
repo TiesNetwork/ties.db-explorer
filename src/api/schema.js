@@ -1,5 +1,6 @@
 import { schema } from 'normalizr';
 
+export const account = new schema.Entity('accounts', {}, { idAttribute: 'hash' });
 export const connection = new schema.Entity('connections');
 
 export const field = new schema.Entity('fields', {}, { idAttribute: 'hash' });

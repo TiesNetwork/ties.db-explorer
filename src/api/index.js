@@ -1,13 +1,24 @@
 import axios from 'axios';
 import { get } from 'lodash';
+import url from 'url';
 
+import CONFIG from './config';
 import models from './models';
 
-const API = (method: string, params: Object) => {
-  const model = get(models, method);
+const API = (path: string, params: Object) => {
+  const model = get(models, path);
+
+  const method = get(model, 'method', 'get');
+  const uri = url.resolve(
+    get(model, 'url', '/'),
+    method === CONFIG.METHOD.DELETE ||
+    method === CONFIG.METHOD.PUT
+      ? get(params, 'hash', '')
+      : '',
+  );
 
   return model
-    ? axios[get(model, 'method', 'get')](get(model, 'url', '/'), params)
+    ? axios[method](uri, params)
     : new Promise((resolve: func, reject: func) => reject(new Error('Undefined method!')));
 };
 

@@ -29,6 +29,8 @@ const reducer = combineReducers({
   views,
 });
 
+const filterAccounts = createTransform(({ accounts, ...entities }): Object => entities);
+
 const filterTransactions = createTransform((entities: Object, key: string): Object => {
   const transactions = values(get(entities, 'transactions', {}));
   const newTransactions = {};
@@ -45,7 +47,10 @@ const filterTransactions = createTransform((entities: Object, key: string): Obje
 const persistedReducer = persistReducer({
   storage,
   key: 'root',
-  transforms: [filterTransactions],
+  transforms: [
+    filterAccounts,
+    filterTransactions
+  ],
   whitelist: ['entities'],
 }, reducer);
 

@@ -3,8 +3,8 @@ import { get, omit } from 'lodash';
 // Types
 import {
   CREATE_ACCOUNT_SUCCESS,
-  UPDATE_ACCOUNT,
-  DELETE_ACCOUNT,
+  DELETE_ACCOUNT_SUCCESS,
+  UPDATE_ACCOUNT_SUCCESS,
 } from './types';
 
 export default (state = {}, action: Object) => {
@@ -17,9 +17,9 @@ export default (state = {}, action: Object) => {
         ...state,
         [hash]: { ...action.payload, hash },
       };
-    case DELETE_ACCOUNT:
+    case DELETE_ACCOUNT_SUCCESS:
       return omit(state, hash);
-    case UPDATE_ACCOUNT:
+    case UPDATE_ACCOUNT_SUCCESS:
       return {
         ...state,
         [hash]: {

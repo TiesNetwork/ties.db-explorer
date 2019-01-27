@@ -8,7 +8,7 @@ const app = express();
 const expressWs = require('express-ws')(app);
 
 // Routes
-const accounts = require('./models/accounts');
+const accounts = require('./models/accounts/route');
 const progress = require('./models/progress/route');
 const connections = require('./models/connections/route');
 const schema = require('./models/schema/route');

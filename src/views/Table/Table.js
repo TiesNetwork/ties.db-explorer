@@ -92,8 +92,8 @@ Table.propTypes = {
   name: PropTypes.string,
 };
 
-const mapStateToProps = ({ entities, ...state }, { hash }) => ({
-  ...get(entities, `tables.${hash}`),
+const mapStateToProps = (state: Object, { hash }) => ({
+  ...get(state, `entities.tables.${hash}`),
   isAuthorized: hasAccounts(state),
 });
 
