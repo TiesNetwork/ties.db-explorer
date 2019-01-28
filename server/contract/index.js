@@ -1,3 +1,4 @@
+/* eslint-disable */
 const { get, uniq } = require('lodash');
 const SignerProvider = require('ethjs-provider-signer');
 const Web3 = require('web3');
@@ -6,46 +7,46 @@ const contractInterface = require('./interface.json');
 
 class Contract {
   /**
-   * @param {string} account
-   * @param {string} address
    * @param {string} web3
    */
-  constructor(account, address, url) {
+  constructor(url) {
     const provider = new SignerProvider(url, {
-      accounts: cb => cb(null, this.accounts),
-      signTransaction: (rawTx, cb) => {
-        this.send({
-          ...this.confirm,
-          hash: get(rawTx, 'nonce'),
-          transaction: rawTx,
-          type: 'confirm',
-        });
+      accounts: async cb => {
+        const Database = await require('../../database').get();
+        const documents = await Database.collections.accounts.find().exec();
 
-        this.confirm = {};
-        this.transaction[get(rawTx, 'nonce')] = cb;
+        cb(null, documents && documents.map((document) => document.get('hash').replace('0x', '')));
+      },
+      signTransaction: (rawTx, cb) => {
+        const account = this.account[get(rawTx, 'from')];
+
+        if (account) {
+          // Increase current account nonce
+          account.nonce++;
+          // Set to current transaction nonce
+          rawTx.nonce = account.transactionCount + account.nonce;
+
+          this.send({
+            ...this.confirm,
+            hash: get(rawTx, 'nonce'),
+            transaction: rawTx,
+            type: 'confirm',
+          });
+
+          this.confirm = {};
+          this.transaction[get(rawTx, 'nonce')] = cb;
+        }
       },
     });
-
     const web3 = new Web3(provider);
 
-    this.accounts = ['321cf3f66872359c3d8d0234cf1c777ef950a4c1'];
+    this.account = {};
+    this.currentAccount = null;
+    this.contract = null;
     this.confirm = {};
-    this.contract = new web3.eth.Contract(
-      contractInterface,
-      '0x22d1b55ebb5bcd17084c3c9d690056875263fec1',
-      { from: account },
-    );
-    this.nonce = 0;
     this.transaction = {};
     this.socket = null;
     this.web3 = web3;
-  }
-
-  /**
-   * @param {string} account
-   */
-  addAccount(account) {
-    this.accounts = uniq([...this.accounts, account])
   }
 
   /**
@@ -53,14 +54,8 @@ class Contract {
    * @param {*} args
    */
   callMethod(method, ...args) {
+    this.updateContract();
     return this.contract.methods[method](...args).call();
-  }
-
-  /**
-   * @param {string} account
-   */
-  deleteAccount(account) {
-    this.accounts = this.accounts.filter((hash) => account !== hash);
   }
 
   getSocket() {
@@ -80,7 +75,9 @@ class Contract {
    * @param {string} method
    * @param {*} args
    */
-  sendMethod(method, { data, ...props }) {
+  sendMethod(account, method, { data, ...props }) {
+    this.updateAccount(account);
+
     this.confirm = { ...props };
 
     return this.contract.methods[method].apply(this, data).send()
@@ -90,9 +87,35 @@ class Contract {
       .on('error', console.error);
   }
 
+  /**
+   * @param {Object} account
+   */
   setSocket(socket) {
     this.socket = socket;
   }
+
+  /**
+   * @param {string} account
+   */
+  updateAccount(account) {
+    if (account !== this.currentAccount) {
+      this.account[account] = {
+        address: account,
+        nonce: 0,
+        transactionCount: 0,
+      };
+      this.currentAccount = account;
+
+      this.contract = new this.web3.eth.Contract(
+        contractInterface,
+        '0x22d1b55ebb5bcd17084c3c9d690056875263fec1',
+        { from: account },
+      );
+    }
+
+    this.web3.eth.getTransactionCount(account)
+      .then(res => { this.account[account].transactionCount = res; });
+  }
 }
 
-module.exports = new Contract('0x8dE2472FA85d214f79207F5B310f1335Bca0dc75', null, 'https://rinkeby.infura.io/v3/5915e2ed5f234c2aba3dfcb23b8f4337');
+module.exports = new Contract('https://rinkeby.infura.io/v3/5915e2ed5f234c2aba3dfcb23b8f4337');

@@ -1,24 +1,34 @@
 import classNames from 'classnames';
-import React from 'react';
+import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
+import Slider from 'react-slick';
 import { compose } from 'recompose';
 
 // Components
 import Dropdown from 'components/Dropdown';
+import Arrow from '../components/Arrow';
 
 // Containers
-import { Small } from 'containers/Transactions';
+import { Confirm } from 'containers/Transactions';
 
 // Entities
 import {
-  getLastTransactions,
+  getConfirms,
   hasNewTransactions,
   needOpen,
-} from 'entities/transactions';
+} from 'entities/transactions/selector';
 
 // Styles
 import { Typography } from 'styles';
 import styles from './Transactions.scss';
+
+const settings = {
+  dots: false,
+  draggable: false,
+  infinite: false,
+  nextArrow: <Arrow variant={Arrow.VARIANT.NEXT} />,
+  prevArrow: <Arrow variant={Arrow.VARIANT.PREV} />,
+};
 
 const MainTransactions = ({
   // Props
@@ -45,14 +55,38 @@ const MainTransactions = ({
       isOpened={isOpened}
       tooltip="Show Transactions"
     >
-      {items.map((transactionHash) => (
-        <Small
-          hash={transactionHash}
-          key={transactionHash}
-        />
-      ))}
+      {items && items.length > 0 ? (
+        <Fragment>
+          <Slider {...settings} className={styles.Slider}>
+            {items.map((transactionHash) => (
+              <div
+                className={styles.Item}
+                key={transactionHash}
+              >
+                <Confirm hash={transactionHash} />
+              </div>
+            ))}
+          </Slider>
 
-      {(!items || items.length === 0) && (
+          {items.length > 1 && (
+            <div className={styles.Actions}>
+              <Typography
+                className={styles.Discard}
+                variant={Typography.VARIANT.CAPTION}
+              >
+                Discard All
+              </Typography>
+
+              <Typography
+                className={styles.Confirm}
+                variant={Typography.VARIANT.CAPTION}
+              >
+                Confirm All
+              </Typography>
+            </div>
+          )}
+        </Fragment>
+      ) : (
         <div className={styles.Empty}>
           <i className={iconClassNames} />
 
@@ -67,7 +101,7 @@ const MainTransactions = ({
 
 const mapStateToProps = (state: Object): Object => ({
   hasNewTransactions: hasNewTransactions(state),
-  items: getLastTransactions(state),
+  items: getConfirms(state),
   isOpened: needOpen(state),
 });
 

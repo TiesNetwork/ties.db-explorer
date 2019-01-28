@@ -71,13 +71,15 @@ const Dropdown = ({
 
       {dot && <div className={styles.Dot} />}
 
-      <div className={dropdownClassNames}>
-        {children && (
-          <div className={listClassNames}>
-            {children}
-          </div>
-        )}
-      </div>
+      {_isOpened && (
+        <div className={dropdownClassNames}>
+          {children && (
+            <div className={listClassNames}>
+              {children}
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };

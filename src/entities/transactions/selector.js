@@ -3,6 +3,11 @@ import { get, values } from 'lodash';
 // Constants
 import { TRANSACTION_CONFIRM_TYPE } from './constants';
 
+export const getConfirms = (state: Object): Array<Object> =>
+  values(get(state, 'entities.transactions', {}))
+    .filter(({ type }) => type === TRANSACTION_CONFIRM_TYPE)
+    .map(({ hash }) => hash);
+
 export const getLastTransactions = (state: Object, count: number = 3): Array<Object> =>
   values(get(state, 'entities.transactions', {}))
     .sort((transactionA, transactionB) => {

@@ -26,9 +26,9 @@ import { capitalize } from 'utils/string';
 
 // Styles
 import { Typography } from 'styles';
-import styles from './Small.scss';
+import styles from './Confirm.scss';
 
-const TransactionsSmall = ({
+const TransactionsConfirm = ({
   action = ACTION_CREATE_TYPE,
   entity,
   hash,
@@ -93,7 +93,7 @@ const mapStateToProps = (state: Object, { hash }): Object => ({
 export default compose(
   connect(mapStateToProps, { setChecked }),
   withHandlers({
-    handleHover: ({ hash, setChecked }): func => () =>
-      setChecked(hash),
+    handleHover: ({ hash, isChecked, setChecked }): func => () =>
+      !isChecked && setChecked(hash),
   }),
-)(TransactionsSmall);
+)(TransactionsConfirm);

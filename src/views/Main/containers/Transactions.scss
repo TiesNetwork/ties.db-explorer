@@ -6,6 +6,38 @@
   }
 }
 
+.Actions {
+  display: flex;
+  height: 36px;
+  justify-content: center;
+
+  & > * {
+    align-items: center;
+    display: flex;
+    flex: 0 0 50%;
+    height: 100%;
+    justify-content: center;
+  }
+}
+
+.Confirm {
+  color: var(--color-primary);
+
+  &:hover {
+    background: var(--color-blue-200);
+    cursor: pointer;
+  }
+}
+
+.Discard {
+  color: var(--color-danger);
+
+  &:hover {
+    background: var(--color-red-200);
+    cursor: pointer;
+  }
+}
+
 .Empty {
   align-items: center;
   color: var(--color-gray-600);
@@ -18,4 +50,23 @@
 .Icon {
   font-size: 40px;
   margin: 0 0 20px;
+}
+
+.Item {
+  float: left;
+}
+
+.Slider {
+  height: 380px;
+  position: relative;
+
+  :global .slick {
+    &-list {
+      overflow: hidden;
+    }
+
+    &-slide {
+      float: left;
+    }
+  }
 }

@@ -5,6 +5,7 @@ import { EDIT_MODAL_ID } from 'containers/Edit';
 
 // Services
 import { closeModal } from 'services/modals';
+import { getCurrentAccountHash } from 'services/session';
 
 // Types
 import {
@@ -17,10 +18,12 @@ import {
 } from './types';
 
 export const createTablespace = (params: Object): func => (dispatch: func, getState: func, { api, schema }): Promise => {
+  const state = getState();
+
   dispatch(closeModal(EDIT_MODAL_ID));
   dispatch({ type: CREATE_TABLESPACE_REQUEST });
 
-  return api('tablespaces.create', params)
+  return api('tablespaces.create', { account: getCurrentAccountHash(state), ...params})
     .then(({ data }) => {
       dispatch({ type: CREATE_TABLESPACE_SUCCESS, data: 213 });
     })

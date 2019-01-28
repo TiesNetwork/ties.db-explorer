@@ -65,6 +65,7 @@
     "react-redux": "^5.1.1",
     "react-router-dom": "^4.3.1",
     "react-router-redux": "5.0.0-alpha.9",
+    "react-slick": "^0.23.2",
     "react-table": "^6.8.6",
     "recompose": "^0.30.0",
     "redux": "^4.0.1",
