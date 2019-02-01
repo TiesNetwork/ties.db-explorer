@@ -11,14 +11,11 @@ const API = (path: string, params: Object) => {
   const method = get(model, 'method', 'get');
   const uri = url.resolve(
     get(model, 'url', '/'),
-    method === CONFIG.METHOD.DELETE ||
-    method === CONFIG.METHOD.PUT
-      ? get(params, 'hash', '')
-      : '',
+    get(params, 'hash', ''),
   );
 
   return model
-    ? axios[method](uri, params)
+    ? axios[method](uri, { ...params, data: params })
     : new Promise((resolve: func, reject: func) => reject(new Error('Undefined method!')));
 };
 

@@ -38,7 +38,7 @@ const DashboardTablespace = ({
     [styles.RootIsTrigger]: !!isTrigger,
   });
   const iconClassNames = classNames(styles.Icon, 'far', 'fa-caret-circle-down');
-  console.log(progress);
+
   return (
     <Button
       classNames={{

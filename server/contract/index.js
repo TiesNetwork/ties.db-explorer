@@ -33,7 +33,7 @@ class Contract {
           const setNonce = get(this.newTransaction, 'setNonce');
           // To synchronize the request with the transaction
           setNonce && setNonce(nonce);
-          console.log(nonce);
+
           account.transaction[nonce] = {
             ...this.newTransaction,
             callback: false,

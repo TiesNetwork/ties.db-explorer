@@ -3,6 +3,9 @@ import { get } from 'lodash';
 // Entities
 import { EDIT_MODAL_ID } from 'containers/Edit';
 
+// Selector
+import { getTablespaceByHash } from './selector';
+
 // Services
 import { closeModal } from 'services/modals';
 import { getCurrentAccountHash } from 'services/session';
@@ -43,25 +46,19 @@ export const createTablespace = (params: Object): func => (dispatch: func, getSt
     );
 };
 
-export const deleteTablespace = (params: Object): func => (dispatch: func, getState: func, { api, schema }): Promise => {
+export const deleteTablespace = (hash: string): func => (dispatch: func, getState: func, { api, schema }): Promise => {
   const state = getState();
+  const { name } = getTablespaceByHash(state, hash);
 
   dispatch(closeModal(EDIT_MODAL_ID));
-  dispatch({ type: CREATE_TABLESPACE_REQUEST });
+  dispatch({ type: DELETE_TABLESPACE_REQUEST });
 
-  return api('tablespaces.create', { account: getCurrentAccountHash(state), ...params})
+  return api('tablespaces.delete', { account: getCurrentAccountHash(state), hash, name })
     .then(({ data }) => {
-      const hash = get(data, 'hash');
-      const name = get(data, 'name');
-      const tables = get(data, 'tables');
-
-      dispatch({ type: CREATE_TABLESPACE_SUCCESS, hash, payload: {
-        hash, name, tables,
-        isSynchronized: false,
-      }});
+      dispatch({ type: DELETE_TABLESPACE_SUCCESS, hash });
     })
     .catch((error: Object) =>
-      dispatch({ type: CREATE_TABLESPACE_FAILURE, error: get(error, 'message') })
+      dispatch({ type: DELETE_TABLESPACE_FAILURE, error: get(error, 'message') })
     );
 };
 

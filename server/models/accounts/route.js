@@ -6,7 +6,7 @@ const { object, string } = require('yup');
 
 const app = express();
 
-app.delete('/:hash', async (req, res) => {
+app.post('/:hash', async (req, res) => {
   const Database = await require('../../database').get();
   const { hash } = req.params;
 

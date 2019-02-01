@@ -13,6 +13,7 @@ import { TABLES_ENTITY_ID } from 'entities/tables';
 import {
   // Actions
   createTablespace,
+  deleteTablespace,
 
   // Types
   TABLESPACES_ENTITY_ID,
@@ -44,6 +45,7 @@ const SCHEMA = {
   },
   [TABLESPACES_ENTITY_ID]: {
     create: createTablespace,
+    delete: deleteTablespace,
     entity: 'tablespaces',
     name: 'tablespace',
     title: 'Tablespace',

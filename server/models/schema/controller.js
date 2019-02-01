@@ -1,4 +1,5 @@
 /* eslint-disable */
+const { set } = require('lodash');
 const Contract = require('../../contract');
 const { Field } = require('tiesdb-client');
 const Progress = require('../progress/controller');
@@ -169,6 +170,24 @@ class Schema {
     }
 
     return this.schema;
+  }
+
+  /**
+   * @param {string} hash
+   * @param {Object} payload
+   */
+  createTablespace(hash, payload) {
+    const newSchema = [...this.schema, payload];
+    this.schema = newSchema;
+  }
+
+  /**
+   * @param {string} hash
+   * @param {Object} payload
+   */
+  deleteTablespace(hash) {
+    const newSchema = this.schema.filter(({ hash: itemHash }) => itemHash !== hash);
+    this.schema = newSchema;
   }
 
   getSocket() {

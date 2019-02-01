@@ -1,9 +1,12 @@
-import { get, uniq } from 'lodash';
+import { get, omit, uniq } from 'lodash';
 
 // Types
 import {
   CREATE_TABLESPACE,
   CREATE_TABLESPACE_SUCCESS,
+
+  DELETE_TABLESPACE,
+  DELETE_TABLESPACE_SUCCESS,
 
   UPDATE_TABLESPACE,
 } from './types';
@@ -19,6 +22,9 @@ export default (state = {}, action: Object) => {
         ...state,
         [hash]: action.payload,
       };
+    case DELETE_TABLESPACE:
+    case DELETE_TABLESPACE_SUCCESS:
+      return omit(state, action.hash);
     case UPDATE_TABLESPACE:
       return {
         ...state,
