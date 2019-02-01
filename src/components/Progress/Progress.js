@@ -28,11 +28,12 @@ const Progress = ({
   const rootClassNames = classNames(className, rootClassName, styles.Root, {
     // Color
     [styles.RootColorPrimary]: color === COLOR.PRIMARY,
+    [styles.RootColorSuccess]: color === COLOR.SUCCESS,
 
     // Variant
     [styles.RootVariantCircle]: variant === VARIANT.CIRCLE,
     [styles.RootVariantLinear]: variant === VARIANT.LINEAR,
-    [styles.RootVariantIndeterminate]: value === undefined,
+    [styles.RootVariantIndeterminate]: !value,
   });
 
   const circleClassNames = classNames(circleClassName, styles.Circle);

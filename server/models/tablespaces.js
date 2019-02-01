@@ -15,18 +15,18 @@ app.post('/', async (req, res) => {
 
   schema.validate(req.body)
     .then(async ({ account, name }) => {
-      console.log(123);
       const hash = Web3.utils.sha3(name);
-      const result = await Contract.sendMethod(account, 'createTablespace', {
+      const tablespace = { hash, name, tables: [] };
+
+      const result = Contract.sendMethod(account, 'createTablespace', {
         action: 'create',
         data: [name, '0x29a60CeA1aDED2EF4B64Ed219Acdb0F351B5ADed'],
         entity: 'tablespaces',
         entityHash: hash,
-        payload: {
-          hash,
-          name,
-        }
+        payload: tablespace,
       });
+
+      res.send(tablespace);
     })
     .catch((error) => res.status(500).send({ message: error.message }));
 });

@@ -28,18 +28,18 @@ const Dropdown = ({
   trigger,
 
   // Handlers
-  handleBlur,
   handleClick,
 
   // Registers
   registerRoot,
 
   // State
-  _isOpened,
+  isOpened,
+  stateIsOpened,
 }) => {
   const rootClassNames = classNames(rootClassName || className, styles.Root, {
     [styles.RootAlignLeft]: align === 'left',
-    [styles.RootIsOpened]: !!_isOpened,
+    [styles.RootIsOpened]: isOpened === undefined ? stateIsOpened : isOpened,
   });
 
   const dropdownClassNames = classNames(dropdownClassName, styles.Dropdown);
@@ -48,9 +48,7 @@ const Dropdown = ({
   return (
     <div
       className={rootClassNames}
-      onBlur={handleBlur}
       ref={registerRoot}
-      tabIndex={-1}
     >
       {trigger ? cloneElement(trigger, { onClick: handleClick }) : (
         <Tooltip
@@ -71,7 +69,7 @@ const Dropdown = ({
 
       {dot && <div className={styles.Dot} />}
 
-      {_isOpened && (
+      {(isOpened === undefined ? stateIsOpened : isOpened) && (
         <div className={dropdownClassNames}>
           {children && (
             <div className={listClassNames}>
@@ -98,22 +96,28 @@ Dropdown.propTypes = {
     list: PropTypes.string,
   }),
   icon: PropTypes.string,
+  isOpened: PropTypes.bool,
+  onClose: PropTypes.func,
+  onOpen: PropTypes.func,
   tooltip: PropTypes.string,
 };
 
 export default compose(
-  withState('_isOpened', 'setOpen', ({ isOpened }) => isOpened),
+  withState('stateIsOpened', 'setOpen', ({ isOpened }) => isOpened),
+  withHandlers({
+    close: ({ onClose, setOpen }): func => ():void =>
+      onClose ? onClose() : setOpen(false),
+    open: ({ onOpen, setOpen }): func => ():void =>
+      onOpen ? onOpen() : setOpen(true),
+  }),
   withHandlers(() => {
     let rootRef;
 
     return {
       // Handlers
-      handleBlur: ({ setOpen }): func => (event: Object): void =>
-        !rootRef.contains(event.relatedTarget) && setOpen(false),
-      handleClick: ({ setOpen }): func => (): void =>
-        setOpen(true),
-      handleOutside: ({ _isOpened, setOpen }): func => (event: Object): void =>
-        _isOpened && !rootRef.contains(event.target) && setOpen(false),
+      handleClick: ({ open }): func => (): void => open(),
+      handleOutside: ({ close, isOpened, stateIsOpened, onClose, setOpen }): func => (event: Object): void =>
+        (isOpened === undefined ? stateIsOpened : isOpened) && !rootRef.contains(event.target) && close(),
 
       // Registers
       registerRoot: () => (node: HTMLElement) => {
@@ -127,8 +131,15 @@ export default compose(
     },
 
     componentDidUpdate({ isOpened: prevIsOpened }) {
-      const { isOpened, setOpen } = this.props;
-      !prevIsOpened && isOpened && setOpen(true);
+      const { close, isOpened, open } = this.props;
+
+      if (isOpened !== prevIsOpened) {
+        isOpened ? open() : close();
+      }
+    },
+
+    componentWillUnmount() {
+      document.removeEventListener('click', this.props.handleOutside, false);
     },
   }),
 )(Dropdown);

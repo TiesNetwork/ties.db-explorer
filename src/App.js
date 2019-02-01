@@ -3,6 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 import url from 'url';
 
 // Containers
+import Confirm from 'containers/Confirm';
 import Edit from 'containers/Edit';
 import Import from 'containers/Import';
 import Search from 'containers/Search';
@@ -22,6 +23,7 @@ const App = ({ match }) => (
       <Route path={url.resolve(match.path, '/')} component={Dashboard} />
     </Switch>
 
+    <Confirm />
     <Edit />
     <Import />
     <Search />

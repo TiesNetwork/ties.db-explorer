@@ -25,6 +25,7 @@ export default compose(
       const socket = new WebSocket('ws://localhost:3001/transactions');
 
       socket.onmessage = (event: Object): void => {
+        console.log(event);
         try {
           const { hash, ...payload } = JSON.parse(get(event, 'data', ''));
           hash && saveTransaction(hash, payload);

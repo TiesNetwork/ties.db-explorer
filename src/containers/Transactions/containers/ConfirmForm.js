@@ -1,6 +1,5 @@
 import classNames from 'classnames';
 import React from 'react';
-import { connect } from 'react-redux';
 import { compose } from 'recompose';
 import { reduxForm } from 'redux-form';
 
@@ -10,8 +9,8 @@ import Form from 'components/Form';
 
 import Account from '../components/Account';
 
-// Services
-import { getCurrentAccount } from 'services/session';
+// Entities
+import { confirmTransaction } from 'entities/transactions/actions';
 
 // Styles
 import { COLOR, Typography } from 'styles';
@@ -21,6 +20,7 @@ const TransactionsConfirmForm = ({
   // Handlers
   handleDiscard,
   handleSubmit,
+  ...props,
 }) => {
   const infoIconClassNames = classNames(styles.Icon, styles.InfoIcon, 'fas', 'fa-info');
   const privateIconClassNames = classNames(styles.Icon, styles.PrivateIcon, 'far', 'fa-lock-alt');
@@ -68,7 +68,7 @@ const TransactionsConfirmForm = ({
 
         <Button
           color={COLOR.PRIMARY}
-          onClick={handleDiscard}
+          type="submit"
         >
           Confirm
         </Button>
@@ -77,15 +77,9 @@ const TransactionsConfirmForm = ({
   );
 };
 
-const mapStateToProps = (state: Object): Object => ({
-  initialValues: {
-    address: getCurrentAccount(state).hash,
-  },
-});
-
 export default compose(
-  connect(mapStateToProps),
   reduxForm({
-    form: 'confirmForm',
-  })
+    onSubmit: ({ hash }, dispatch) =>
+      dispatch(confirmTransaction(hash)),
+  }),
 )(TransactionsConfirmForm);

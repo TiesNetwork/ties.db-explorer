@@ -10,6 +10,20 @@
       .Circle {
         stroke: var(--color-primary);
       }
+
+      .Line {
+        background: var(--color-primary);
+      }
+    }
+
+    &Success {
+      .Circle {
+        stroke: var(--color-success);
+      }
+
+      .Line {
+        background: var(--color-success);
+      }
     }
   }
 
@@ -23,12 +37,14 @@
       }
 
       &.RootColorPrimary {
-        .Line {
-          background: var(--color-primary);
-        }
-
         .Progress {
           background: var(--color-blue-300);
+        }
+      }
+
+      &.RootColorSuccess {
+        .Progress {
+          background: var(--color-green-300);
         }
       }
     }

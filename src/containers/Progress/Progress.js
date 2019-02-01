@@ -59,6 +59,7 @@ const ContainersProgress = ({
           {!!subTitle && (
             <Typography
               className={styles.SubTitle}
+              noWrap
               variant={Typography.VARIANT.CAPTION}
             >
               {subTitle}

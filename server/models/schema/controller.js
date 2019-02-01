@@ -17,20 +17,20 @@ class Schema {
   }
 
   async fetch() {
-    if (!this.isFetching) {
+    if (!this.isFetching && !this.schema) {
       this.isFetching = true;
 
       const { tablespaces = [] } = await Contract.callMethod('getStorage');
 
       await this.forEach(tablespaces, async (tablespaceHash, index) => {
-        const { name, tables = [] } = await Contract.callMethod('getTablespace', tablespaceHash);
+        const { name: tablespaceName, tables = [] } = await Contract.callMethod('getTablespace', tablespaceHash);
         const progressPart = 100 / tablespaces.length;
 
         Progress.send({
           count: tables.length,
           current: 0,
           id: 'sync',
-          title: `Sync tablespace: «${name}»`,
+          title: `Sync tablespace: «${tablespaceName}»`,
           subTitle: null,
           type: 'progress',
           value: progressPart * (index + 1),
@@ -39,7 +39,7 @@ class Schema {
         this.send({
           entity: 'tablespaces',
           hash: tablespaceHash,
-          payload: { hash: tablespaceHash, name, tables },
+          payload: { hash: tablespaceHash, name: tablespaceName, tables },
         });
 
         await this.forEach(tables, async(tableHash, tableIndex) => {
@@ -65,8 +65,10 @@ class Schema {
           });
 
           Progress.send({
+            count: tables.length,
             current: (tableIndex + 1),
             id: 'sync',
+            title: `Sync tablespace: «${tablespaceName}»`,
             subTitle: `Fetch table: «${name}»`,
             type: 'progress',
             value: progressPart * (index + 1) + progressPart / tables.length * tableIndex,
@@ -146,7 +148,8 @@ class Schema {
 
         tablespaces[index] = {
           hash: tablespaceHash,
-          name, tables,
+          name: tablespaceName,
+          tables,
         };
       });
 
@@ -161,6 +164,8 @@ class Schema {
         subTitle: null,
         type: 'success',
       });
+
+      this.send({ success: true });
     }
 
     return this.schema;

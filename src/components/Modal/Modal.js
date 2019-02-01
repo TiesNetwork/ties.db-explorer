@@ -10,6 +10,7 @@ import { compose, withHandlers } from 'recompose';
 import { closeModal } from 'services/modals';
 
 // Styles
+import { Typography } from 'styles';
 import styles from './Modal.scss';
 
 const Modal = ({
@@ -21,6 +22,7 @@ const Modal = ({
   } = {},
   handleClose,
   isOpened,
+  title,
   ...props,
 }) => {
   const rootClassNames = classNames(className || rootClassName, styles.Root);
@@ -35,10 +37,21 @@ const Modal = ({
         />
 
         <div className={containerClassNames}>
-          {typeof children === 'function'
-            ? children(props)
-            : children
-          }
+          {title && (
+            <Typography
+              className={styles.Title}
+              variant={Typography.VARIANT.H6}
+            >
+              {title}
+            </Typography>
+          )}
+
+          <div className={styles.Content}>
+            {typeof children === 'function'
+              ? children(props)
+              : children
+            }
+          </div>
         </div>
       </div>
     </Portal>

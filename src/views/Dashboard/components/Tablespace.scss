@@ -122,3 +122,11 @@
   color: var(--color-white);
   text-transform: none;
 }
+
+.Progress {
+  margin: 4px 0 0;
+
+  &Bar {
+    height: 4px !important;
+  }
+}

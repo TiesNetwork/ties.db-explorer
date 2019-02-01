@@ -18,7 +18,6 @@ import { TABLE_VIEW_ID } from './ducks/types';
 import Dashboard from './Dashboard';
 
 const mapStateToProps = ({ entities }, { tablespaceHash }) => ({
-  hasEntities: !isEmpty(get(entities, 'tablespaces')),
   tablespace: get(entities, `tablespaces.${tablespaceHash}`, values(get(entities, 'tablespaces', []))[0]),
 });
 
@@ -75,7 +74,6 @@ export default compose(
     componentDidMount() {
       const {
         fetchEntities,
-        hasEntities,
         saveField,
         saveIndex,
         saveTrigger,
@@ -88,24 +86,28 @@ export default compose(
       const socket = new WebSocket('ws://localhost:3001/schema');
 
       socket.onmessage = (event: Object): void => {
-        const { entity, hash, payload } = JSON.parse(get(event, 'data'), {});
+        const { entity, hash, payload, success } = JSON.parse(get(event, 'data'), {});
 
-        if (entity && hash) {
+        if (success) {
+          fetchEntities();
+        } else if (entity && hash) {
+          const modifiedPayload = { ...payload, isSynchronized: true };
+
           switch (entity) {
             case FIELDS_ENTITY_ID:
-              saveField(hash, payload);
+              saveField(hash, payload: modifiedPayload);
               break;
             case INDEXES_ENTITY_ID:
-              saveIndex(hash, payload);
+              saveIndex(hash, payload: modifiedPayload);
               break;
             case TRIGGERS_ENTITY_ID:
-              saveTrigger(hash, payload);
+              saveTrigger(hash, payload: modifiedPayload);
               break;
             case TABLESPACES_ENTITY_ID:
-              saveTablespace(hash, payload);
+              saveTablespace(hash, payload: modifiedPayload);
               break;
             case TABLES_ENTITY_ID:
-              saveTable(hash, payload);
+              saveTable(hash, payload: modifiedPayload);
               break;
             default:
               break;
@@ -117,7 +119,7 @@ export default compose(
         setConnected(true);
         setSocket(socket);
 
-        !hasEntities && fetchEntities();
+        fetchEntities();
       };
     },
     componentWillUnmount() {

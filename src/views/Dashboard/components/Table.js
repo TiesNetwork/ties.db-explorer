@@ -44,7 +44,7 @@ const DashboardTable = ({
           noWrap
           variant={Typography.VARIANT.CAPTION}
         >
-          {!!name && hash.substr(0, 8)}
+          {!!name && hash.substr(0, 16)}
         </Typography>
       </div>
 

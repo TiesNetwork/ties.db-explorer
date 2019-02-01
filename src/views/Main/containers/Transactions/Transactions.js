@@ -2,14 +2,19 @@ import classNames from 'classnames';
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import Slider from 'react-slick';
-import { compose } from 'recompose';
+import { compose, withHandlers, withState } from 'recompose';
 
 // Components
 import Dropdown from 'components/Dropdown';
-import Arrow from '../components/Arrow';
+import Progress from 'components/Progress';
+
+import Arrow from 'views/Main/components/Arrow';
 
 // Containers
 import { Confirm } from 'containers/Transactions';
+
+// Ducks
+import { transactionsIsFetching } from './ducks/selector';
 
 // Entities
 import {
@@ -40,6 +45,8 @@ const MainTransactions = ({
 
   // State
   hasNewTransactions,
+  isFetching,
+  isNeedOpen,
   isOpened,
 }) => {
   const iconClassNames = classNames(styles.Icon, 'fal', 'fa-receipt');
@@ -52,12 +59,17 @@ const MainTransactions = ({
       }}
       dot={!!hasNewTransactions}
       icon="far fa-receipt"
-      isOpened={isOpened}
+      isOpened={isNeedOpen || isFetching || isOpened}
+      onClose={handleClose}
+      onOpen={handleOpen}
       tooltip="Show Transactions"
     >
       {items && items.length > 0 ? (
         <Fragment>
-          <Slider {...settings} className={styles.Slider}>
+          <Slider {...settings}
+            arrows={!isFetching}
+            className={styles.Slider}
+          >
             {items.map((transactionHash) => (
               <div
                 className={styles.Item}
@@ -85,6 +97,12 @@ const MainTransactions = ({
               </Typography>
             </div>
           )}
+
+          {isFetching && (
+            <div className={styles.Fetching}>
+              <Progress />
+            </div>
+          )}
         </Fragment>
       ) : (
         <div className={styles.Empty}>
@@ -102,9 +120,17 @@ const MainTransactions = ({
 const mapStateToProps = (state: Object): Object => ({
   hasNewTransactions: hasNewTransactions(state),
   items: getConfirms(state),
-  isOpened: needOpen(state),
+  isFetching: transactionsIsFetching(state),
+  isNeedOpen: needOpen(state),
 });
 
 export default compose(
   connect(mapStateToProps),
+  withState('isOpened', 'setOpen', false),
+  withHandlers({
+    handleClose: ({ setOpen }) => () =>
+      setOpen(false),
+    handleOpen: ({ setOpen }) => () =>
+      setOpen(true),
+  }),
 )(MainTransactions);

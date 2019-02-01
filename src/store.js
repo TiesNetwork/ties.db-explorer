@@ -1,4 +1,4 @@
-import { get, values } from 'lodash';
+import { get, set, values } from 'lodash';
 import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 import { createTransform, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
@@ -9,6 +9,11 @@ import * as schema from 'api/schema';
 
 // Entities
 import { TRANSACTION_CONFIRM_TYPE } from 'entities/transactions';
+import { FIELDS_ENTITY_ID } from 'entities/fields';
+import { INDEXES_ENTITY_ID } from 'entities/indexes';
+import { TABLES_ENTITY_ID } from 'entities/tables';
+import { TABLESPACES_ENTITY_ID } from 'entities/tablespaces';
+import { TRIGGERS_ENTITY_ID } from 'entities/triggers';
 
 // Middleware
 import { routerMiddleware, routerReducer as router } from 'react-router-redux';
@@ -31,6 +36,29 @@ const reducer = combineReducers({
 
 const filterAccounts = createTransform(({ accounts, ...entities }): Object => entities);
 
+const filterSync = createTransform((entities) => entities, (entities: Object) => {
+  const ENTITIES = [
+    FIELDS_ENTITY_ID,
+    INDEXES_ENTITY_ID,
+    TABLES_ENTITY_ID,
+    TABLESPACES_ENTITY_ID,
+    TRIGGERS_ENTITY_ID,
+  ];
+  const newEntities = {};
+
+  ENTITIES.forEach((entityId) => {
+    values(get(entities, entityId, {})).forEach((entity) => {
+      const hash = get(entity, 'hash');
+
+      if (hash) {
+        set(newEntities, `${entityId}.${hash}`, { ...entity, isSynchronized: false });
+      }
+    })
+  });
+
+  return newEntities;
+});
+
 const filterTransactions = createTransform((entities: Object, key: string): Object => {
   const transactions = values(get(entities, 'transactions', {}));
   const newTransactions = {};
@@ -49,7 +77,8 @@ const persistedReducer = persistReducer({
   key: 'root',
   transforms: [
     filterAccounts,
-    filterTransactions
+    filterTransactions,
+    filterSync,
   ],
   whitelist: ['entities'],
 }, reducer);

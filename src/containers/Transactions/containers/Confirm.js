@@ -9,6 +9,9 @@ import Button from 'components/Button';
 // Containers
 import ConfirmForm from './ConfirmForm';
 
+// Ducks
+import { CONFIRM_FORM_ID } from '../ducks/constants';
+
 // Entities
 import { ACTION_CREATE_TYPE } from 'entities/constants';
 import { getHumanEntityName } from 'entities/selector';
@@ -19,7 +22,7 @@ import {
 } from 'entities/transactions';
 
 // Services
-import { getCurrentAccount } from 'services/session';
+import { getCurrentAccountHash } from 'services/session';
 
 // Utils
 import { capitalize } from 'utils/string';
@@ -31,8 +34,10 @@ import styles from './Confirm.scss';
 const TransactionsConfirm = ({
   action = ACTION_CREATE_TYPE,
   entity,
+  initialValues,
   hash,
   payload,
+  transaction,
   type,
 
   // Handlers
@@ -47,7 +52,7 @@ const TransactionsConfirm = ({
         className={styles.Nonce}
         variant={Typography.VARIANT.CAPTION}
       >
-        #{parseInt(hash, 16)}
+        #{get(transaction, 'nonce')}
       </Typography>
     </div>
 
@@ -80,15 +85,22 @@ const TransactionsConfirm = ({
     </div>
 
     <div className={styles.Form}>
-      <ConfirmForm />
+      <ConfirmForm
+        form={`${CONFIRM_FORM_ID}_${hash}`}
+        initialValues={initialValues}
+      />
     </div>
   </div>
 );
 
-const mapStateToProps = (state: Object, { hash }): Object => ({
-  ...getTransactionByHash(state, hash),
-  currentAccount: getCurrentAccount(state),
-});
+const mapStateToProps = (state: Object, { hash }): Object => {
+  const address = getCurrentAccountHash(state);
+
+  return {
+    ...getTransactionByHash(state, hash),
+    initialValues: { address, hash },
+  };
+};
 
 export default compose(
   connect(mapStateToProps, { setChecked }),

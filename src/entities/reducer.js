@@ -28,7 +28,9 @@ const modelsReducer = combineReducers({
 export default (state = {}, action: Object) => {
   switch (action.type) {
     case UPDATE_ENTITIES:
-      return merge({}, state, action.data.entities);
+      return action.force
+        ? { ...state, ...action.data.entities }
+        : merge({}, state, action.data.entities);
     default:
       return modelsReducer(state, action);
   }

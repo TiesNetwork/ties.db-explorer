@@ -13,15 +13,15 @@ const progress = require('./models/progress/route');
 const connections = require('./models/connections/route');
 const schema = require('./models/schema/route');
 const tablespaces = require('./models/tablespaces');
-const transactions = require('./models/transactions');
+const transactions = require('./models/transactions/route');
 
 app.use(cors());
 app.use(bodyParser.json());
-app.use((err, req, res, next) => {
-  if (err && req.xhr) {
-    res.status(400).send({ error: err.message });
-  }
-});
+// app.use((err, req, res, next) => {
+//   if (err && req.xhr) {
+//     res.status(400).send({ error: err.message });
+//   }
+// });
 
 app.use('/accounts', accounts);
 app.use('/connections', connections);

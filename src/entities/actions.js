@@ -17,7 +17,7 @@ export const fetchEntities = (callback: func) => (dispatch: func, getState: func
     .then(({ data }) => {
       const normalizedData = normalize(data, [schema.tablespace]);
 
-      dispatch({ type: UPDATE_ENTITIES, data: normalizedData });
+      dispatch({ type: UPDATE_ENTITIES, data: normalizedData, force: true });
       dispatch({ type: FETCH_ENTITIES_SUCCESS, connections: normalizedData.result });
 
       callback && callback();

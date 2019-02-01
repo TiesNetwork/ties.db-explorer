@@ -6,35 +6,39 @@ import { connect } from 'react-redux';
 import { compose, withHandlers } from 'recompose';
 
 // Components
+import Avatar from 'components/Avatar';
 import Button from 'components/Button';
+import Progress from 'components/Progress';
+
+// Entities
+import { TABLESPACES_ENTITY_ID } from 'entities/tablespaces';
+
+// Services
+import { getProgressByLink } from 'services/progress/selector';
 
 // Styles
-import { Typography } from 'styles';
+import { COLOR, Typography } from 'styles';
 import styles from './Tablespace.scss';
-
-const COLOR = [
-  { className: styles.RootColorBlue, value: [0, 1] },
-  { className: styles.RootColorBluePurple, value: [2, 3] },
-  { className: styles.RootColorGreen, value: [4, 5] },
-  { className: styles.RootColorPurple, value: [6, 7] },
-  { className: styles.RootColorRed, value: [8, 9] },
-];
 
 const DashboardTablespace = ({
   color = COLOR[0],
   handleClick,
   hash,
-  isOpened,
-  isTrigger,
   name,
+  progress,
   tables = [],
+
+  // State
+  isOpened,
+  isSynchronized,
+  isTrigger,
 }) => {
-  const rootClassNames = classNames(styles.Root, color.className, {
+  const rootClassNames = classNames(styles.Root, {
     [styles.RootIsOpened]: !!isOpened,
     [styles.RootIsTrigger]: !!isTrigger,
   });
   const iconClassNames = classNames(styles.Icon, 'far', 'fa-caret-circle-down');
-
+  console.log(progress);
   return (
     <Button
       classNames={{
@@ -43,12 +47,10 @@ const DashboardTablespace = ({
       }}
       onClick={handleClick}
     >
-      <Typography
-        className={styles.Logo}
-        variant={Typography.VARIANT.H5}
-      >
-        {(name || '?').substr(0, 1)}
-      </Typography>
+      <Avatar
+        hash={hash}
+        title={name}
+      />
 
       <div className={styles.Info}>
         <Typography
@@ -66,6 +68,18 @@ const DashboardTablespace = ({
         >
           {name}
         </Typography>
+
+        {progress && (
+          <Progress
+            classNames={{
+              root: styles.Progress,
+              progress: styles.ProgressBar,
+            }}
+            color={COLOR.PRIMARY}
+            value={get(progress, 'value')}
+            variant={Progress.VARIANT.LINEAR}
+          />
+        )}
       </div>
 
       {isTrigger && <i className={iconClassNames} />}
@@ -82,16 +96,13 @@ DashboardTablespace.propTypes = {
   onClick: PropTypes.func,
 };
 
-const mapStateToProps = ({ entities }, { hash }) => {
+const mapStateToProps = ({ entities, ...state }, { hash }) => {
   const tablespace = get(entities, `tablespaces.${hash}`);
-
-  const hashInt = parseInt(hash, 16);
-  const colorNumber = parseInt(hashInt.toString().substr(0, 1), 10);
 
   return {
     ...tablespace,
-    color: COLOR.filter(({ value }) => value.indexOf(colorNumber) > -1)[0],
-  }
+    progress: getProgressByLink(state, `${TABLESPACES_ENTITY_ID}_${hash}`),
+  };
 };
 
 export default compose(

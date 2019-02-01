@@ -7,20 +7,21 @@ import Modal from 'components/Modal';
 import Form from './containers/Form';
 
 // Ducks
-import { EDIT_MODAL_ID } from './ducks';
+import { CONFIRM_MODAL_ID } from './ducks/constants';
 
 // Styles
-import styles from './Edit.scss';
+import styles from './Confirm.scss';
 
 const Edit = () => (
   <Modal
     classNames={{
       container: styles.Container,
     }}
-    id={EDIT_MODAL_ID}
+    id={CONFIRM_MODAL_ID}
+    title="Confirm password"
   >
-    {(props: Object): func => (
-      <Form {...props} />
+    {({ handleSubmit }) => (
+      <Form onSubmit={handleSubmit} />
     )}
   </Modal>
 );

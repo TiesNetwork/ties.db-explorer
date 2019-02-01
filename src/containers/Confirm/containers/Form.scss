@@ -1,0 +1,9 @@
+.Actions {
+  display: flex;
+  justify-content: flex-end;
+  margin: 40px 0 0;
+
+  & > *:not(:first-child) {
+    margin: 0 0 0 8px;
+  }
+}

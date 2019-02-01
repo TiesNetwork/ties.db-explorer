@@ -1,8 +1,11 @@
 /* eslint-disable */
-const { get, uniq } = require('lodash');
+const { get, set, uniq } = require('lodash');
+const { sign } = require('ethjs-signer');
 const SignerProvider = require('ethjs-provider-signer');
+const nodeEth = require('node-eth-address');
 const Web3 = require('web3');
 
+const Progress = require('../models/progress/controller');
 const contractInterface = require('./interface.json');
 
 class Contract {
@@ -12,7 +15,7 @@ class Contract {
   constructor(url) {
     const provider = new SignerProvider(url, {
       accounts: async cb => {
-        const Database = await require('../../database').get();
+        const Database = await require('../database').get();
         const documents = await Database.collections.accounts.find().exec();
 
         cb(null, documents && documents.map((document) => document.get('hash').replace('0x', '')));
@@ -21,20 +24,28 @@ class Contract {
         const account = this.account[get(rawTx, 'from')];
 
         if (account) {
-          // Increase current account nonce
-          account.nonce++;
           // Set to current transaction nonce
           rawTx.nonce = account.transactionCount + account.nonce;
-
-          this.send({
-            ...this.confirm,
+          // Increase current account nonce
+          account.nonce++;
+          // Get new nonce
+          const nonce = get(rawTx, 'nonce');
+          const setNonce = get(this.newTransaction, 'setNonce');
+          // To synchronize the request with the transaction
+          setNonce && setNonce(nonce);
+          console.log(nonce);
+          account.transaction[nonce] = {
+            ...this.newTransaction,
+            callback: false,
             hash: get(rawTx, 'nonce'),
             transaction: rawTx,
             type: 'confirm',
-          });
+          };
 
-          this.confirm = {};
-          this.transaction[get(rawTx, 'nonce')] = cb;
+          this.send(get(account, `transaction.${nonce}`));
+          this.newTransaction = {};
+
+          set(account, `transaction.${nonce}.callback`, cb);
         }
       },
     });
@@ -42,8 +53,11 @@ class Contract {
 
     this.account = {};
     this.currentAccount = null;
-    this.contract = null;
-    this.confirm = {};
+    this.contract = new web3.eth.Contract(
+      contractInterface,
+      '0x22d1b55ebb5bcd17084c3c9d690056875263fec1',
+    );
+    this.newTransaction = {};
     this.transaction = {};
     this.socket = null;
     this.web3 = web3;
@@ -54,12 +68,71 @@ class Contract {
    * @param {*} args
    */
   callMethod(method, ...args) {
-    this.updateContract();
     return this.contract.methods[method](...args).call();
+  }
+
+  /**
+   * @param {string} account
+   * @param {string} privateKey
+   * @param {string} transactions
+   * @return {string}
+   */
+  confirm({ account: address, privateKey, transactions }, callback) {
+    const account = get(this.account, address);
+
+    if (account) {
+      transactions.forEach(transactionHash => {
+        const cb = get(account, `transaction.${transactionHash}.callback`);
+        const rawTx = get(account, `transaction.${transactionHash}.transaction`);
+
+        if (cb && rawTx && privateKey) {
+          this.web3.eth.estimateGas(rawTx).then(gas => {
+            rawTx.gas = gas;
+            rawTx.gasPrice = this.web3.utils.toWei('20', 'gwei');
+
+            cb(null, sign(rawTx, privateKey));
+          });
+        }
+      });
+    }
+
+    callback && callback();
+  }
+
+  /**
+   * @param {string} account
+   * @param {string} password
+   * @return {string}
+   */
+  async getPrivateKey(hash, password) {
+    const Database = await require('../database').get();
+    const query = await Database.collections.accounts
+      .find()
+      .where('hash')
+      .eq(hash)
+      .exec();
+
+    return query && query.length > 0
+      ? nodeEth.recoverPrivateKey(password, query[0].toJSON().json)
+      : false;
   }
 
   getSocket() {
     return this.socket;
+  }
+
+  getTransactionProgress(account, hash, nonce) {
+    const { action, entity, payload } = get(this.account, `${account}.transaction.${nonce}`, {});
+    const entityHash = get(payload, 'hash');
+    const name = get(payload, 'name');
+
+    return {
+      count: 24,
+      id: nonce,
+      link: `${entity}_${entityHash}`,
+      title: `${action[0].toUpperCase() + action.slice(1)} ${entity}: «${name}»`,
+      subTitle: hash.substr(0, 24),
+    };
   }
 
   /**
@@ -77,14 +150,37 @@ class Contract {
    */
   sendMethod(account, method, { data, ...props }) {
     this.updateAccount(account);
+    let transactionNonce;
+    let transactionHash;
 
-    this.confirm = { ...props };
+    this.newTransaction = {
+      ...props,
+      setNonce: (nonce) => {
+        transactionNonce = nonce;
+      },
+    };
 
     return this.contract.methods[method].apply(this, data).send()
-      .on('confirmation', (number, receipt) => console.log(number, receipt))
+      .on('confirmation', (number, receipt) => {
+        Progress.send({
+          ...this.getTransactionProgress(account, transactionHash, transactionNonce),
+          current: number,
+          type: number === 24 ? 'success' : 'progress',
+          value: number * 100 / 24,
+        });
+      })
       .on('receipt', (receipt) => console.log(receipt))
-      .on('transactionHash', (hash) => console.log(hash))
-      .on('error', console.error);
+      .on('transactionHash', (hash) => {
+        transactionHash = hash;
+
+        Progress.send({
+          ...this.getTransactionProgress(account, transactionHash, transactionNonce),
+          current: 0,
+          type: 'progress',
+          value: 0,
+        });
+      })
+      .on('error', (error) => console.log(123));
   }
 
   /**
@@ -102,6 +198,7 @@ class Contract {
       this.account[account] = {
         address: account,
         nonce: 0,
+        transaction: {},
         transactionCount: 0,
       };
       this.currentAccount = account;
@@ -114,7 +211,10 @@ class Contract {
     }
 
     this.web3.eth.getTransactionCount(account)
-      .then(res => { this.account[account].transactionCount = res; });
+      .then(res => {
+        this.account[account].nonce = 0;
+        this.account[account].transactionCount = res;
+      });
   }
 }
 
