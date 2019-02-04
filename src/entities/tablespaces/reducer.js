@@ -1,5 +1,11 @@
 import { get, omit, uniq } from 'lodash';
 
+// Entities
+import {
+  CREATE_TABLE_SUCCESS,
+  DELETE_TABLE_SUCCESS,
+} from 'entities/tables/types';
+
 // Types
 import {
   CREATE_TABLESPACE,
@@ -13,9 +19,28 @@ import {
 
 export default (state = {}, action: Object) => {
   const hash = get(action, 'hash');
-  const tablespace = hash && get(state, hash);
+  const tablespaceHash = get(action, 'tablespaceHash');
+
+  const tablespace = hash && get(state, tablespaceHash || hash);
 
   switch (action.type) {
+    case CREATE_TABLE_SUCCESS:
+      return {
+        ...state,
+        [tablespaceHash]: {
+          ...tablespace,
+          tables: uniq([...get(tablespace, 'tables', []), hash]),
+        },
+      };
+    case DELETE_TABLE_SUCCESS:
+      return {
+        ...state,
+        [tablespaceHash]: {
+          ...tablespace,
+          tables: get(tablespace, 'tables', [])
+            .filter((tableHash: string) => tableHash !== hash)
+        },
+      };
     case CREATE_TABLESPACE:
     case CREATE_TABLESPACE_SUCCESS:
       return {

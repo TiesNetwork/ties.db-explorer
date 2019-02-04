@@ -52,7 +52,7 @@ export const createAccount = (value: Object) => (dispatch: func, getState: func,
       dispatch(closeModal(IMPORT_MODAL_ID));
       // Session
       dispatch(setCurrentAccount(hash));
-      dispatch(setPrivateKey(hash));
+      dispatch(setPrivateKey(privateKey));
     })
     .catch((error: Object) => {
       const message = get(error, 'response.data.message', get(error, 'message'));

@@ -14,7 +14,7 @@ import { CONFIRM_FORM_ID } from '../ducks/constants';
 
 // Entities
 import { ACTION_CREATE_TYPE } from 'entities/constants';
-import { getHumanEntityName } from 'entities/selector';
+import { INDEXES_ENTITY_ID } from 'entities/indexes';
 import {
   TRANSACTION_CONFIRM_TYPE,
   getTransactionByHash,
@@ -60,7 +60,7 @@ const TransactionsConfirm = ({
       <div className={styles.Left}>
         <Typography variant={Typography.VARIANT.H6}>
           {capitalize(action)}&nbsp;
-          {capitalize(getHumanEntityName(entity))}:
+          {capitalize(entity.slice(0, entity === INDEXES_ENTITY_ID ? -2 : -1))}:
         </Typography>
 
         <Typography

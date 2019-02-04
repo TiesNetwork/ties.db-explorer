@@ -5,7 +5,6 @@
   box-shadow: var(--shadow-down-z1);
   color: inherit;
   display: flex;
-  height: 64px;
   padding: 0 16px;
   text-decoration: none;
 
@@ -43,6 +42,10 @@
         min-width: 80px;
       }
     }
+
+    &Progressed {
+      min-height: 72px;
+    }
   }
 }
 
@@ -70,4 +73,12 @@
   flex-direction: column;
   max-width: 100%;
   overflow: hidden;
+}
+
+.Progress {
+  margin: 8px 0 0;
+
+  &Bar {
+    height: 4px !important;
+  }
 }

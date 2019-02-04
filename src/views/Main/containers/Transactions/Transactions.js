@@ -17,6 +17,7 @@ import { Confirm } from 'containers/Transactions';
 import { transactionsIsFetching } from './ducks/selector';
 
 // Entities
+import { confirmTransactions } from 'entities/transactions/actions';
 import {
   getConfirms,
   hasNewTransactions,
@@ -41,6 +42,7 @@ const MainTransactions = ({
 
   // Handlers
   handleClose,
+  handleConfirm,
   handleOpen,
 
   // State
@@ -91,6 +93,7 @@ const MainTransactions = ({
 
               <Typography
                 className={styles.Confirm}
+                onClick={handleConfirm}
                 variant={Typography.VARIANT.CAPTION}
               >
                 Confirm All
@@ -125,12 +128,14 @@ const mapStateToProps = (state: Object): Object => ({
 });
 
 export default compose(
-  connect(mapStateToProps),
+  connect(mapStateToProps, { confirmTransactions }),
   withState('isOpened', 'setOpen', false),
   withHandlers({
-    handleClose: ({ setOpen }) => () =>
+    handleClose: ({ setOpen }): func => (): void =>
       setOpen(false),
-    handleOpen: ({ setOpen }) => () =>
+    handleConfirm: ({ confirmTransactions, items }): func => (): void =>
+      confirmTransactions(items),
+    handleOpen: ({ setOpen }): func => (): void =>
       setOpen(true),
   }),
 )(MainTransactions);

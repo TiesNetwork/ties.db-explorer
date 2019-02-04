@@ -93,7 +93,7 @@ const MainAccount = ({
 };
 
 const mapStateToProps = ({ entities }, { hash }) =>
-  get(entities, `accounts.${hash}`);
+  get(entities, `accounts.${hash}`, {});
 
 export default compose(
   connect(mapStateToProps, { openModal, setCurrentAccount }),

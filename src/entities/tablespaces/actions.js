@@ -31,7 +31,7 @@ export const createTablespace = (params: Object): func => (dispatch: func, getSt
   dispatch({ type: CREATE_TABLESPACE_REQUEST });
 
   return api('tablespaces.create', { account: getCurrentAccountHash(state), ...params})
-    .then(({ data }) => {
+    .then(({ data = {}}) => {
       const hash = get(data, 'hash');
       const name = get(data, 'name');
       const tables = get(data, 'tables');

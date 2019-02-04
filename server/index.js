@@ -11,7 +11,9 @@ const expressWs = require('express-ws')(app);
 const accounts = require('./models/accounts/route');
 const progress = require('./models/progress/route');
 const connections = require('./models/connections/route');
+const fields = require('./models/fields/route');
 const schema = require('./models/schema/route');
+const tables = require('./models/tables/route');
 const tablespaces = require('./models/tablespaces');
 const transactions = require('./models/transactions/route');
 
@@ -25,8 +27,10 @@ app.use(bodyParser.json());
 
 app.use('/accounts', accounts);
 app.use('/connections', connections);
+app.use('/fields', fields);
 app.use('/progress', progress);
 app.use('/schema', schema);
+app.use('/tables', tables);
 app.use('/tablespaces', tablespaces);
 app.use('/transactions', transactions);
 

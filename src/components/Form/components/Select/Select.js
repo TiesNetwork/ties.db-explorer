@@ -147,8 +147,10 @@ const ComposedFormSelect = compose(
       handleChange: ({ setInputValue }) => (event: Object) =>
         setInputValue(get(event, 'target.value', '')),
       handleCreate: ({ isMultiple, onChange, setFocus, value }) => (itemValue: Object) => {
-        // $input.blur();
-        // setFocus(false);
+        if (!isMultiple) {
+          $input.blur();
+          setFocus(false);
+        }
 
         onChange && onChange(isMultiple
           ? [...(value || []), itemValue]

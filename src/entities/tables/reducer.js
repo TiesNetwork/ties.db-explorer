@@ -1,5 +1,11 @@
 import { get, uniq } from 'lodash';
 
+// Entities
+import {
+  CREATE_FIELD_SUCCESS,
+  DELETE_FIELD_SUCCESS,
+} from 'entities/fields/types';
+
 // Types
 import {
   CREATE_TABLE,
@@ -8,9 +14,29 @@ import {
 
 export default (state = {}, action: Object) => {
   const hash = get(action, 'hash');
-  const table = hash && get(state, hash);
+  const tableHash = get(action, 'tableHash');
+
+  const table = hash && get(state, tableHash || hash);
 
   switch (action.type) {
+    case CREATE_FIELD_SUCCESS:
+      return {
+        ...state,
+        [tableHash]: {
+          ...table,
+          fields: uniq([...get(table, 'fields', []), hash]),
+        },
+      };
+    case DELETE_FIELD_SUCCESS:
+      return {
+        ...state,
+        [tableHash]: {
+          ...table,
+          fields: get(table, 'fields', [])
+            .filter((fieldHash: string) => fieldHash !== hash)
+        },
+      };
+
     case CREATE_TABLE:
       return {
         ...state,

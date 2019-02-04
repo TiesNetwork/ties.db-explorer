@@ -41,3 +41,11 @@
   color: var(--color-blue-gray);
   opacity: .2;
 }
+
+.Progress {
+  width: 160px;
+
+  &Bar {
+    height: 4px !important;
+  }
+}

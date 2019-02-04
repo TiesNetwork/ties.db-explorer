@@ -9,6 +9,7 @@ import Button from 'components/Button';
 import Form, { Input } from 'components/Form';
 
 import Fields from '../components/Fields';
+import Tablespace from '../components/Tablespace';
 import Type from '../components/Type';
 
 // Ducks
@@ -21,7 +22,7 @@ import {
 // Entities
 import { FIELDS_ENTITY_ID } from 'entities/fields';
 import { INDEXES_ENTITY_ID } from 'entities/indexes';
-// import { TRIGGERS_ENTITY_ID } from 'entities/triggers';
+import { TABLESPACES_ENTITY_ID } from 'entities/tablespaces';
 
 // Utils
 import createSchema from '../utils/schema';
@@ -71,7 +72,13 @@ const EditForm = ({
         />
       )}
 
-      {type === INDEXES_ENTITY_ID && <Fields tableHash={tableHash} />}
+      {type === INDEXES_ENTITY_ID && <Fields tableHash={get(initialValues, 'tableHash')} />}
+
+      {!hash && type !== TABLESPACES_ENTITY_ID && (
+        <div className={styles.Extra}>
+          <Tablespace name="tablespaceHash" />
+        </div>
+      )}
     </div>
 
     <div className={styles.Actions}>
@@ -102,12 +109,15 @@ const EditForm = ({
   </Form>
 );
 
-const mapStateToProps = (state, { hash = '', name, type }) => {
+const mapStateToProps = (state, { hash = '', initialValues, type }) => {
   const { entity, ...schema } = createSchema(state, type);
-  const initialValues = get(state, `entities.${entity}.${hash}`, { name });
 
   return {
-    ...schema, initialValues,
+    ...schema,
+    initialValues: {
+      ...initialValues,
+      ...(type !== 'create' ? get(state, `entities.${entity}.${hash}`) : {}),
+    },
   };
 };
 
@@ -115,7 +125,12 @@ export default compose(
   connect(mapStateToProps, { closeModal }),
   reduxForm({
     form: EDIT_FORM_ID,
-    onSubmit: ({ hash, ...value }, dispatch, { create, update }): void =>
+    onSubmit: ({ hash, ...value }, dispatch, {
+      create,
+      tableHash,
+      tablespaceHash,
+      update,
+    }): void =>
       dispatch(hash
         ? update(hash, value)
         : create(value)

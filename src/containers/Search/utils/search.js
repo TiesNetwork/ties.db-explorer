@@ -8,7 +8,6 @@ import { TABLES_ENTITY_ID } from 'entities/tables';
 import { TABLESPACES_ENTITY_ID } from 'entities/tablespaces';
 import { TRIGGERS_ENTITY_ID } from 'entities/triggers';
 
-
 const ACTIONS = ['create', 'edit', 'delete'];
 const ENTITIES = [
   FIELDS_ENTITY_ID,
@@ -29,7 +28,7 @@ export default (state: Object, search: string = '', match: Object): Object => {
   const isAuthorized = hasAccounts(state);
 
   // eslint-disable-next-line
-  const matches = search.toLowerCase().match(new RegExp(`^(${ACTIONS.join(' |')} )?(${ENTITIES.join('? |')}|indexe?s? )?([a-zA-Z0-9\-_\.]+)?$`));
+  const matches = search.toLowerCase().match(new RegExp(`^(${ACTIONS.join(' |')} )?(${ENTITIES.join('? |')}|indexe?s? )?([a-zA-Z0-9\-_\. ]+)?$`));
   const results = {};
 
   const action = isAuthorized && get(matches, '1', '').trim();
@@ -51,14 +50,14 @@ export default (state: Object, search: string = '', match: Object): Object => {
           ? results[`${id}`] = [{
               action,
               entity: id,
-              name: query,
+              name: search.split(' ').slice(entity ? 2 : 1).join(' '),
               tableHash: get(match, 'params.tableHash'),
               tablespaceHash: get(match, 'params.tablespaceHash'),
             }]
           : values(entities)
-              .filter(({ name }) => name.toLowerCase().indexOf(query) > -1)
+              .filter(({ name = '' }): bool => name.toLowerCase().indexOf(query) > -1)
               .slice(0, entity ? 5 : 3)
-              .map(({ hash, name, tableHash, tablespaceHash }) => ({
+              .map(({ hash, name, tableHash, tablespaceHash }): Object => ({
                 action, hash, name, tableHash, tablespaceHash,
                 entity: id,
               }));

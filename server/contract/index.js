@@ -130,8 +130,8 @@ class Contract {
       count: 24,
       id: nonce,
       link: `${entity}_${entityHash}`,
-      title: `${action[0].toUpperCase() + action.slice(1)} ${entity}: «${name}»`,
-      subTitle: hash.substr(0, 24),
+      title: `${action[0].toUpperCase() + action.slice(1)} ${entity.slice(0, entity === 'indexes' ? -2 : -1)}: «${name}»`,
+      subTitle: `txHash: ${hash.substr(0, 24)}`,
     };
   }
 
@@ -212,7 +212,6 @@ class Contract {
 
     this.web3.eth.getTransactionCount(account)
       .then(res => {
-        this.account[account].nonce = 0;
         this.account[account].transactionCount = res;
       });
   }

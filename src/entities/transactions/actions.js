@@ -7,7 +7,7 @@ import { TRANSACTION_PROGRESS_TYPE } from './constants';
 import { CONFIRM_MODAL_ID } from 'containers/Confirm';
 
 // Entities
-import { EDIT_MODAL_ID } from 'containers/Edit';
+// import { EDIT_MODAL_ID } from 'containers/Edit';
 
 // Services
 import { closeModal, openModal } from 'services/modals';

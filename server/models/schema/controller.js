@@ -57,7 +57,7 @@ class Schema {
             entity: 'tables',
             hash: tableHash,
             payload: {
-              name, ranges, replicas,
+              name, ranges, replicas, tablespaceHash,
               hash: tableHash,
               fields: fields.map((fieldHash) => `${tableHash}_${fieldHash}`),
               indexes: indexes.map((indexHash) => `${tableHash}_${indexHash}`),
@@ -190,14 +190,31 @@ class Schema {
     this.schema = newSchema;
   }
 
+  /**
+   * @return {Object}
+   */
+  getSchema() {
+    return [...(this.schema || [])];
+  }
+
   getSocket() {
     return this.socket;
   }
 
+  /**
+   * @param {Object} data
+   */
   send(data) {
     this.socket &&
     this.socket.readyState === this.socket.OPEN &&
     this.socket.send(JSON.stringify(data));
+  }
+
+  /**
+   * @param {Object}
+   */
+  setSchema(newSchema) {
+    this.schema = newSchema;
   }
 
   setSocket(socket) {

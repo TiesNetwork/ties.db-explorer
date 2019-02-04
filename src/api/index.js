@@ -2,7 +2,6 @@ import axios from 'axios';
 import { get } from 'lodash';
 import url from 'url';
 
-import CONFIG from './config';
 import models from './models';
 
 const API = (path: string, params: Object) => {

@@ -25,7 +25,7 @@ const FieldType = (props: Object) => (
     format={(type: string) => type && ({ label: type, value: type })}
     label="Type"
     name="type"
-    parser={(item: Object) => item && get(item, 'value')}
+    parse={(item: Object) => get(item, 'value')}
     placeholder="Set Type"
   >
     {({ inputValue, onClick }) => (

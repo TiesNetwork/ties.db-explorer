@@ -11,10 +11,20 @@ import { EDIT_MODAL_ID } from 'containers/Edit';
 import { SEARCH_MODAL_ID } from '../ducks/constants';
 
 // Entities
-import { FIELDS_ENTITY_ID } from 'entities/fields';
+import { ACTION_DELETE_TYPE } from 'entities/constants';
+import {
+  deleteField,
+  FIELDS_ENTITY_ID,
+} from 'entities/fields';
 import { INDEXES_ENTITY_ID } from 'entities/indexes';
-import { TABLES_ENTITY_ID } from 'entities/tables';
-import { TABLESPACES_ENTITY_ID } from 'entities/tablespaces';
+import {
+  deleteTable,
+  TABLES_ENTITY_ID,
+} from 'entities/tables';
+import {
+  deleteTablespace,
+  TABLESPACES_ENTITY_ID,
+} from 'entities/tablespaces';
 import { TRIGGERS_ENTITY_ID } from 'entities/triggers';
 
 // Services
@@ -32,7 +42,7 @@ const SearchItem = ({
   entity = FIELDS_ENTITY_ID,
   handleClick,
   hash,
-  name,
+  name = '',
   query,
   table,
   tableHash,
@@ -60,7 +70,7 @@ const SearchItem = ({
       'fa-table': entity === TABLES_ENTITY_ID,
       'fa-th-list': entity === FIELDS_ENTITY_ID,
       'fa-user-astronaut': entity === TABLESPACES_ENTITY_ID,
-    }
+    },
   );
 
   const queryIndex = name.toLowerCase().indexOf(query);
@@ -111,13 +121,13 @@ const SearchItem = ({
           >
             {action === 'create' ? 'to' : 'from'}&nbsp;
 
-            {table && (
+            {entity !== TABLES_ENTITY_ID && table && (
               <span className={styles.Table}>
                 {table}
               </span>
             )}
 
-            {tablespace && ` • `}
+            {entity !== TABLES_ENTITY_ID && tablespace && ` • `}
 
             {tablespace && (
               <span className={styles.Tablespace}>
@@ -156,11 +166,20 @@ const mapStateToProps = ({ entities }, { tableHash, tablespaceHash }): Object =>
 });
 
 export default withRouter(compose(
-  connect(mapStateToProps, { closeModals, openModal }),
+  connect(mapStateToProps, {
+    closeModals,
+    deleteField,
+    deleteTable,
+    deleteTablespace,
+    openModal,
+  }),
   withHandlers({
     handleClick: ({
       action,
       closeModals,
+      deleteField,
+      deleteTable,
+      deleteTablespace,
       entity,
       hash,
       history,
@@ -171,9 +190,31 @@ export default withRouter(compose(
     }): func => () => {
       closeModals(SEARCH_MODAL_ID);
 
-      action
-        ? openModal(EDIT_MODAL_ID, { name, hash, type: entity })
-        : history.push(`/${tablespaceHash || hash}${tableHash ? `/table/${tableHash}` : ''}`);
+      if (action === ACTION_DELETE_TYPE) {
+        switch (entity) {
+          case FIELDS_ENTITY_ID:
+            deleteField({ hash, tableHash, tablespaceHash });
+            break;
+          case TABLES_ENTITY_ID:
+            deleteTable({ hash, tablespaceHash });
+            break;
+          case TABLESPACES_ENTITY_ID:
+            deleteTablespace(hash);
+            break;
+          default:
+            break;
+        };
+      } else {
+        action
+          ? openModal(EDIT_MODAL_ID, {
+              hash, type: entity,
+              initialValues: {
+                hash, name,
+                tableHash, tablespaceHash,
+              },
+            })
+          : history.push(`/${tablespaceHash || hash}${tableHash ? `/table/${tableHash}` : ''}`);
+      }
     },
   }),
 )(SearchItem));

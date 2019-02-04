@@ -1,4 +1,4 @@
-import { get, isEmpty, values } from 'lodash';
+import { get, values } from 'lodash';
 import { connect } from 'react-redux';
 import { matchPath } from 'react-router-dom';
 import { compose, lifecycle, withHandlers, withProps, withState } from 'recompose';

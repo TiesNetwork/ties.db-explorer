@@ -3,6 +3,7 @@ import { get } from 'lodash';
 // Types
 import {
   CREATE_FIELD,
+  CREATE_FIELD_SUCCESS,
   UPDATE_FIELD,
 } from './types';
 
@@ -12,6 +13,7 @@ export default (state = {}, action: Object) => {
 
   switch (action.type) {
     case CREATE_FIELD:
+    case CREATE_FIELD_SUCCESS:
       return {
         ...state,
         [hash]: action.payload,
