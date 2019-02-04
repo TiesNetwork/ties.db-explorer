@@ -9,8 +9,10 @@ import Button from 'components/Button';
 import Form, { Input } from 'components/Form';
 
 import Fields from '../components/Fields';
+import FieldType from '../components/FieldType';
+import IndexType from '../components/IndexType';
+import Table from '../components/Table';
 import Tablespace from '../components/Tablespace';
-import Type from '../components/Type';
 
 // Ducks
 import { closeModal } from 'services/modals';
@@ -22,6 +24,7 @@ import {
 // Entities
 import { FIELDS_ENTITY_ID } from 'entities/fields';
 import { INDEXES_ENTITY_ID } from 'entities/indexes';
+import { TABLES_ENTITY_ID } from 'entities/tables';
 import { TABLESPACES_ENTITY_ID } from 'entities/tablespaces';
 
 // Utils
@@ -63,7 +66,9 @@ const EditForm = ({
     <div className={styles.Form}>
       <Input label="Name" name="name" placeholder="Set Name" />
 
-      {type === FIELDS_ENTITY_ID && <Type />}
+      {type === FIELDS_ENTITY_ID && <FieldType />}
+      {type === INDEXES_ENTITY_ID && <IndexType />}
+
       {type === FIELDS_ENTITY_ID && (
         <Input
           label="Default Value"
@@ -77,6 +82,7 @@ const EditForm = ({
       {!hash && type !== TABLESPACES_ENTITY_ID && (
         <div className={styles.Extra}>
           <Tablespace name="tablespaceHash" />
+          {type !== TABLES_ENTITY_ID && <Table name="tableHash" />}
         </div>
       )}
     </div>

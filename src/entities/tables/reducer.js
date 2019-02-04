@@ -1,4 +1,4 @@
-import { get, uniq } from 'lodash';
+import { get, omit, uniq } from 'lodash';
 
 // Entities
 import {
@@ -6,9 +6,19 @@ import {
   DELETE_FIELD_SUCCESS,
 } from 'entities/fields/types';
 
+import {
+  CREATE_INDEX_SUCCESS,
+  DELETE_INDEX_SUCCESS,
+} from 'entities/indexes/types';
+
 // Types
 import {
   CREATE_TABLE,
+  CREATE_TABLE_SUCCESS,
+
+  DELETE_TABLE,
+  DELETE_TABLE_SUCCESS,
+
   UPDATE_TABLE,
 } from './types';
 
@@ -37,11 +47,35 @@ export default (state = {}, action: Object) => {
         },
       };
 
+    case CREATE_INDEX_SUCCESS:
+      return {
+        ...state,
+        [tableHash]: {
+          ...table,
+          indexes: uniq([...get(table, 'indexes', []), hash]),
+        },
+      };
+    case DELETE_INDEX_SUCCESS:
+      return {
+        ...state,
+        [tableHash]: {
+          ...table,
+          indexes: get(table, 'indexes', [])
+            .filter((fieldHash: string) => fieldHash !== hash)
+        },
+      };
+
     case CREATE_TABLE:
+    case CREATE_TABLE_SUCCESS:
       return {
         ...state,
         [hash]: action.payload,
       };
+
+    case DELETE_TABLE:
+    case DELETE_TABLE_SUCCESS:
+      return omit(state, hash);
+
     case UPDATE_TABLE:
       return {
         ...state,

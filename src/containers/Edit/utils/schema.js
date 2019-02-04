@@ -11,9 +11,15 @@ import {
 // Fields
 import {
   createField,
+  deleteField,
   FIELDS_ENTITY_ID,
 } from 'entities/fields';
-import { INDEXES_ENTITY_ID } from 'entities/indexes';
+
+// Indexes
+import {
+  createIndex,
+  INDEXES_ENTITY_ID,
+} from 'entities/indexes';
 
 // Tables
 import {
@@ -45,11 +51,13 @@ const SCHEMA = {
   },
   [FIELDS_ENTITY_ID]: {
     create: createField,
+    delete: deleteField,
     entity: 'fields',
     name: 'field',
     title: 'Field',
   },
   [INDEXES_ENTITY_ID]: {
+    create: createIndex,
     entity: 'indexes',
     name: 'index',
     title: 'Index',

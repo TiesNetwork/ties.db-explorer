@@ -2,23 +2,23 @@
 const { set } = require('lodash');
 const Schema = require('../schema/controller');
 
-class Fields {
+class Indexes {
   /**
    * @param {string} tablespaceHash
    * @param {string} tableHash
    * @param {Object} payload
    */
-  createField(tablespaceHash, tableHash, payload) {
+  createIndex(tablespaceHash, tableHash, payload) {
     if (tableHash && tablespaceHash) {
       const schema = Schema.getSchema();
       const newSchema = schema.map(({ hash, tables, ...tablespace }) => ({
         ...tablespace, hash,
         tables: hash === tablespaceHash
-          ? tables.map(({ hash, fields, ...table }) => ({
+          ? tables.map(({ hash, indexes, ...table }) => ({
             ...table, hash,
-            fields: hash === tableHash
-              ? [...fields, payload]
-              : fields,
+            indexes: hash === tableHash
+              ? [...indexes, payload]
+              : indexes,
           }))
           : tables,
       }));
@@ -30,19 +30,19 @@ class Fields {
   /**
    * @param {string} tablespaceHash
    * @param {string} tableHash
-   * @param {string} fieldHash
+   * @param {string} indexHash
    */
-  deleteField(tablespaceHash, tableHash, fieldHash) {
-    if (tablespaceHash && tableHash && fieldHash) {
+  deleteIndex(tablespaceHash, tableHash, indexHash) {
+    if (tablespaceHash && tableHash && indexHash) {
       const schema = Schema.getSchema();
       const newSchema = schema.map(({ hash, tables, ...tabpespace }) => ({
         ...tablespace, hash,
         tables: hash === tablespaceHash
-          ? tables.map(({ hash, fields, ...table }) => ({
+          ? tables.map(({ hash, indexes, ...table }) => ({
             ...table, hash,
-            fields: hash === tableHash
-              ? fields.filter(({ hash }) => hash !== fieldHash)
-              : fields,
+            indexes: hash === tableHash
+              ? indexes.filter(({ hash }) => hash !== indexHash)
+              : indexes,
           }))
           : tables
       }));
@@ -52,4 +52,4 @@ class Fields {
   }
 }
 
-module.exports = new Fields();
+module.exports = new Indexes();

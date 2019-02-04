@@ -162,6 +162,14 @@ class Contract {
 
     return this.contract.methods[method].apply(this, data).send()
       .on('confirmation', (number, receipt) => {
+        if (number === 24) {
+        this.web3.eth.getTransactionCount(account)
+          .then(res => {
+            this.account[account].nonce = 0;
+            this.account[account].transactionCount = res;
+          });
+        }
+
         Progress.send({
           ...this.getTransactionProgress(account, transactionHash, transactionNonce),
           current: number,
@@ -208,12 +216,12 @@ class Contract {
         '0x22d1b55ebb5bcd17084c3c9d690056875263fec1',
         { from: account },
       );
-    }
 
-    this.web3.eth.getTransactionCount(account)
-      .then(res => {
-        this.account[account].transactionCount = res;
-      });
+      this.web3.eth.getTransactionCount(account)
+        .then(res => {
+          this.account[account].transactionCount = res;
+        });
+    }
   }
 }
 

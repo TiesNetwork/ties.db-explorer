@@ -16,7 +16,10 @@ import {
   deleteField,
   FIELDS_ENTITY_ID,
 } from 'entities/fields';
-import { INDEXES_ENTITY_ID } from 'entities/indexes';
+import {
+  deleteIndex,
+  INDEXES_ENTITY_ID
+} from 'entities/indexes';
 import {
   deleteTable,
   TABLES_ENTITY_ID,
@@ -169,6 +172,7 @@ export default withRouter(compose(
   connect(mapStateToProps, {
     closeModals,
     deleteField,
+    deleteIndex,
     deleteTable,
     deleteTablespace,
     openModal,
@@ -178,6 +182,7 @@ export default withRouter(compose(
       action,
       closeModals,
       deleteField,
+      deleteIndex,
       deleteTable,
       deleteTablespace,
       entity,
@@ -194,6 +199,9 @@ export default withRouter(compose(
         switch (entity) {
           case FIELDS_ENTITY_ID:
             deleteField({ hash, tableHash, tablespaceHash });
+            break;
+          case INDEXES_ENTITY_ID:
+            deleteIndex({ hash, tableHash, tablespaceHash });
             break;
           case TABLES_ENTITY_ID:
             deleteTable({ hash, tablespaceHash });

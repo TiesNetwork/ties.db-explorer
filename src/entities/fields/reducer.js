@@ -1,9 +1,13 @@
-import { get } from 'lodash';
+import { get, omit } from 'lodash';
 
 // Types
 import {
   CREATE_FIELD,
   CREATE_FIELD_SUCCESS,
+
+  DELETE_FIELD,
+  DELETE_FIELD_SUCCESS,
+
   UPDATE_FIELD,
 } from './types';
 
@@ -18,6 +22,9 @@ export default (state = {}, action: Object) => {
         ...state,
         [hash]: action.payload,
       };
+    case DELETE_FIELD:
+    case DELETE_FIELD_SUCCESS:
+      return omit(state, hash);
     case UPDATE_FIELD:
       return {
         ...state,

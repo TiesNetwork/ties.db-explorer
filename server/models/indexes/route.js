@@ -1,10 +1,9 @@
 const Contract = require('../../contract');
 const express = require('express');
-const { Field } = require('tiesdb-client');
 const Web3 = require('web3');
-const { object, string } = require('yup');
+const { array, object, string } = require('yup');
 
-const Fields = require('./controller');
+const Indexes = require('./controller');
 
 const app = express();
 
@@ -26,15 +25,15 @@ app.delete('/:hash', async (req, res) => {
       const { hash: tableHash } = table;
       const { hash: tablespaceHash } = tablespace;
 
-      await Contract.sendMethod(account, 'deleteField', {
+      await Contract.sendMethod(account, 'deleteIndex', {
         action: 'delete',
         data: [tableHash, hash],
-        entity: 'fields',
+        entity: 'indexes',
         entityHash: `${tableHash}_${hash}`,
         payload: { hash: `${tableHash}_${hash}`, name },
       });
 
-      Fields.deleteField(tablespaceHash, tableHash, `${tableHash}_${hash}`);
+      Indexes.deleteIndex(tablespaceHash, tableHash, `${tableHash}_${hash}`);
       res.send();
     })
     .catch((error) => res.status(500).send({ message: error.message }));
@@ -43,7 +42,9 @@ app.delete('/:hash', async (req, res) => {
 app.post('/', async(req, res) => {
   const schema = object().shape({
     account: string().required('No account!'),
-    defaultValue: string().required('No default value!'),
+    fields: array()
+      .of(string().required('No field hash!'))
+      .required('No fields!'),
     name: string().required('No name!'),
     type: string().required('No type!'),
     table: object().shape({
@@ -57,7 +58,7 @@ app.post('/', async(req, res) => {
   schema.validate(req.body)
     .then(async ({
       account,
-      defaultValue,
+      fields,
       name,
       table,
       tablespace,
@@ -67,24 +68,23 @@ app.post('/', async(req, res) => {
       const { hash: tablespaceHash } = tablespace;
 
       const hash = Web3.utils.sha3(name);
-      const encodedValue = Field.encodeValue(
-        type.toLowerCase(), defaultValue);
-      const field = {
-        defaultValue, name, tableHash, tablespaceHash, type,
+      const index = {
+        fields, name, type,
+        tableHash, tablespaceHash,
         hash: `${tableHash}_${hash}`,
-        fieldHash: hash,
+        indexHash: hash,
       };
 
-      await Contract.sendMethod(account, 'createField', {
+      await Contract.sendMethod(account, 'createIndex', {
         action: 'create',
-        data: [tableHash, name, type, encodedValue],
-        entity: 'fields',
+        data: [tableHash, name, type, fields],
+        entity: 'indexes',
         entityHash: `${tableHash}_${hash}`,
-        payload: field,
+        payload: index,
       });
 
-      Fields.createField(tablespaceHash, tableHash, field);
-      res.send(field);
+      Indexes.createIndex(tablespaceHash, tableHash, index);
+      res.send(index);
     })
     .catch((error) =>
       res.status(500).send({ message: error.message }));

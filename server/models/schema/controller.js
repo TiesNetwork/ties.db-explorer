@@ -194,7 +194,7 @@ class Schema {
    * @return {Object}
    */
   getSchema() {
-    return [...(this.schema || [])];
+    return this.schema;
   }
 
   getSocket() {
