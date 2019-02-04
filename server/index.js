@@ -16,6 +16,7 @@ const indexes = require('./models/indexes/route');
 const schema = require('./models/schema/route');
 const tables = require('./models/tables/route');
 const tablespaces = require('./models/tablespaces');
+const triggers = require('./models/triggers/route');
 const transactions = require('./models/transactions/route');
 
 app.use(cors());
@@ -28,11 +29,13 @@ app.use(bodyParser.json());
 
 app.use('/accounts', accounts);
 app.use('/connections', connections);
+app.use('/fields', fields);
 app.use('/indexes', indexes);
 app.use('/progress', progress);
 app.use('/schema', schema);
 app.use('/tables', tables);
 app.use('/tablespaces', tablespaces);
 app.use('/transactions', transactions);
+app.use('/triggers', triggers);
 
 app.listen(3001);

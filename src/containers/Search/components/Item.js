@@ -28,7 +28,10 @@ import {
   deleteTablespace,
   TABLESPACES_ENTITY_ID,
 } from 'entities/tablespaces';
-import { TRIGGERS_ENTITY_ID } from 'entities/triggers';
+import {
+  deleteTrigger,
+  TRIGGERS_ENTITY_ID,
+} from 'entities/triggers';
 
 // Services
 import { closeModals, openModal } from 'services/modals';
@@ -175,6 +178,7 @@ export default withRouter(compose(
     deleteIndex,
     deleteTable,
     deleteTablespace,
+    deleteTrigger,
     openModal,
   }),
   withHandlers({
@@ -185,6 +189,7 @@ export default withRouter(compose(
       deleteIndex,
       deleteTable,
       deleteTablespace,
+      deleteTrigger,
       entity,
       hash,
       history,
@@ -208,6 +213,9 @@ export default withRouter(compose(
             break;
           case TABLESPACES_ENTITY_ID:
             deleteTablespace(hash);
+            break;
+          case TRIGGERS_ENTITY_ID:
+            deleteTrigger({ hash, tableHash, tablespaceHash });
             break;
           default:
             break;

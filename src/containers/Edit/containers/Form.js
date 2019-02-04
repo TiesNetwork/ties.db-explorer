@@ -26,6 +26,7 @@ import { FIELDS_ENTITY_ID } from 'entities/fields';
 import { INDEXES_ENTITY_ID } from 'entities/indexes';
 import { TABLES_ENTITY_ID } from 'entities/tables';
 import { TABLESPACES_ENTITY_ID } from 'entities/tablespaces';
+import { TRIGGERS_ENTITY_ID } from 'entities/triggers';
 
 // Utils
 import createSchema from '../utils/schema';
@@ -78,6 +79,8 @@ const EditForm = ({
       )}
 
       {type === INDEXES_ENTITY_ID && <Fields tableHash={get(initialValues, 'tableHash')} />}
+
+      {type === TRIGGERS_ENTITY_ID && (<Input label="Payload" name="payload" placeholder="Set Payload" />)}
 
       {!hash && type !== TABLESPACES_ENTITY_ID && (
         <div className={styles.Extra}>

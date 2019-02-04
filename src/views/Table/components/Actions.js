@@ -76,8 +76,8 @@ TableActions.propTypes = {
   onEdit: PropTypes.func,
 };
 
-const mapStateToProps = (state: Object, { hash }): Object => ({
-  progress: getProgressByLink(state, `${FIELDS_ENTITY_ID}_${hash}`),
+const mapStateToProps = (state: Object, { entity, hash }): Object => ({
+  progress: getProgressByLink(state, `${entity}_${hash}`),
 });
 
 export default compose(

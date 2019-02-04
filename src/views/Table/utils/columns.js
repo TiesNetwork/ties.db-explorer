@@ -14,7 +14,12 @@ export default (schema: Object, isDistributed: bool, isAuthorized: bool): Array<
   return isAuthorized && (!isFields || (isFields && !isDistributed))
     ? [...columns, {
         accessor: 'actions',
-        Cell: ({ original, value }) => !!get(original, 'name') && <Actions {...value} color={get(schema, 'actionsColor')} />,
+        Cell: ({ original, value }) => !!get(original, 'name') && (
+          <Actions {...value}
+            color={get(schema, 'actionsColor')}
+            entity={get(schema, 'id')}
+          />
+        ),
         Header: 'Actions',
         sortable: false,
         width: 200,

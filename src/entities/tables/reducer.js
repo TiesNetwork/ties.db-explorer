@@ -11,6 +11,11 @@ import {
   DELETE_INDEX_SUCCESS,
 } from 'entities/indexes/types';
 
+import {
+  CREATE_TRIGGER_SUCCESS,
+  DELETE_TRIGGER_SUCCESS,
+} from 'entities/triggers/types';
+
 // Types
 import {
   CREATE_TABLE,
@@ -61,7 +66,25 @@ export default (state = {}, action: Object) => {
         [tableHash]: {
           ...table,
           indexes: get(table, 'indexes', [])
-            .filter((fieldHash: string) => fieldHash !== hash)
+            .filter((indexHash: string) => indexHash !== hash)
+        },
+      };
+
+    case CREATE_TRIGGER_SUCCESS:
+      return {
+        ...state,
+        [tableHash]: {
+          ...table,
+          triggers: uniq([...get(table, 'triggers', []), hash]),
+        },
+      };
+    case DELETE_TRIGGER_SUCCESS:
+      return {
+        ...state,
+        [tableHash]: {
+          ...table,
+          triggers: get(table, 'triggers', [])
+            .filter((triggerHash: string) => triggerHash !== hash)
         },
       };
 

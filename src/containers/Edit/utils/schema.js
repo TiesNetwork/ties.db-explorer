@@ -18,6 +18,7 @@ import {
 // Indexes
 import {
   createIndex,
+  deleteIndex,
   INDEXES_ENTITY_ID,
 } from 'entities/indexes';
 
@@ -39,7 +40,11 @@ import {
 } from 'entities/tablespaces';
 
 // Triggers
-import { TRIGGERS_ENTITY_ID } from 'entities/triggers';
+import {
+  createTrigger,
+  deleteTrigger,
+  TRIGGERS_ENTITY_ID,
+} from 'entities/triggers';
 
 const SCHEMA = {
   [ACCOUNTS_ENTITY_ID]: {
@@ -58,6 +63,7 @@ const SCHEMA = {
   },
   [INDEXES_ENTITY_ID]: {
     create: createIndex,
+    delete: deleteIndex,
     entity: 'indexes',
     name: 'index',
     title: 'Index',
@@ -77,6 +83,8 @@ const SCHEMA = {
     title: 'Tablespace',
   },
   [TRIGGERS_ENTITY_ID]: {
+    create: createTrigger,
+    delete: deleteTrigger,
     entity: 'triggers',
     name: 'trigger',
     title: 'Trigger',
