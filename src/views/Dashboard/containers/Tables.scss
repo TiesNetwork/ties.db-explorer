@@ -4,6 +4,15 @@
   flex-direction: column;
   padding: 24px;
   max-width: 100%;
+
+  &Is {
+    &Authorized {
+      .List {
+        margin-bottom: -2px;
+        padding-bottom: 2px;
+      }
+    }
+  }
 }
 
 .Actions {
@@ -14,11 +23,10 @@
   display: flex;
   flex: 1 1 auto;
   flex-direction: column;
-  margin: -24px -24px 0;
-  max-height: 100%;
+  margin: -24px;
   overflow-y: scroll;
   overflow-x: hidden;
-  padding: 24px 24px 0;
+  padding: 24px;
 
   &:hover {
     &::-webkit-scrollbar-thumb {

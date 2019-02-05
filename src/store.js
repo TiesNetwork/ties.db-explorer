@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { get, set, values } from 'lodash';
 import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 import { createTransform, persistReducer } from 'redux-persist'
@@ -83,10 +84,15 @@ const persistedReducer = persistReducer({
   whitelist: ['entities'],
 }, reducer);
 
-export default (history: Object) => createStore(persistedReducer, compose(
+const composeEnhancers =
+  typeof window === 'object' &&
+  window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
+    : compose;
+
+export default (history: Object) => createStore(persistedReducer, composeEnhancers(
   applyMiddleware(
     routerMiddleware(history),
     thunkMiddleware.withExtraArgument({ api, schema }),
   ),
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__() // eslint-disable-line
 ));

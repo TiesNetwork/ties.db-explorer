@@ -14,6 +14,7 @@ import Tablespace from '../components/Tablespace';
 import { EDIT_MODAL_ID } from 'containers/Edit';
 
 // Entities
+import { hasAccounts } from 'entities/accounts';
 import { TABLESPACES_ENTITY_ID } from 'entities/tablespaces';
 
 // Services
@@ -27,9 +28,12 @@ const DashboardTablespaces = ({
   currentTablespace,
   handleClick,
   handleCreate,
-  isOpened,
   tablespaces,
   onTrigger,
+
+  // State
+  isAuthorized,
+  isOpened,
 }) => {
   const rootClassNames = classNames(styles.Root, {
     [styles.RootIsOpened]: !!isOpened,
@@ -56,15 +60,17 @@ const DashboardTablespaces = ({
           ))}
         </div>
 
-        <div className={styles.Actions}>
-          <Button
-            color={GRADIENT.GREEN}
-            fullWidth
-            onClick={handleCreate}
-          >
-            Create Tablespace
-          </Button>
-        </div>
+        {isAuthorized && (
+          <div className={styles.Actions}>
+            <Button
+              color={GRADIENT.GREEN}
+              fullWidth
+              onClick={handleCreate}
+            >
+              Create Tablespace
+            </Button>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -75,13 +81,14 @@ DashboardTablespaces.propTypes = {
   onTrigger: PropTypes.func,
 };
 
-const mapStateToProps = ({ entities, views }, { location }) => {
+const mapStateToProps = (state: Object, { location }) => {
   const match = matchPath(get(location, 'pathname'), { path: '/:tablespaceHash?' });
   const tablespaceHash = get(match, 'params.tablespaceHash');
 
   return {
     currentTablespace: tablespaceHash,
-    tablespaces: keys(get(entities, 'tablespaces', [])),
+    isAuthorized: hasAccounts(state),
+    tablespaces: keys(get(state, 'entities.tablespaces', [])),
   };
 };
 

@@ -13,6 +13,11 @@
     &Densed {
       height: 64px;
     }
+
+    &Distributed {
+      background: var(--background-light);
+      pointer-events: none;
+    }
   }
 
   &Variant {
@@ -36,6 +41,17 @@
   }
 }
 
+.Distributed {
+  align-items: center;
+  color: var(--color-success);
+  display: flex;
+
+  &Icon {
+    font-size: 32px;
+    margin: 0 0 0 12px;
+  }
+}
+
 .From,
 .Hash {
   color: var(--color-gray);
@@ -52,6 +68,7 @@
 }
 
 .Info {
+  flex: 1 1 auto;
   margin: 0 0 0 16px;
 }
 

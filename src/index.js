@@ -1,4 +1,4 @@
-import createHistory from 'history/createBrowserHistory';
+import createHistory from 'history/createHashHistory';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
@@ -14,7 +14,9 @@ import App from './App';
 import * as serviceWorker from 'utils/serviceWorker';
 import createStore from './store';
 
-const history = createHistory();
+const history = createHistory({
+  basename: window.location.pathname,
+});
 const store = createStore(history);
 const persistor = persistStore(store);
 

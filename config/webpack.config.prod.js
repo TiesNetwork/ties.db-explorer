@@ -54,7 +54,7 @@ const useTypeScript = fs.existsSync(paths.appTsConfig);
 const cssRegex = /\.css$/;
 const cssModuleRegex = /\.module\.css$/;
 const sassRegex = /\.(scss|sass)$/;
-const sassModuleRegex = /\.module\.(scss|sass)$/;
+// const sassModuleRegex = /\.module\.(scss|sass)$/;
 
 // common function to get style loaders
 const getStyleLoaders = (cssOptions, preProcessor) => {
@@ -125,6 +125,7 @@ module.exports = {
     chunkFilename: 'static/js/[name].[chunkhash:8].chunk.js',
     // We inferred the "public path" (such as / or /my-project) from homepage.
     publicPath: publicPath,
+    libraryTarget: 'commonjs2',
     // Point sourcemap entries to original disk location (format as URL on Windows)
     devtoolModuleFilenameTemplate: info =>
       path
@@ -224,6 +225,7 @@ module.exports = {
       api: path.resolve(__dirname, '../src/api'),
       assets: path.resolve(__dirname, '../src/assets'),
       components: path.resolve(__dirname, '../src/components'),
+      containers: path.resolve(__dirname, '../src/containers'),
       entities: path.resolve(__dirname, '../src/entities'),
       services: path.resolve(__dirname, '../src/services'),
       utils: path.resolve(__dirname, '../src/utils'),
@@ -381,26 +383,26 @@ module.exports = {
           // to compile SASS files into CSS.
           // By default we support SASS Modules with the
           // extensions .module.scss or .module.sass
-          {
-            test: sassRegex,
-            exclude: sassModuleRegex,
-            loader: getStyleLoaders(
-              {
-                importLoaders: 2,
-                sourceMap: shouldUseSourceMap,
-              },
-              'sass-loader'
-            ),
-            // Don't consider CSS imports dead code even if the
-            // containing package claims to have no side effects.
-            // Remove this when webpack adds a warning or an error for this.
-            // See https://github.com/webpack/webpack/issues/6571
-            sideEffects: true,
-          },
+          // {
+          //   test: sassRegex,
+          //   exclude: sassModuleRegex,
+          //   loader: getStyleLoaders(
+          //     {
+          //       importLoaders: 2,
+          //       sourceMap: shouldUseSourceMap,
+          //     },
+          //     'sass-loader'
+          //   ),
+          //   // Don't consider CSS imports dead code even if the
+          //   // containing package claims to have no side effects.
+          //   // Remove this when webpack adds a warning or an error for this.
+          //   // See https://github.com/webpack/webpack/issues/6571
+          //   sideEffects: true,
+          // },
           // Adds support for CSS Modules, but using SASS
           // using the extension .module.scss or .module.sass
           {
-            test: sassModuleRegex,
+            test: sassRegex,
             loader: getStyleLoaders(
               {
                 importLoaders: 2,
@@ -544,4 +546,5 @@ module.exports = {
   // Turn off performance processing because we utilize
   // our own hints via the FileSizeReporter
   performance: false,
+  target: 'electron-renderer',
 };

@@ -107,12 +107,14 @@ const EditForm = ({
           Cancel
         </Button>
 
-        <Button
-          color={hash ? COLOR.SUCCESS : COLOR.PRIMARY}
-          type="submit"
-        >
-          {hash ? 'Update' : 'Create'}
-        </Button>
+        {!hash && (
+          <Button
+            color={hash ? COLOR.SUCCESS : COLOR.PRIMARY}
+            type="submit"
+          >
+            Create
+          </Button>
+        )}
       </div>
     </div>
   </Form>

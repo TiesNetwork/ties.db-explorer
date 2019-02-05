@@ -29,9 +29,9 @@ app.delete('/:hash', async (req, res) => {
 
 app.get('/', async (req, res) => {
   const Database = await require('../../database').get();
-  const documents = await Database.collections.accounts.find().exec();
+  const documents = await Database.collections.accounts.find().exec()
 
-  if (documents) {
+  if (documents && documents.length > 0) {
     const result = documents.map((document) => ({
       hash: `0x${document.get('json.address')}`,
       name: document.get('name'),
@@ -39,6 +39,8 @@ app.get('/', async (req, res) => {
     }));
 
     res.send(result);
+  } else {
+    res.send([]);
   }
 });
 

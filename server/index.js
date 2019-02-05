@@ -38,4 +38,4 @@ app.use('/tablespaces', tablespaces);
 app.use('/transactions', transactions);
 app.use('/triggers', triggers);
 
-app.listen(3001);
+module.exports = app;

@@ -6,7 +6,7 @@ import Text from '../components/Text';
 
 // Entities
 import { FIELDS_ENTITY_ID } from 'entities/fields';
-import { INDEXES_ENTITY_ID } from 'entities/indexes';
+import { getIndexTypeTitle, INDEXES_ENTITY_ID } from 'entities/indexes';
 import { TRIGGERS_ENTITY_ID } from 'entities/triggers';
 
 // Styles
@@ -60,7 +60,7 @@ const SCHEMA = {
       },
       {
         accessor: 'type',
-        Cell: ({ value }) => <Text title={value} variant={Text.VARIANT.LIGHT} />,
+        Cell: ({ value }) => <Text title={getIndexTypeTitle(value)} variant={Text.VARIANT.LIGHT} />,
         Header: 'Type',
         width: 80,
       },

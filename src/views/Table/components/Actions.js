@@ -9,12 +9,8 @@ import { compose, withHandlers } from 'recompose';
 import Button from 'components/Button';
 import Progress from 'components/Progress';
 
-// Entities
-import { FIELDS_ENTITY_ID } from 'entities/fields';
-
 // Services
 import { getProgressByLink } from 'services/progress/selector';
-
 
 // Styles
 import { COLOR } from 'styles';

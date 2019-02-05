@@ -24,12 +24,12 @@ const connectionSchema = {
   required: ['name', 'url'],
 };
 
-const create = async () => {
+const create = async (name) => {
   const database = await RxDB.create({
+    name: name || 'tiesdb',
     adapter: 'websql',
-    multiInstance: true,
-    name: 'tiesdb',
     password: 'myLongAndStupidPassword',
+    multiInstance: false,
   });
 
   await database.collection({
@@ -55,9 +55,9 @@ const create = async () => {
 
 let createPromise = null;
 
-Database.get = async () => {
+Database.get = async (name) => {
   if (!createPromise) {
-    createPromise = await create();
+    createPromise = await create(name);
   }
 
   return createPromise;

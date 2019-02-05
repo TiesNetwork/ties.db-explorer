@@ -14,7 +14,9 @@ import Dashboard from './views/Dashboard';
 import Welcome from './views/Welcome';
 
 import styles from './App.scss';
+
 import 'react-table/react-table.css';
+import '@fortawesome/fontawesome-pro/css/all.min.css';
 
 const App = ({ match }) => (
   <div className={styles.Root}>

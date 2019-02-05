@@ -34,7 +34,7 @@ export default (state: Object, search: string = '', match: Object): Object => {
   const action = isAuthorized && get(matches, '1', '').trim();
   const entity = get(matches, '2', '').trim();
   const query = get(matches, '3', '');
-  console.log(search, matches, action);
+
   if (action === 'create' || entity || (!entity && query.length >= 3)) {
     (entity ?
       [`${entity}${entity[entity.length -1] === 's'

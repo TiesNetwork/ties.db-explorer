@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import { get } from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
@@ -12,6 +13,7 @@ import Table from '../components/Table';
 import { EDIT_MODAL_ID } from 'containers/Edit';
 
 // Entities
+import { hasAccounts } from 'entities/accounts';
 import { TABLES_ENTITY_ID } from 'entities/tables';
 
 // Services
@@ -24,38 +26,50 @@ import styles from './Tables.scss';
 const DashboardTables = ({
   handleClick,
   tables,
-}) => (
-  <div className={styles.Root}>
-    {tables && tables.length > 0 && (
-      <div className={styles.List}>
-        {tables.map(tableHash => (
-          <Table
-            hash={tableHash}
-            key={tableHash}
-          />
-        ))}
-      </div>
-    )}
 
-    <div className={styles.Actions}>
-      <Button
-        color={GRADIENT.PURPLE}
-        fullWidth
-        onClick={handleClick}
-      >
-        Create Table
-      </Button>
+  // State
+  isAuthorized,
+}) => {
+  const rootClassNames = classNames(styles.Root, {
+    [styles.RootIsAuthorized]: isAuthorized,
+  });
+
+  return (
+    <div className={rootClassNames}>
+      {tables && tables.length > 0 && (
+        <div className={styles.List}>
+          {tables.map(tableHash => (
+            <Table
+              hash={tableHash}
+              key={tableHash}
+            />
+          ))}
+        </div>
+      )}
+
+      {isAuthorized && (
+        <div className={styles.Actions}>
+          <Button
+            color={GRADIENT.PURPLE}
+            fullWidth
+            onClick={handleClick}
+          >
+            Create Table
+          </Button>
+        </div>
+      )}
     </div>
-  </div>
-);
+  );
+};
 
-const mapStateToProps = ({ entities, views }, { location }): Object => {
+const mapStateToProps = (state: Object, { location }): Object => {
   const match = matchPath(get(location, 'pathname'), { path: '/:tablespaceHash?' });
   const tablespaceHash = get(match, 'params.tablespaceHash');
-  const tablespace = get(entities, `tablespaces.${tablespaceHash}`);
+  const tablespace = get(state, `entities.tablespaces.${tablespaceHash}`);
 
   return {
     currentTablespace: tablespaceHash,
+    isAuthorized: hasAccounts(state),
     tables: get(tablespace, 'tables'),
   };
 };

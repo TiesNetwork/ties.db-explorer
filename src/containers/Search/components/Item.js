@@ -11,7 +11,10 @@ import { EDIT_MODAL_ID } from 'containers/Edit';
 import { SEARCH_MODAL_ID } from '../ducks/constants';
 
 // Entities
-import { ACTION_DELETE_TYPE } from 'entities/constants';
+import {
+  ACTION_CREATE_TYPE,
+  ACTION_DELETE_TYPE,
+} from 'entities/constants';
 import {
   deleteField,
   FIELDS_ENTITY_ID,
@@ -22,10 +25,12 @@ import {
 } from 'entities/indexes';
 import {
   deleteTable,
+  getTableByHash,
   TABLES_ENTITY_ID,
 } from 'entities/tables';
 import {
   deleteTablespace,
+  getTablespaceByHash,
   TABLESPACES_ENTITY_ID,
 } from 'entities/tablespaces';
 import {
@@ -54,9 +59,13 @@ const SearchItem = ({
   tableHash,
   tablespace,
   tablespaceHash,
+
+  // State
+  isDistributed,
 }) => {
   const rootClassNames = classNames(styles.Root, {
     [styles.RootIsDensed]: entity === TABLESPACES_ENTITY_ID || action === 'create',
+    [styles.RootIsDistributed]: isDistributed && action && action !== ACTION_CREATE_TYPE,
 
     // Entities @todo - make design
     // [styles.RootVariantField]: !action && entity === FIELDS_ENTITY_ID,
@@ -78,6 +87,7 @@ const SearchItem = ({
       'fa-user-astronaut': entity === TABLESPACES_ENTITY_ID,
     },
   );
+  const distributedIconClassNames = classNames(styles.DistributedIcon, 'far', 'fa-globe-americas');
 
   const queryIndex = name.toLowerCase().indexOf(query);
 
@@ -143,6 +153,16 @@ const SearchItem = ({
           </Typography>
         )}
       </div>
+
+      {isDistributed && action && action !== ACTION_CREATE_TYPE && (
+        <Typography
+          className={styles.Distributed}
+          variant={Typography.VARIANT.SUBTITLE1}
+        >
+          Table is distributed!
+          <i className={distributedIconClassNames} />
+        </Typography>
+      )}
     </div>
   );
 }
@@ -166,10 +186,15 @@ SearchItem.propTypes = {
   tablespaceHash: PropTypes.string,
 };
 
-const mapStateToProps = ({ entities }, { tableHash, tablespaceHash }): Object => ({
-  table: tableHash && get(entities, `tables.${tableHash}.name`),
-  tablespace: tablespaceHash && get(entities, `tablespaces.${tablespaceHash}.name`),
-});
+const mapStateToProps = (state: Object, { tableHash, tablespaceHash }): Object => {
+  const table = getTableByHash(state, tableHash);
+
+  return {
+    table: table.name,
+    isDistributed: get(table, 'ranges', 0) > 0,
+    tablespace: getTablespaceByHash(state, tablespaceHash).name,
+  };
+};
 
 export default withRouter(compose(
   connect(mapStateToProps, {
@@ -193,11 +218,14 @@ export default withRouter(compose(
       entity,
       hash,
       history,
+      isDistributed,
       name,
       openModal,
       tableHash,
       tablespaceHash,
     }): func => () => {
+      if (isDistributed) { return; }
+
       closeModals(SEARCH_MODAL_ID);
 
       if (action === ACTION_DELETE_TYPE) {
