@@ -21,11 +21,11 @@ const transactions = require('./models/transactions/route');
 
 app.use(cors());
 app.use(bodyParser.json());
-// app.use((err, req, res, next) => {
-//   if (err && req.xhr) {
-//     res.status(400).send({ error: err.message });
-//   }
-// });
+app.use((err, req, res, next) => {
+  if (err && req.xhr) {
+    res.status(400).send({ error: err.message });
+  }
+});
 
 app.use('/accounts', accounts);
 app.use('/connections', connections);

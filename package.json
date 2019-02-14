@@ -166,16 +166,23 @@
   },
   "main": "app/start.js",
   "build": {
-    "appId": "com.ties.schema-designer",
+    "appId": "com.oasis.schema-designer",
     "directories": {
       "buildResources": "."
     },
     "files": [
-      "**"
+      "**/*",
+      "build/icon.*"
     ],
-    "productName": "Ties.DB",
+    "productName": "Oasis",
+    "dmg": {
+      "icon": "build/icon.icns"
+    },
+    "mac": {
+      "icon": "build/icon.icns"
+    },
     "win": {
-      "icon": "https://cdn2.iconfinder.com/data/icons/designer-skills/128/react-256.png"
+      "icon": "build/icon.png"
     }
   },
   "homepage": "./"

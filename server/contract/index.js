@@ -148,8 +148,8 @@ class Contract {
    * @param {string} method
    * @param {*} args
    */
-  sendMethod(account, method, { data, ...props }) {
-    this.updateAccount(account);
+  async sendMethod(account, method, { data, ...props }) {
+    await this.updateAccount(account);
     let transactionNonce;
     let transactionHash;
 
@@ -201,7 +201,7 @@ class Contract {
   /**
    * @param {string} account
    */
-  updateAccount(account) {
+  async updateAccount(account) {
     if (account !== this.currentAccount) {
       this.account[account] = {
         address: account,
@@ -217,10 +217,11 @@ class Contract {
         { from: account },
       );
 
-      this.web3.eth.getTransactionCount(account)
-        .then(res => {
-          this.account[account].transactionCount = res;
-        });
+      const transactionCount = await this.web3.eth.getTransactionCount(account);
+
+      if (transactionCount) {
+        this.account[account].transactionCount = transactionCount;
+      }
     }
   }
 }
