@@ -16,11 +16,11 @@ const IndexFields = ({
 }) => (
   <Select
     format={(fields: Array<string>) => fields ? fields.map((hash: string, index: number) => selectedFields[index]) : []}
-    label="Fields"
+    label="edit_fields_label"
     isMultiple
     name="fields"
     parse={(items: Array<Object>) => items ? items.map(({ value }) => value) : []}
-    placeholder="Set Fields"
+    placeholder="edit_fields_placeholder"
   >
     {({ inputValue, onClick, value = [] }) =>
       fields

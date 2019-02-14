@@ -22,10 +22,10 @@ const EditTablespace = ({
           label: name,
           value: hash,
         }))[0]}
-    label="Tablespace"
+    label="edit_tablespace_label"
     name={name}
     parse={(tablespace: Object) => get(tablespace, 'value')}
-    placeholder="Set Tablespace"
+    placeholder="edit_tablespace_placeholder"
   >
     {({ inputValue, onClick, value = [] }) =>
       tablespaces

@@ -1,11 +1,15 @@
 import createHistory from 'history/createHashHistory';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import  { IntlProvider } from 'react-intl';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
 import { Route } from 'react-router-dom';
 import { persistStore } from 'redux-persist'
 import { PersistGate } from 'redux-persist/integration/react'
+
+// i18n
+import en from './i18n/ru';
 
 // Views
 import App from './App';
@@ -23,9 +27,11 @@ const persistor = persistStore(store);
 ReactDOM.render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
-      <ConnectedRouter history={history}>
-        <Route path="/" component={App} />
-      </ConnectedRouter>
+      <IntlProvider locale="en" messages={en}>
+        <ConnectedRouter history={history}>
+          <Route path="/" component={App} />
+        </ConnectedRouter>
+      </IntlProvider>
     </PersistGate>
   </Provider>,
   document.getElementById('root'),

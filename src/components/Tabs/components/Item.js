@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { compose, withHandlers } from 'recompose';
 
 // Styles
@@ -38,7 +39,10 @@ const TabsItem = ({
           className={styles.Title}
           variant={Typography.VARIANT.BUTTON}
         >
-          {title}
+          <FormattedMessage
+            id={title}
+            defaultMessage={title}
+          />
         </Typography>
       )}
 

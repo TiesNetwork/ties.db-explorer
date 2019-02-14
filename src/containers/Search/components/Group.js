@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 
 // Styles
 import { Typography } from 'styles';
@@ -14,7 +15,10 @@ const SearchGroup = ({
       className={styles.Title}
       variant={Typography.VARIANT.BUTTON}
     >
-      {title}
+      <FormattedMessage
+        id={title}
+        defaultMessage={title}
+      />
     </Typography>
 
     <div className={styles.List}>

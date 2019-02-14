@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import { get } from 'lodash';
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { matchPath, withRouter } from 'react-router-dom';
 import { compose, withHandlers } from 'recompose';
@@ -21,6 +22,7 @@ import { TRIGGERS_ENTITY_ID } from 'entities/triggers';
 import { openModal } from 'services/modals';
 
 // Utils
+import { capitalize } from 'utils/string';
 import createColumns from '../utils/columns';
 import createSchema from '../utils/schema';
 
@@ -32,10 +34,10 @@ const TableEntities = ({
   // Props
   color,
   columns,
+  entity,
   id,
   items,
   name,
-  title,
 
   // Handlers
   handleCreate,
@@ -59,7 +61,10 @@ const TableEntities = ({
           className={styles.Title}
           variant={Typography.VARIANT.H5}
         >
-          {title}
+          <FormattedMessage
+            id={entity}
+            defaultMessage={capitalize(entity)}
+          />
         </Typography>
 
         <div className={styles.Actions}>
@@ -68,7 +73,10 @@ const TableEntities = ({
               color={color}
               onClick={handleCreate}
             >
-              Create {name}
+              <FormattedMessage
+                id={`create_${name}`}
+                defaultMessage={`Create ${name}`}
+              />
             </Button>
           )}
         </div>

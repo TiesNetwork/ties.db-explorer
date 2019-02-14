@@ -2,7 +2,7 @@ import React from 'react';
 
 // Components
 import Dropdown from 'components/Dropdown';
-import Favorite from '../components/Favorite';
+// import Favorite from '../components/Favorite';
 
 // Styles
 import styles from './Favorites.scss';
@@ -14,9 +14,9 @@ const MainFavorites = () => (
       buttonIcon: styles.ButtonIcon,
     }}
     icon="far fa-star"
-    tooltip="Show Favorite Items"
+    tooltip="show_favorite_items"
   >
-    <Favorite
+    {/* <Favorite
       noWrap
       title="Messages"
       type="table"
@@ -27,7 +27,7 @@ const MainFavorites = () => (
       noWrap
       title="Weekly statistics"
       type="query"
-    />
+    /> */}
   </Dropdown>
 );
 

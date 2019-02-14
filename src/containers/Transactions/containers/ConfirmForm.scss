@@ -28,7 +28,7 @@
 .Icon {
   align-items: center;
   border-radius: 100%;
-  display: flex;
+  display: flex !important;
   flex: 0 0 24px;
   font-size: 12px;
   height: 24px;

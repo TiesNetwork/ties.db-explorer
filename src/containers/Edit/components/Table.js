@@ -24,10 +24,10 @@ const EditTable = ({
           label: name,
           value: hash,
         }))[0]}
-    label="Table"
+    label="edit_table_label"
     name={name}
     parse={(table: Object) => get(table, 'value')}
-    placeholder="Set Table"
+    placeholder="edit_table_placeholder"
   >
     {({ inputValue, onClick, value = [] }) =>
       tables

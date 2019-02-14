@@ -75,7 +75,7 @@ const DashboardTable = ({
       {!!name && isDistributed && (
         <Tooltip
           className={styles.Distributed}
-          title="Distributed"
+          title="table_distributed"
         >
           <i className={classNames(styles.DistributedIcon, 'fas', 'fa-globe-americas')} />
         </Tooltip>

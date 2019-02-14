@@ -49,8 +49,8 @@ const Dashboard = ({
         <div className={styles.Content}>
           <div className={styles.Tabs}>
             <Tabs onChange={handleChangeTab} value={currentTab}>
-              <Tab icon="fal fa-table" title="Tables" value={TABLE_VIEW_ID} />
-              <Tab icon="fal fa-database" title="Queries" value={QUERY_VIEW_ID} />
+              <Tab icon="fal fa-table" title="tables" value={TABLE_VIEW_ID} />
+              <Tab icon="fal fa-database" title="queries" value={QUERY_VIEW_ID} />
             </Tabs>
           </div>
 

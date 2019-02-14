@@ -1,4 +1,5 @@
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 
 // Components
 import Fields from '../components/Fields';
@@ -17,25 +18,45 @@ const SCHEMA = {
     columns: [
       {
         accessor: 'index',
-        Header: '#',
+        Header: () => (
+          <FormattedMessage
+            id="component_table_index"
+            defaultMessage="#"
+          />
+        ),
         width: 64,
       },
       {
         accessor: 'name',
         Cell: ({ value }) => <Text title={value} />,
-        Header: 'Name',
+        Header: () => (
+          <FormattedMessage
+            id="component_table_name"
+            defaultMessage="Name"
+          />
+        ),
         width: 260,
       },
       {
         accessor: 'type',
         Cell: ({ value }) => <Text title={value} />,
-        Header: 'Type',
+        Header: () => (
+          <FormattedMessage
+            id="component_table_type"
+            defaultMessage="Type"
+          />
+        ),
         width: 120,
       },
       {
         accessor: 'defaultValue',
         Cell: ({ value }) => <Text title={value} />,
-        Header: 'Default',
+        Header: () => (
+          <FormattedMessage
+            id="component_table_default"
+            defaultMessage="Default"
+          />
+        ),
         width: 240,
       },
     ],
@@ -43,31 +64,50 @@ const SCHEMA = {
     entity: 'fields',
     id: FIELDS_ENTITY_ID,
     name: 'field',
-    title: 'Fields',
   },
   [INDEXES_ENTITY_ID]: {
     columns: [
       {
         accessor: 'index',
-        Header: '#',
+        Header: () => (
+          <FormattedMessage
+            id="component_table_index"
+            defaultMessage="#"
+          />
+        ),
         width: 64,
       },
       {
         accessor: 'name',
         Cell: ({ value }) => <Text title={value} variant={Text.VARIANT.LIGHT} />,
-        Header: 'Name',
+        Header: () => (
+          <FormattedMessage
+            id="component_table_name"
+            defaultMessage="Name"
+          />
+        ),
         width: 160,
       },
       {
         accessor: 'type',
         Cell: ({ value }) => <Text title={getIndexTypeTitle(value)} variant={Text.VARIANT.LIGHT} />,
-        Header: 'Type',
+        Header: () => (
+          <FormattedMessage
+            id="component_table_type"
+            defaultMessage="Type"
+          />
+        ),
         width: 80,
       },
       {
         accessor: 'fields',
         Cell: ({ original }) => <Fields {...original} variant={Text.VARIANT.LIGHT} />,
-        Header: 'Fields',
+        Header: () => (
+          <FormattedMessage
+            id="component_table_fields"
+            defaultMessage="Fields"
+          />
+        ),
         width: 240,
       },
     ],
@@ -76,25 +116,39 @@ const SCHEMA = {
     entity: 'indexes',
     id: INDEXES_ENTITY_ID,
     name: 'index',
-    title: 'Indexes',
   },
   [TRIGGERS_ENTITY_ID]: {
     columns: [
       {
         accessor: 'index',
-        Header: '#',
+        Header: () => (
+          <FormattedMessage
+            id="component_table_index"
+            defaultMessage="#"
+          />
+        ),
         width: 64,
       },
       {
         accessor: 'name',
         Cell: ({ value }) => <Text title={value} variant={Text.VARIANT.LIGHT} />,
-        Header: 'Name',
+        Header: () => (
+          <FormattedMessage
+            id="component_table_name"
+            defaultMessage="Name"
+          />
+        ),
         width: 200,
       },
       {
         accessor: 'payload',
         Cell: ({ value }) => <Text title={value} variant={Text.VARIANT.LIGHT} />,
-        Header: 'Payload',
+        Header: () => (
+          <FormattedMessage
+            id="component_table_payload"
+            defaultMessage="Payload"
+          />
+        ),
         width: 120,
       },
     ],
@@ -103,7 +157,6 @@ const SCHEMA = {
     id: TRIGGERS_ENTITY_ID,
     entity: 'triggers',
     name: 'trigger',
-    title: 'Triggers',
   },
 };
 

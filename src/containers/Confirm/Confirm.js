@@ -18,7 +18,7 @@ const Edit = () => (
       container: styles.Container,
     }}
     id={CONFIRM_MODAL_ID}
-    title="Confirm password"
+    title="confirm_modal_title"
   >
     {({ handleSubmit }) => (
       <Form onSubmit={handleSubmit} />

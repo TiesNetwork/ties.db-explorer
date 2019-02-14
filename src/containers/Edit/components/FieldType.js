@@ -23,10 +23,10 @@ const TYPES = [
 const FieldType = (props: Object) => (
   <Select
     format={(type: string) => type && ({ label: type, value: type })}
-    label="Type"
+    label="edit_type_label"
     name="type"
     parse={(item: Object) => get(item, 'value')}
-    placeholder="Set Type"
+    placeholder="edit_type_placeholder"
   >
     {({ inputValue, onClick }) => (
       TYPES

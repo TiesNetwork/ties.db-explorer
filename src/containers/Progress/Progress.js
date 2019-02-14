@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import { get } from 'lodash';
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { compose, lifecycle, withState } from 'recompose';
 
@@ -30,7 +31,7 @@ const ContainersProgress = ({
   count = 0,
   current = 0,
   subTitle,
-  title = 'All clear 😎',
+  title,
   type = TYPE.DEFAULT,
   value,
 }) => {
@@ -53,7 +54,12 @@ const ContainersProgress = ({
             className={styles.Title}
             variant={Typography.VARIANT.SUBTITLE1}
           >
-            {title}
+            {type === TYPE.DEFAULT ? (
+              <FormattedMessage
+                id="progress_default"
+                defaultMessage="All clear 😎"
+              />
+            ) : title}
           </Typography>
 
           {!!subTitle && (

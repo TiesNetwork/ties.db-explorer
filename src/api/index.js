@@ -14,7 +14,7 @@ const API = (path: string, params: Object) => {
   );
 
   return model
-    ? axios[method](uri, { ...params, data: params })
+    ? axios[method](uri, { ...params, data: params, query: params })
     : new Promise((resolve: func, reject: func) => reject(new Error('Undefined method!')));
 };
 

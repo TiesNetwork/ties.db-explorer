@@ -1,5 +1,6 @@
 import { get } from 'lodash';
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 
 // Components
 import Actions from '../components/Actions';
@@ -20,7 +21,12 @@ export default (schema: Object, isDistributed: bool, isAuthorized: bool): Array<
             entity={get(schema, 'id')}
           />
         ),
-        Header: 'Actions',
+        Header: () => (
+          <FormattedMessage
+            id="component_table_actions"
+            defaultMessage="Actions"
+          />
+        ),
         sortable: false,
         width: 200,
       }]

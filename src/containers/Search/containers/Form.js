@@ -1,6 +1,7 @@
 /* eslint-disable */
 import classNames from 'classnames';
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { Field, reduxForm } from 'redux-form';
 
 // Ducks
@@ -31,20 +32,29 @@ const SearchForm = ({
           htmlFor="search"
           variant={Typography.VARIANT.OVERLINE}
         >
-          What are you looking for?
+          <FormattedMessage
+            id="search_label"
+            defaultMessage="What are you looking for?"
+          />
         </Typography>
 
-        <Field
-          autoComplete="off"
-          autoFocus
-          className={styles.Input}
-          component="input"
-          id="search"
-          name="search"
-          placeholder="Type something..."
-        />
+        <FormattedMessage
+          id="search_placeholder"
+          defaultMessage="Type something..."
+        >
+          {(placeholder: string) => (
+            <Field
+              autoComplete="off"
+              autoFocus
+              className={styles.Input}
+              component="input"
+              id="search"
+              name="search"
+              placeholder={placeholder}
+            />
+          )}
+        </FormattedMessage>
       </div>
-
     </form>
   );
 };

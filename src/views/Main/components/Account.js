@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import { get } from 'lodash';
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { compose, withHandlers } from 'recompose';
 
@@ -69,13 +70,20 @@ const MainAccount = ({
             </Typography>
           )}
 
-          <Typography
-            className={styles.Name}
-            noWrap
-            variant={Typography.VARIANT.SUBTITLE1}
+          <FormattedMessage
+            id="accounts_empty"
+            defaultMessage="No Account"
           >
-            {name || 'No Account'}
-          </Typography>
+            {(text: string): void => (
+              <Typography
+                className={styles.Name}
+                noWrap
+                variant={Typography.VARIANT.SUBTITLE1}
+              >
+                {name || text}
+              </Typography>
+            )}
+          </FormattedMessage>
         </div>
       </Button>
 

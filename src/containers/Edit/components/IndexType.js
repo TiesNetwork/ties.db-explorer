@@ -26,10 +26,10 @@ const IndexType = (props: Object) => (
     format={(type: string) => type &&
       TYPES
         .filter(({ value: typeValue }) => typeValue === type)[0]}
-    label="Type"
+    label="edit_type_label"
     name="type"
     parse={(item: Object) => get(item, 'value')}
-    placeholder="Set Type"
+    placeholder="edit_type_placeholder"
   >
     {({ inputValue, onClick }) => (
       TYPES

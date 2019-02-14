@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import { get } from 'lodash';
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { matchPath, withRouter } from 'react-router-dom';
 import { compose, withHandlers } from 'recompose';
@@ -54,7 +55,10 @@ const DashboardTables = ({
             fullWidth
             onClick={handleClick}
           >
-            Create Table
+            <FormattedMessage
+              id="create_table"
+              defaultMessage="Create Table"
+            />
           </Button>
         </div>
       )}

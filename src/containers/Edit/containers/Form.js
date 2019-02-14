@@ -1,5 +1,6 @@
 import { get } from 'lodash';
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { compose, withHandlers } from 'recompose';
 import { reduxForm } from 'redux-form';
@@ -37,6 +38,7 @@ import styles from './Form.scss';
 
 const EditForm = ({
   // Props
+  entity,
   hash,
   initialValues,
   title,
@@ -54,7 +56,10 @@ const EditForm = ({
         className={styles.Title}
         variant={Typography.VARIANT.H6}
       >
-        {`${hash ? 'Update' : 'Create'} ${title}`}
+        <FormattedMessage
+          id={`${hash ? 'update' : 'create'}_${entity}`}
+          defaultMessage={`${hash ? 'Update' : 'Create'} ${title}`}
+        />
 
         {hash && (
           <div className={styles.Name}>
@@ -65,22 +70,27 @@ const EditForm = ({
     </div>
 
     <div className={styles.Form}>
-      <Input label="Name" name="name" placeholder="Set Name" />
+      <Input label="edit_name_label" name="name" placeholder="edit_name_placeholder" />
 
       {type === FIELDS_ENTITY_ID && <FieldType />}
       {type === INDEXES_ENTITY_ID && <IndexType />}
 
       {type === FIELDS_ENTITY_ID && (
         <Input
-          label="Default Value"
+          label="edit_default_label"
           name="defaultValue"
-          placeholder="Set Default Value"
+          placeholder="edit_default_placeholder"
         />
       )}
 
       {type === INDEXES_ENTITY_ID && <Fields tableHash={get(initialValues, 'tableHash')} />}
 
-      {type === TRIGGERS_ENTITY_ID && (<Input label="Payload" name="payload" placeholder="Set Payload" />)}
+      {type === TRIGGERS_ENTITY_ID && (
+        <Input
+          label="edit_payload_label"
+          name="payload"
+          placeholder="edit_payload_placeholder"
+        />)}
 
       {!hash && type !== TABLESPACES_ENTITY_ID && (
         <div className={styles.Extra}>
@@ -97,14 +107,20 @@ const EditForm = ({
             color={COLOR.DANGER}
             onClick={handleDelete}
           >
-            Delete
+            <FormattedMessage
+              id="delete"
+              defaultMessage="Delete"
+            />
           </Button>
         )}
       </div>
 
       <div className={styles.Right}>
         <Button onClick={handleClose}>
-          Cancel
+          <FormattedMessage
+            id="cancel"
+            defaultMessage="Cancel"
+          />
         </Button>
 
         {!hash && (
@@ -112,7 +128,10 @@ const EditForm = ({
             color={hash ? COLOR.SUCCESS : COLOR.PRIMARY}
             type="submit"
           >
-            Create
+            <FormattedMessage
+              id="create"
+              defaultMessage="Create"
+            />
           </Button>
         )}
       </div>
@@ -124,7 +143,7 @@ const mapStateToProps = (state, { hash = '', initialValues, type }) => {
   const { entity, ...schema } = createSchema(state, type);
 
   return {
-    ...schema,
+    ...schema, entity,
     initialValues: {
       ...initialValues,
       ...(type !== 'create' ? get(state, `entities.${entity}.${hash}`) : {}),

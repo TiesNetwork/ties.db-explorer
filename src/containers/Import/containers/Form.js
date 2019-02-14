@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { compose, withHandlers } from 'recompose';
 import { reduxForm } from 'redux-form';
@@ -45,7 +46,10 @@ const AccountForm = ({
           className={styles.Title}
           variant={Typography.VARIANT.H6}
         >
-          Import Account
+          <FormattedMessage
+            id="import_account"
+            defaultMessage="Import Account"
+          />
         </Typography>
       </div>
 
@@ -62,21 +66,32 @@ const AccountForm = ({
         </div>
       )}
 
-      <Input label="Name" name="name" placeholder="Set Name" />
-      <Input label="Password" name="password" type="password" />
+      <Input label="edit_name_label" name="name" placeholder="edit_name_placeholder" />
+      <Input label="edit_password_label" name="password" type="password" />
 
       <div className={styles.Actions}>
         <div className={styles.Left}>
-          <Json label="Import JSON" name="json" />
+          <FormattedMessage
+            id="edit_json_label"
+            defaultMessage="Import JSON"
+          >
+            {(label: string): func => <Json label={label} name="json" />}
+          </FormattedMessage>
         </div>
 
         <div className={styles.Right}>
           <Button onClick={handleClose}>
-            Cancel
+            <FormattedMessage
+              id="cancel"
+              defaultMessage="Cancel"
+            />
           </Button>
 
           <Button color={COLOR.PRIMARY} type="submit">
-            Create
+            <FormattedMessage
+              id="create"
+              defaultMessage="Create"
+            />
           </Button>
         </div>
       </div>

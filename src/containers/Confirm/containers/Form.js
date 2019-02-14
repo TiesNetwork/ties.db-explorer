@@ -1,4 +1,5 @@
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { compose, withHandlers } from 'recompose';
 import { reduxForm } from 'redux-form';
@@ -29,18 +30,24 @@ const ConfirmForm = ({
   handleSubmit,
 }) => (
   <Form onSubmit={handleSubmit}>
-    <Input label="Password" name="password" type="password" />
+    <Input label="edit_password_label" name="password" type="password" />
 
     <div className={styles.Actions}>
       <Button onClick={handleClose}>
-        Cancel
+        <FormattedMessage
+          id="cancel"
+          defaultMessage="Cancel"
+        />
       </Button>
 
       <Button
         color={COLOR.PRIMARY}
         type="submit"
       >
-        Confirm
+        <FormattedMessage
+          id="confirm"
+          defaultMessage="Confirm"
+        />
       </Button>
     </div>
   </Form>

@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import { get, keys } from 'lodash';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { matchPath, withRouter } from 'react-router-dom';
 import { compose, withHandlers } from 'recompose';
@@ -67,7 +68,10 @@ const DashboardTablespaces = ({
               fullWidth
               onClick={handleCreate}
             >
-              Create Tablespace
+              <FormattedMessage
+                id="create_tablespace"
+                defaultMessage="Create Tablespace"
+              />
             </Button>
           </div>
         )}

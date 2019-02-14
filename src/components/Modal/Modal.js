@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import { get } from 'lodash';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { Portal } from 'react-portal';
 import { connect } from 'react-redux';
 import { compose, withHandlers } from 'recompose';
@@ -42,7 +43,10 @@ const Modal = ({
               className={styles.Title}
               variant={Typography.VARIANT.H6}
             >
-              {title}
+              <FormattedMessage
+                id={title}
+                defaultMessage={title}
+              />
             </Typography>
           )}
 

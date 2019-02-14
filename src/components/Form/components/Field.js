@@ -1,6 +1,7 @@
 import uniqueId from 'lodash/uniqueId';
 import PropTypes from 'prop-types';
 import React, { Component, cloneElement } from 'react';
+import { FormattedMessage } from 'react-intl';
 import { compose, withState } from 'recompose';
 import { Field } from 'redux-form';
 
@@ -15,7 +16,7 @@ class FormField extends Component {
   state = { id: uniqueId('field_') }
 
   render() {
-    const { children, type, withoutLabel } = this.props;
+    const { children, placeholder, type, withoutLabel } = this.props;
     const { id } = this.state;
 
     return (
@@ -30,7 +31,10 @@ class FormField extends Component {
                   htmlFor={id}
                   variant={Typography.VARIANT.OVERLINE}
                 >
-                  {label}
+                  <FormattedMessage
+                    id={label}
+                    defaultMessage={label}
+                  />
                 </Typography>
 
                 {error && (
@@ -45,10 +49,14 @@ class FormField extends Component {
             )}
 
             <div className={styles.Control}>
-              {typeof children === 'function'
-                ? children({ ...props, id, label, type, isErred: !!error })
-                : cloneElement(children, { ...props, id, label, type, isErred: !!error })
-              }
+              <FormattedMessage
+                id={placeholder || '12345'}
+                defaultMessage={placeholder || ' '}
+              >
+                {(placeholder: string): void => typeof children === 'function'
+                  ? children({ ...props, id, label, placeholder, type, isErred: !!error })
+                  : cloneElement(children, { ...props, id, label, placeholder, type, isErred: !!error })}
+              </FormattedMessage>
             </div>
           </div>
         )}

@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 
 // Styles
 import { Typography } from 'styles';
@@ -28,7 +29,10 @@ const Tooltip = ({
         noWrap
         variant={Typography.VARIANT.CAPTION}
       >
-        {title}
+        <FormattedMessage
+          id={title}
+          defaultMessage={title}
+        />
       </Typography>
 
       <div className={containerClassNames}>

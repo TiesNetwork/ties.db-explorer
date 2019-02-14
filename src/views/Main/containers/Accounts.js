@@ -1,5 +1,6 @@
 import { get, keys } from 'lodash';
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { compose, lifecycle, withHandlers } from 'recompose';
 
@@ -52,7 +53,10 @@ const MainAccounts = ({
       icon="far fa-plus"
       onClick={handleCreate}
     >
-      Import new account
+      <FormattedMessage
+        id="import_new_account"
+        defaultMessage="Import new account"
+      />
     </Button>
   </Dropdown>
 );

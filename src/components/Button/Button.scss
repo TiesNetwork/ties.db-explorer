@@ -122,7 +122,7 @@
 .Icon {
   align-items: center;
   color: inherit;
-  display: flex;
+  display: flex !important;
   font-size: 20px;
   height: 24px;
   justify-content: center;

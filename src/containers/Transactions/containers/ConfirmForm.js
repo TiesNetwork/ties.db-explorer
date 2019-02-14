@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { compose } from 'recompose';
 import { reduxForm } from 'redux-form';
 
@@ -33,7 +34,10 @@ const TransactionsConfirmForm = ({
         <i className={privateIconClassNames} />
 
         <Typography variant={Typography.VARIANT.CAPTION}>
-          The private key is stored during the session.
+          <FormattedMessage
+            id="confirm_private"
+            defaultMessage="The private key is stored during the session."
+          />
         </Typography>
       </div>
 
@@ -41,7 +45,10 @@ const TransactionsConfirmForm = ({
         <i className={infoIconClassNames} />
 
         <Typography variant={Typography.VARIANT.CAPTION}>
-          Transaction cost is test.
+          <FormattedMessage
+            id="confirm_cost_text"
+            defaultMessage="Transaction cost is test."
+          />
         </Typography>
       </div>
 
@@ -50,7 +57,10 @@ const TransactionsConfirmForm = ({
           className={styles.AmountText}
           variant={Typography.VARIANT.SUBTITLE1}
         >
-          Total amount:
+          <FormattedMessage
+            id="confirm_total"
+            defaultMessage="Total amount:"
+          />
         </Typography>
 
         <Typography variant={Typography.VARIANT.H6}>
@@ -63,14 +73,20 @@ const TransactionsConfirmForm = ({
           color={COLOR.DANGER}
           onClick={handleDiscard}
         >
-          Discard
+          <FormattedMessage
+            id="discard"
+            defaultMessage="Discard"
+          />
         </Button>
 
         <Button
           color={COLOR.PRIMARY}
           type="submit"
         >
-          Confirm
+          <FormattedMessage
+            id="confirm"
+            defaultMessage="Confirm"
+          />
         </Button>
       </div>
     </Form>

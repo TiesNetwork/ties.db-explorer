@@ -1,6 +1,7 @@
 import { get } from 'lodash';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { compose, withHandlers, withProps } from 'recompose';
 
@@ -55,7 +56,10 @@ const Table = ({
           }}
           icon="far fa-star"
         >
-          Favorite
+          <FormattedMessage
+            id="favorite"
+            defaultMessage="Favorite"
+          />
         </Button>
 
         {isAuthorized && (
@@ -63,7 +67,10 @@ const Table = ({
             className={styles.Edit}
             onClick={handleEdit}
           >
-            Edit Table
+            <FormattedMessage
+              id="edit_table"
+              defaultMessage="Edit Table"
+            />
           </Button>
         )}
       </div>

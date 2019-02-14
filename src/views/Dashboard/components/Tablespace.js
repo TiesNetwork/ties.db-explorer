@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import { get } from 'lodash';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { compose, withHandlers } from 'recompose';
 
@@ -53,13 +54,20 @@ const DashboardTablespace = ({
       />
 
       <div className={styles.Info}>
-        <Typography
-          className={styles.Label}
-          noWrap
-          variant={Typography.VARIANT.OVERLINE}
+        <FormattedMessage
+          id="tablespace"
+          defaultMessage="tablespace"
         >
-          {isTrigger ? 'TABLESPACE' : hash.substr(0, 16)}
-        </Typography>
+          {(text: string) => (
+            <Typography
+              className={styles.Label}
+              noWrap
+              variant={Typography.VARIANT.OVERLINE}
+            >
+              {isTrigger ? text : hash.substr(0, 16)}
+            </Typography>
+          )}
+        </FormattedMessage>
 
         <Typography
           className={styles.Name}

@@ -47,7 +47,7 @@
 .Icon {
   align-items: center;
   color: var(--color-gray-400);
-  display: flex;
+  display: flex !important;
   font-size: 24px;
   height: 24px;
   justify-content: center;

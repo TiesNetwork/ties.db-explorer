@@ -1,4 +1,5 @@
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { compose, withHandlers } from 'recompose';
 
@@ -39,7 +40,10 @@ const MainHeader = ({
         icon="far fa-search"
         onClick={handleClick}
       >
-        Search
+        <FormattedMessage
+          id="search"
+          defaultMessage="Search"
+        />
       </Button>
     </div>
 

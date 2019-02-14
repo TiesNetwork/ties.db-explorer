@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import React, { Fragment } from 'react';
+import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import Slider from 'react-slick';
 import { compose, withHandlers, withState } from 'recompose';
@@ -64,7 +65,7 @@ const MainTransactions = ({
       isOpened={isNeedOpen || isFetching || isOpened}
       onClose={handleClose}
       onOpen={handleOpen}
-      tooltip="Show Transactions"
+      tooltip="show_transactions"
     >
       {items && items.length > 0 ? (
         <Fragment>
@@ -88,7 +89,10 @@ const MainTransactions = ({
                 className={styles.Discard}
                 variant={Typography.VARIANT.CAPTION}
               >
-                Discard All
+                <FormattedMessage
+                  id="discard_all"
+                  defaultMessage="Discard All"
+                />
               </Typography>
 
               <Typography
@@ -96,7 +100,10 @@ const MainTransactions = ({
                 onClick={handleConfirm}
                 variant={Typography.VARIANT.CAPTION}
               >
-                Confirm All
+                <FormattedMessage
+                  id="confirm_all"
+                  defaultMessage="Confirm All"
+                />
               </Typography>
             </div>
           )}
@@ -112,7 +119,10 @@ const MainTransactions = ({
           <i className={iconClassNames} />
 
           <Typography variant={Typography.VARIANT.BODY2}>
-            You have not transactions
+            <FormattedMessage
+              id="transactions_empty"
+              defaultMessage="You have not transactions"
+            />
           </Typography>
         </div>
       )}
