@@ -1,5 +1,6 @@
 import { get } from 'lodash';
-import React from 'react';
+import React, { Fragment } from 'react';
+import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { compose, withHandlers } from 'recompose';
 
@@ -59,8 +60,14 @@ const TransactionsConfirm = ({
     <div className={styles.Content}>
       <div className={styles.Left}>
         <Typography variant={Typography.VARIANT.H6}>
-          {capitalize(action)}&nbsp;
-          {capitalize(entity.slice(0, entity === INDEXES_ENTITY_ID ? -2 : -1))}:
+          <FormattedMessage id={`${action}_${entity}`}>
+            {(text: string):func => `${text}:` || (
+              <Fragment>
+                {capitalize(action)}&nbsp;
+                {capitalize(entity.slice(0, entity === INDEXES_ENTITY_ID ? -2 : -1))}:
+              </Fragment>
+            )}
+          </FormattedMessage>
         </Typography>
 
         <Typography
