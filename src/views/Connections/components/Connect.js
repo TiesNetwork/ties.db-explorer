@@ -16,6 +16,8 @@ const ConnectionsConnect = ({
   title,
   url,
   // Handlers
+  handleClick,
+  handleDelete,
   handleTick,
   // State
   isOnline,
@@ -33,7 +35,12 @@ const ConnectionsConnect = ({
   });
 
   return (
-    <div className={rootClassNames}>
+    <div
+      className={rootClassNames}
+      onClick={handleClick}
+      role="button"
+      tabIndex={0}
+    >
       <div className={styles.Online}>
         <i className={iconClassNames} />
 
@@ -70,6 +77,7 @@ const ConnectionsConnect = ({
               icon: styles.ButtonIcon,
             }}
             icon="fas fa-trash-alt"
+            onClick={handleDelete}
             removeAutoBlur
           />
         </Tooltip>
@@ -83,29 +91,37 @@ export default compose(
   withState('isOnline', 'setOnline', false),
   withState('isTesting', 'setTest', true),
   withHandlers({
+    test: ({ setOnline, setTest, url }): Function =>
+      (): void => {
+        setTest(true);
+
+        fetch(url, { mode: 'no-cors' })
+          .then((data: Object) => {
+            setOnline(true);
+            setTest(false);
+          })
+          .catch(error => {
+            setOnline(false);
+            setTest(false);
+          });
+      },
+  }),
+  withHandlers({
+    handleClick: ({ id, isOnline, onClick, test }): Function =>
+      (event: Object) =>
+        isOnline
+          ? onClick && onClick(id)
+          : test(),
+    handleDelete: ({ id, onDelete }): Function =>
+      (event: Object): void =>
+        onDelete && onDelete(id, event),
     handleTick: ({ count, setCount }): Function =>
       (): void =>
         setCount(count + 1 > 4 ? 1 : count + 1),
   }),
   lifecycle({
     componentDidMount() {
-      const {
-        setOnline,
-        setTest,
-        url,
-      } = this.props;
-
-      setTest(true);
-
-      fetch(url, { mode: 'no-cors' })
-        .then((data: Object) => {
-          setOnline(true);
-          setTest(false);
-        })
-        .catch(error => {
-          setOnline(false);
-          setTest(false);
-        });
+      this.props.test();
     },
   }),
 )(ConnectionsConnect);

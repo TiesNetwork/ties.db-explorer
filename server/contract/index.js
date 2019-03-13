@@ -13,69 +13,16 @@ class Contract {
   /**
    * @param {string} web3
    */
-  constructor(url) {
-    const provider = new SignerProvider(url, {
-      accounts: async cb => {
-        const Database = await require('../database').get();
-        const documents = await Database.collections.accounts.find().exec();
-
-        cb(null, documents && documents.map((document) => document.get('hash').replace('0x', '')));
-      },
-      signTransaction: (rawTx, cb) => {
-        const account = this.account[get(rawTx, 'from')];
-
-        Logger.info('Sign transaction', { rawTx });
-
-        if (this.newTransaction && account) {
-          // Set to current transaction nonce
-          rawTx.nonce = account.transactionCount + account.nonce;
-          // Increase current account nonce
-          account.nonce++;
-          // Get new nonce
-          const nonce = get(rawTx, 'nonce');
-          const setNonce = get(this.newTransaction, 'setNonce');
-          // To synchronize the request with the transaction
-          setNonce && setNonce(nonce);
-
-          account.transaction[nonce] = {
-            ...this.newTransaction,
-            callback: false,
-            hash: get(rawTx, 'nonce'),
-            transaction: rawTx,
-            type: 'confirm',
-          };
-
-          Logger.info(`Transaction "${nonce}" ready to confirm`, { transaction: get(account, `transaction.${nonce}`)});
-
-          this.send(get(account, `transaction.${nonce}`));
-          this.newTransaction = {};
-
-          set(account, `transaction.${nonce}.callback`, cb);
-        } else {
-          Logger.error('Can\'t find account!')
-        }
-      },
-    });
-
-    let web3;
-
-    try {
-      web3 = new Web3(provider);
-      Logger.info('Initialized provider');
-    } catch(e) {
-      Logger.error('Initialized provider failed', { error: e.message });
-    }
-
+  constructor() {
     this.account = {};
     this.currentAccount = null;
-    this.contract = new web3.eth.Contract(
-      contractInterface,
-      '0x22d1b55ebb5bcd17084c3c9d690056875263fec1',
-    );
+    this.contract = null;
+    this.contractAddress = null;
+    this.connectionId = null;
     this.newTransaction = {};
     this.transaction = {};
     this.socket = null;
-    this.web3 = web3;
+    this.web3 = null;
   }
 
   /**
@@ -214,6 +161,84 @@ class Contract {
       .on('error', (error) => console.log(123));
   }
 
+  getConnectionId() {
+    return this.connectionId;
+  }
+
+  async setConnectionId(id) {
+    if (this.connectionId !== id) {
+      Logger.info('Set new connection', { id });
+
+      const Database = await require('../database').get();
+      const connection = await Database.collections.connections
+        .findOne()
+        .where('id')
+        .eq(id)
+        .exec();
+
+      if (connection) {
+        const provider = new SignerProvider(connection.get('url') || 'https://rinkeby.infura.io/v3/5915e2ed5f234c2aba3dfcb23b8f4337', {
+          accounts: async cb => {
+            const Database = await require('../database').get();
+            const documents = await Database.collections.accounts.find().exec();
+
+            cb(null, documents && documents.map((document) => document.get('hash').replace('0x', '')));
+          },
+          signTransaction: (rawTx, cb) => {
+            const account = this.account[get(rawTx, 'from')];
+
+            Logger.info('Sign transaction', { rawTx });
+
+            if (this.newTransaction && account) {
+              // Set to current transaction nonce
+              rawTx.nonce = account.transactionCount + account.nonce;
+              // Increase current account nonce
+              account.nonce++;
+              // Get new nonce
+              const nonce = get(rawTx, 'nonce');
+              const setNonce = get(this.newTransaction, 'setNonce');
+              // To synchronize the request with the transaction
+              setNonce && setNonce(nonce);
+
+              account.transaction[nonce] = {
+                ...this.newTransaction,
+                callback: false,
+                hash: get(rawTx, 'nonce'),
+                transaction: rawTx,
+                type: 'confirm',
+              };
+
+              Logger.info(`Transaction "${nonce}" ready to confirm`, { transaction: get(account, `transaction.${nonce}`)});
+
+              this.send(get(account, `transaction.${nonce}`));
+              this.newTransaction = {};
+
+              set(account, `transaction.${nonce}.callback`, cb);
+            } else {
+              Logger.error('Can\'t find account!')
+            }
+          },
+        });
+
+        let web3;
+
+        try {
+          web3 = new Web3(provider);
+          Logger.info('Initialized provider');
+        } catch(e) {
+          Logger.error('Initialized provider failed', { error: e.message });
+        }
+
+        this.connectionId = id;
+        this.contractAddress = connection.get('address') || '0x22d1b55ebb5bcd17084c3c9d690056875263fec1';
+        this.contract = new web3.eth.Contract(contractInterface, this.contractAddress);
+        this.web3 = web3;
+      } else {
+        Logger.error('Connection is not exist', { id });
+      }
+    }
+  }
+
   /**
    * @param {Object} account
    */
@@ -237,7 +262,7 @@ class Contract {
 
       this.contract = new this.web3.eth.Contract(
         contractInterface,
-        '0x22d1b55ebb5bcd17084c3c9d690056875263fec1',
+        this.contractAddress,
         { from: account },
       );
 
@@ -249,4 +274,4 @@ class Contract {
   }
 }
 
-module.exports = new Contract('https://rinkeby.infura.io/v3/5915e2ed5f234c2aba3dfcb23b8f4337');
+module.exports = new Contract();

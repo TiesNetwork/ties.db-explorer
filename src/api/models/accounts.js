@@ -10,7 +10,8 @@ export default {
   },
   delete: {
     method: CONFIG.METHOD.DELETE,
-    url: url.resolve(CONFIG.URL, '/accounts/'),
+    url: ({ hash }): string =>
+      url.resolve(CONFIG.URL, `/accounts/${hash}`),
   },
   get: {
     method: CONFIG.METHOD.GET,
@@ -18,6 +19,7 @@ export default {
   },
   update: {
     method: CONFIG.METHOD.PUT,
-    url: url.resolve(CONFIG.URL, '/accounts/'),
+    url: ({ hash }): string =>
+      url.resolve(CONFIG.URL, `/accounts/${hash}`),
   },
 };

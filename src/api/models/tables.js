@@ -10,6 +10,7 @@ export default {
   },
   delete: {
     method: CONFIG.METHOD.DELETE,
-    url: url.resolve(CONFIG.URL, '/tables/'),
+    url: ({ hash }): string =>
+      url.resolve(CONFIG.URL, `/tables/${hash}`),
   },
 };

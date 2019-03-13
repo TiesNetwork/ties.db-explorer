@@ -18,14 +18,27 @@ class Schema {
   }
 
   async fetch() {
+      console.log(Contract.getConnectionId());
     if (!this.isFetching && !this.schema) {
       this.isFetching = true;
-
       const { tablespaces = [] } = await Contract.callMethod('getStorage');
+      const Database = await require('../../database').get();
 
-      await this.forEach(tablespaces, async (tablespaceHash, index) => {
+      const connection = await Database.collections.connections
+        .findOne()
+        .where('id')
+        .eq(Contract.getConnectionId())
+        .exec();
+
+      const connectionTablespaces = connection && connection.get('tablespaces');
+
+      const filteredTablespaces = connection && connectionTablespaces && connectionTablespaces.length > 0
+        ? tablespaces.filter((tablespaceHash) => connectionTablespaces.indexOf(tablespaceHash) > -1)
+        : tablespaces;
+
+      await this.forEach(filteredTablespaces, async (tablespaceHash, index) => {
         const { name: tablespaceName, tables = [] } = await Contract.callMethod('getTablespace', tablespaceHash);
-        const progressPart = 100 / tablespaces.length;
+        const progressPart = 100 / filteredTablespaces.length;
 
         Progress.send({
           count: tables.length,
@@ -147,7 +160,7 @@ class Schema {
           };
         });
 
-        tablespaces[index] = {
+        filteredTablespaces[index] = {
           hash: tablespaceHash,
           name: tablespaceName,
           tables,
@@ -155,7 +168,7 @@ class Schema {
       });
 
       this.isFetching = false;
-      this.schema = tablespaces;
+      this.schema = filteredTablespaces;
 
       Progress.send({
         count: 0,

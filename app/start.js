@@ -8,16 +8,17 @@ const menu = require('./menu');
 const server = require('../server');
 
 let mainWindow;
+let connectionWindow;
 
 const createWindow = () => {
   mainWindow = new BrowserWindow({
-    height: 1080,
-    title: 'Ties.DB',
-    width: 1920,
+    height: 480,
+    title: 'Ties.DB | Connection',
+    width: 800,
   });
 
   mainWindow.loadURL(
-    process.env.ELECTRON_START_URL || url.format({
+    `${process.env.ELECTRON_START_URL}#/connections` || url.format({
       pathname: path.join(__dirname, './../build/index.html'),
       protocol: 'file:',
       slashes: true,

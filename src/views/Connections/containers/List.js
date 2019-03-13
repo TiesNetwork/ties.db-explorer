@@ -1,3 +1,4 @@
+import { get } from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose, lifecycle, withHandlers } from 'recompose';
@@ -8,8 +9,9 @@ import Connect from '../components/Connect';
 
 // Entities
 import {
-  fetchConnections,
+  deleteConnection,
   getConnectionList,
+  setConnectionId,
 } from 'entities/connections';
 
 // Styles
@@ -18,7 +20,10 @@ import styles from './List.scss';
 
 const ConnectionsList = ({
   connections = [],
+  // Handlers
   handleCreate,
+  handleDelete,
+  handleSelect,
 }): Function => (
   <div className={styles.Root}>
     <Typography
@@ -30,7 +35,11 @@ const ConnectionsList = ({
 
     <div className={styles.List}>
       {connections.map((item: Object, index: number): Function => (
-        <Connect {...item} key={index} />
+        <Connect {...item}
+          key={get(item, 'id', index)}
+          onClick={handleSelect}
+          onDelete={handleDelete}
+        />
       ))}
     </div>
 
@@ -52,15 +61,19 @@ const mapStateToProps = (state: Object): Object => ({
 });
 
 export default compose(
-  connect(mapStateToProps, { fetchConnections }),
+  connect(mapStateToProps, {
+    deleteConnection,
+    setConnectionId,
+  }),
   withHandlers({
     handleCreate: ({ history }): Function =>
       (event: Object): void =>
         history.push('/connections/create'),
-  }),
-  lifecycle({
-    componentDidMount() {
-      this.props.fetchConnections();
-    },
+    handleDelete: ({ deleteConnection }): Function =>
+      (id: string): void =>
+        deleteConnection(id),
+    handleSelect: ({ setConnectionId }): Function =>
+      (id: string): void =>
+        setConnectionId(id),
   }),
 )(ConnectionsList);

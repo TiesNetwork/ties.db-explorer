@@ -1,3 +1,4 @@
+/* eslint-disable */
 const Contract = require('../contract');
 const express = require('express');
 const { get } = require('lodash');
@@ -7,6 +8,26 @@ const { object, string } = require('yup');
 const Schema = require('./schema/controller');
 
 const app = express();
+
+const forEach = async(array, callback) => {
+  for (let index = 0; index < array.length; index++) {
+    await callback(array[index], index, array);
+  }
+}
+
+app.get('/', async(req, res) => {
+  const { tablespaces = [] } = await Contract.callMethod('getStorage');
+
+  await forEach(tablespaces, async(tablespaceHash, index) => {
+    const { name } = await Contract.callMethod('getTablespace', tablespaceHash);
+
+    tablespaces[index] = {
+      name, hash: tablespaceHash,
+    };
+  });
+
+  res.send(tablespaces);
+});
 
 app.delete('/:hash', async (req, res) => {
   const schema = object().shape({

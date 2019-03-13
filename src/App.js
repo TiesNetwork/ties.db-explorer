@@ -1,4 +1,3 @@
-import { get } from 'lodash';
 import React, { Fragment } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { compose, lifecycle, withState } from 'recompose';

@@ -1,6 +1,6 @@
 {
   "name": "ties.db",
-  "version": "0.1-alpha",
+  "version": "0.2.0",
   "private": true,
   "dependencies": {
     "@babel/core": "7.1.0",
@@ -35,6 +35,7 @@
     "express": "^4.16.4",
     "express-ws": "^4.0.0",
     "file-loader": "2.0.0",
+    "foreman": "^3.0.1",
     "fork-ts-checker-webpack-plugin-alt": "0.4.14",
     "fs-extra": "7.0.0",
     "html-webpack-plugin": "4.0.0-alpha.2",
@@ -94,7 +95,7 @@
     "dist": "yarn build && build",
     "start": "yarn start:dev",
     "start:dev": "nf start helper,react",
-    "start:stage": "nf start helper, electron",
+    "start:stage": "nf start react,electron",
     "precommit": "pretty-quick --staged",
     "electron": "electron ."
   },

@@ -3,7 +3,7 @@ import { isEmpty } from 'lodash';
 export const isUrl = (message: string = 'Incorrect URL!') =>
   (value: string): Object => ({
     message,
-    isValid: value && /^http:\/\/\w+(\.\w+)*(:[0-9]+)?\/?(\/[.\w]*)*$/.test(value),
+    isValid: value && /^\b((http|https):\/\/?)[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|\/?))$/.test(value),
   });
 
 /**

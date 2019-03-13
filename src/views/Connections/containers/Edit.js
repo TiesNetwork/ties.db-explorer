@@ -17,7 +17,7 @@ import validate, { isUrl, required } from 'utils/validate';
 
 // Styles
 import { COLOR, GRADIENT, Typography } from 'styles';
-import styles from './Edit.scss';
+import styles from './Common.scss';
 
 const ConnectionsEdit = ({
   handleCancel,

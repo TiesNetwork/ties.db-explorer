@@ -2,8 +2,10 @@
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const express = require('express');
+const { get } = require('lodash');
 
 const app = express();
+const Contract = require('./contract');
 
 const expressWs = require('express-ws')(app);
 
@@ -24,6 +26,17 @@ const connections = require('./views/connections');
 
 app.use(cors());
 app.use(bodyParser.json());
+// Connection handlers
+app.use((req, res, next) => {
+  const connectionId = get(req, 'headers.x-connection-id');
+
+  if (connectionId) {
+    Contract.setConnectionId(connectionId);
+  }
+
+  next();
+});
+// Error handler
 app.use((err, req, res, next) => {
   if (err && req.xhr) {
     res.status(400).send({ error: err.message });

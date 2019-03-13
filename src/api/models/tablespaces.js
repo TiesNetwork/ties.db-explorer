@@ -10,6 +10,11 @@ export default {
   },
   delete: {
     method: CONFIG.METHOD.DELETE,
-    url: url.resolve(CONFIG.URL, '/tablespaces/'),
+    url: ({ hash }): string =>
+      url.resolve(CONFIG.URL, `/tablespaces/${hash}`),
   },
+  get: {
+    method: CONFIG.METHOD.GET,
+    url: url.resolve(CONFIG.URL, '/tablespaces'),
+  }
 };

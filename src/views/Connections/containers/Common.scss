@@ -22,6 +22,11 @@
   max-height: calc(100% - 104px);
 }
 
+.Description {
+  color: var(--color-gray-600);
+  margin: 8px 0 0;
+}
+
 .Wrapper {
   display: flex;
   flex-direction: column;
