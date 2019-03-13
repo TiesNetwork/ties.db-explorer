@@ -1,5 +1,6 @@
 import { get } from 'lodash';
 import { normalize } from 'normalizr';
+import { SubmissionError } from 'redux-form';
 
 // Types
 import {
@@ -17,8 +18,22 @@ import { UPDATE_ENTITIES } from 'entities/types';
 
 export const createConnection = (values: Object) =>
   (dispatch: Function, getState: Function, { api, history }): void => {
-    dispatch({ type: CREATE_CONNECTIONS_SUCCESS, payload: values });
-    history.push('/connections');
+    dispatch({ type: CREATE_CONNECTIONS_REQUEST });
+
+    return api('connections.create', values)
+      .then(({ data }) => {
+        const id = get(data, 'id');
+        history.push('/connections');
+
+        if (id) {
+          dispatch({ type: CREATE_CONNECTIONS_SUCCESS, id, payload: data });
+        }
+      })
+      .catch((error: Object): void => {
+        const data = get(error, 'response.data');
+        dispatch({ type: CREATE_CONNECTIONS_FAILURE, error: get(error, 'message')});
+        if (data) { throw new SubmissionError(data); }
+      });
   }
 
 export const fetchConnections = () => (dispatch: func, getState: func, { api, schema }) => {

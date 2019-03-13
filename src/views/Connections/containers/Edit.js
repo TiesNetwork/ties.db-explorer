@@ -23,50 +23,51 @@ const ConnectionsEdit = ({
   handleCancel,
   handleSubmit,
 }): Function => (
-  <Form onSubmit={handleSubmit}>
-    <div className={styles.Wrapper}>
-      <Typography
-        className={styles.Title}
-        variant={Typography.VARIANT.H6}
+  <Form
+    className={styles.Root}
+    onSubmit={handleSubmit}
+  >
+    <Typography
+      className={styles.Title}
+      variant={Typography.VARIANT.H6}
+    >
+      Create Connection
+    </Typography>
+
+    <div className={styles.Container}>
+      <Input
+        label="Set Title"
+        name="title"
+        placeholder="For example: RinkeBy connection"
+      />
+
+      <Input
+        label="Set Url"
+        name="url"
+        placeholder="infura.io, localhost, etc."
+      />
+
+      <Input
+        label="Contract Address"
+        name="address"
+        placeholder="0x22d1b55ebb5bc..."
+      />
+    </div>
+
+    <div className={styles.Actions}>
+      <Button
+        color={COLOR.SECONDARY}
+        onClick={handleCancel}
       >
-        Create Connection
-      </Typography>
+        Cancel
+      </Button>
 
-      <div className={styles.Container}>
-        <Input
-          label="Set Title"
-          name="title"
-          placeholder="For example: RinkeBy connection"
-        />
-
-        <Input
-          label="Set Url"
-          name="url"
-          placeholder="infura.io, localhost, etc."
-        />
-
-        <Input
-          label="Contract Address"
-          name="address"
-          placeholder="0x22d1b55ebb5bc..."
-        />
-      </div>
-
-      <div className={styles.Actions}>
-        <Button
-          color={COLOR.SECONDARY}
-          onClick={handleCancel}
-        >
-          Cancel
-        </Button>
-
-        <Button
-          color={GRADIENT.GREEN}
-          type="submit"
-        >
-          Test & Create
-        </Button>
-      </div>
+      <Button
+        color={GRADIENT.GREEN}
+        type="submit"
+      >
+        Test & Create
+      </Button>
     </div>
   </Form>
 );

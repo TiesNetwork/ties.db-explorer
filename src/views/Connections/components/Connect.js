@@ -13,7 +13,7 @@ import styles from './Connect.scss';
 
 const ConnectionsConnect = ({
   count,
-  name,
+  title,
   url,
   // Handlers
   handleTick,
@@ -46,11 +46,11 @@ const ConnectionsConnect = ({
 
       <div className={styles.Info}>
         <Typography
-          className={styles.Name}
+          className={styles.Title}
           noWrap
           variant={Typography.VARIANT.SUBTITLE1}
         >
-          {name}
+          {title}
         </Typography>
 
         <Typography

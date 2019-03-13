@@ -10,21 +10,7 @@ const { schema: connectionSchema } = require('./models/connection');
 
 const Database = {};
 const SYNC_URL = 'http://localhost:3001';
-
-// const connectionSchema = {
-//   description: '',
-//   title: 'Connection schema',
-//   type: 'object',
-//   version: 0,
-//   properties: {
-//     id: { type: 'string', primary: true },
-//     name: { type: 'string' },
-//     url: { type: 'string' },
-//     ws: { type: 'string' },
-//   },
-//   required: ['name', 'url'],
-// };
-
+console.log(connectionSchema);
 const create = async (name) => {
   const database = await RxDB.create({
     name: name || 'tiesdb',

@@ -17,8 +17,8 @@ module.exports.schema = {
         type: 'string',
       },
     },
-    title: { type: 'string '},
+    title: { type: 'string' },
     url: { type: 'string' },
   },
-  require: ['title', 'url'],
+  require: ['id', 'title', 'url'],
 };

@@ -1,3 +1,15 @@
+.Root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  & > * {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+  }
+}
+
 .Actions {
   display: flex;
   justify-content: space-between;

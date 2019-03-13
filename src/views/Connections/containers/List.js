@@ -17,7 +17,7 @@ import { GRADIENT, Typography } from 'styles';
 import styles from './List.scss';
 
 const ConnectionsList = ({
-  connections,
+  connections = [],
   handleCreate,
 }): Function => (
   <div className={styles.Root}>
@@ -28,13 +28,11 @@ const ConnectionsList = ({
       Connection List
     </Typography>
 
-    {connections && connections.length > 0 && (
-      <div className={styles.List}>
-        {connections.map((item: Object, index: number): Function => (
-          <Connect {...item} key={index} />
-        ))}
-      </div>
-    )}
+    <div className={styles.List}>
+      {connections.map((item: Object, index: number): Function => (
+        <Connect {...item} key={index} />
+      ))}
+    </div>
 
     <div className={styles.Actions}>
       <Button
