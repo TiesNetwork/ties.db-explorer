@@ -5,6 +5,7 @@ const SignerProvider = require('ethjs-provider-signer');
 const nodeEth = require('node-eth-address');
 const Web3 = require('web3');
 
+const Logger = require('../models/logger');
 const Progress = require('../models/progress/controller');
 const contractInterface = require('./interface.json');
 
@@ -23,7 +24,9 @@ class Contract {
       signTransaction: (rawTx, cb) => {
         const account = this.account[get(rawTx, 'from')];
 
-        if (account) {
+        Logger.info('Sign transaction', { rawTx });
+
+        if (this.newTransaction && account) {
           // Set to current transaction nonce
           rawTx.nonce = account.transactionCount + account.nonce;
           // Increase current account nonce
@@ -42,14 +45,26 @@ class Contract {
             type: 'confirm',
           };
 
+          Logger.info(`Transaction "${nonce}" ready to confirm`, { transaction: get(account, `transaction.${nonce}`)});
+
           this.send(get(account, `transaction.${nonce}`));
           this.newTransaction = {};
 
           set(account, `transaction.${nonce}.callback`, cb);
+        } else {
+          Logger.error('Can\'t find account!')
         }
       },
     });
-    const web3 = new Web3(provider);
+
+    let web3;
+
+    try {
+      web3 = new Web3(provider);
+      Logger.info('Initialized provider');
+    } catch(e) {
+      Logger.error('Initialized provider failed', { error: e.message });
+    }
 
     this.account = {};
     this.currentAccount = null;
@@ -85,13 +100,19 @@ class Contract {
         const cb = get(account, `transaction.${transactionHash}.callback`);
         const rawTx = get(account, `transaction.${transactionHash}.transaction`);
 
-        if (cb && rawTx && privateKey) {
-          this.web3.eth.estimateGas(rawTx).then(gas => {
-            rawTx.gas = gas;
-            rawTx.gasPrice = this.web3.utils.toWei('20', 'gwei');
+        Logger.info(`Confirm transaction: ${transactionHash}`, { account, rawTx });
 
-            cb(null, sign(rawTx, privateKey));
-          });
+        if (cb && rawTx && privateKey) {
+          this.web3.eth.estimateGas({ ...rawTx, nonce: `0x${rawTx.nonce.toString(16)}`})
+            .then(gas => {
+              rawTx.gas = gas;
+              rawTx.gasPrice = this.web3.utils.toWei('10', 'gwei');
+
+              Logger.info('Estimate Gas success!', { transactionHash, rawTx });
+
+              cb(null, sign(rawTx, privateKey));
+            })
+            .catch((e) => Logger.error('Estimate Gas failed!', { error: e.message }));
         }
       });
     }
@@ -153,6 +174,8 @@ class Contract {
     let transactionNonce;
     let transactionHash;
 
+    Logger.info('Send method', { account, method, data, props });
+
     this.newTransaction = {
       ...props,
       setNonce: (nonce) => {
@@ -196,6 +219,7 @@ class Contract {
    */
   setSocket(socket) {
     this.socket = socket;
+    this.send({ data: 'Contract socket is connected!' });
   }
 
   /**

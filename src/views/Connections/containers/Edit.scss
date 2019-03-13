@@ -1,0 +1,16 @@
+.Actions {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 0 0;
+}
+
+.Container {
+  flex: 1 1 auto;
+  margin: 20px 0 0;
+  max-height: calc(100% - 104px);
+}
+
+.Wrapper {
+  display: flex;
+  flex-direction: column;
+}

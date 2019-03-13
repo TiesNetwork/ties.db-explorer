@@ -33,9 +33,8 @@ app.post('/private', (req, res) => {
     .catch((error) => res.status(500).send({ message: error.message }));
 });
 
-app.ws('/', (ws, req) => {
+app.ws('/socket', (ws, req) => {
   Contract.setSocket(ws);
-  ws.readyState === ws.OPEN && ws.send('Hello world!');
 });
 
 module.exports = app;

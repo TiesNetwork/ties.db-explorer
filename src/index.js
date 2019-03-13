@@ -9,7 +9,7 @@ import { persistStore } from 'redux-persist'
 import { PersistGate } from 'redux-persist/integration/react'
 
 // i18n
-import en from './i18n/ru';
+import en from './i18n/en';
 
 // Views
 import App from './App';

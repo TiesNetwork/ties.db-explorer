@@ -1,0 +1,56 @@
+.Root {
+  display: flex;
+  height: 24px;
+  text-decoration: none;
+  width: 24px;
+
+  &:hover {
+    .Icon {
+      transform: scale(1.1);
+    }
+  }
+
+  &Variant {
+    &Github {
+      .Icon {
+        &:hover {
+          color: var(--color-blue-gray-900);
+        }
+      }
+    }
+
+    &Medium {
+      .Icon {
+        &:hover {
+          color: var(--color-blue-gray-900);
+        }
+      }
+    }
+
+    &Telegram {
+      .Icon {
+        &:hover {
+          color: var(--color-blue-500);
+        }
+      }
+    }
+
+    &Twitter {
+      .Icon {
+        &:hover {
+          color: var(--color-blue-500);
+        }
+      }
+    }
+  }
+}
+
+.Icon {
+  align-items: center;
+  color: var(--color-gray-500);
+  display: flex !important;
+  font-size: 20px;
+  height: 100%;
+  justify-content: center;
+  width: 100%;
+}

@@ -120,7 +120,7 @@ export default compose(
         updateProgress,
       } = this.props;
 
-      const socket = new WebSocket('ws://localhost:3001/progress');
+      const socket = new WebSocket('ws://localhost:3001/progress/socket');
 
       socket.onmessage = (event: Object): void => {
         const { id, type, ...payload } = JSON.parse(get(event, 'data'), {});

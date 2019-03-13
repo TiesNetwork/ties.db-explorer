@@ -1,14 +1,14 @@
 import { combineReducers } from 'redux';
 
 // Reducers
+import { reducer as connections } from './Connections';
 import { reducer as dashboard } from './Dashboard';
 import { reducer as main } from './Main';
-import { reducer as welcome } from './Welcome';
 
 const viewsReducer = combineReducers({
+  connections,
   dashboard,
   main,
-  welcome,
 });
 
 export default (state = {}, action: Object) => {

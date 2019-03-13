@@ -55,7 +55,9 @@ export default ({
 
   // Fields
   'create_field': 'Create Field',
-  'create_fields': 'Create Fields',
+  'create_fields': 'Create Field',
+  'delete_field': 'Delete Field',
+  'delete_fields': 'Delete Field',
   'field': 'Field',
   'fields': 'Fields',
   'update_field': 'Update Field',
@@ -63,8 +65,13 @@ export default ({
 
   // Indexes
   'create_index': 'Create Index',
+  'create_indexes': 'Create Index',
+  'delete_index': 'Delete Index',
+  'delete_indexes': 'Delete Index',
   'index': 'Index',
   'indexes': 'Indexes',
+  'update_index': 'Update Index',
+  'update_indexes': 'Update Index',
 
   // Queries
   'query': 'Query',
@@ -85,21 +92,36 @@ export default ({
 
   // Tables
   'create_table': 'Create Table',
+  'create_tables': 'Create Table',
+  'delete_table': 'Delete Table',
+  'delete_tables': 'Delete Table',
   'edit_table': 'Edit Table',
   'table': 'Table',
   'table_distributed': 'Distributed',
   'tables': 'Tables',
+  'update_table': 'Update Tables',
+  'update_tables': 'Update Tables',
 
   // Tablespaces
-  'create_tablespace': 'Create Tablespaces',
+  'create_tablespace': 'Create Tablespace',
+  'create_tablespaces': 'Create Tablespace',
+  'delete_tablespace': 'Delete Tablespace',
+  'delete_tablespaces': 'Delete Tablespace',
   'tablespace': 'Tablespace',
   'tablespaces': 'Tablespaces',
+  'update_tablespace': 'Update Tablespace',
+  'update_tablespaces': 'Update Tablespace',
 
   // Transactions
   'transactions_empty': 'You have not transactions',
 
   // Triggers
   'create_trigger': 'Create Trigger',
+  'create_triggers': 'Create Triggers',
+  'delete_trigger': 'Delete Trigger',
+  'delete_triggers': 'Delete Trigger',
   'trigger': 'Trigger',
   'triggers': 'Triggers',
+  'update_trigger': 'Update Trigger',
+  'update_triggers': 'Update Trigger',
 });

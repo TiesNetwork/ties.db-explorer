@@ -1,9 +1,6 @@
 import classNames from 'classnames';
-import { get } from 'lodash';
-import PropTypes from 'prop-types';
 import React from 'react';
 import ReactInterval from 'react-interval';
-import { connect } from 'react-redux';
 import { compose, lifecycle, withHandlers, withState } from 'recompose';
 
 // Components
@@ -12,33 +9,33 @@ import Tooltip from 'components/Tooltip';
 
 // Styles
 import { Typography } from 'styles';
-import styles from './Connection.scss';
+import styles from './Connect.scss';
 
-const WelcomeConnection = ({
+const ConnectionsConnect = ({
   count,
-  handleTick,
-  isOnline,
-  isTesting,
   name,
   url,
-}) => {
-  const className = classNames(styles.Root, {
+  // Handlers
+  handleTick,
+  // State
+  isOnline,
+  isTesting,
+}): Function => {
+  const rootClassNames = classNames(styles.Root, {
     [styles.RootIsOnline]: !!isOnline,
     [styles.RootIsTesting]: !!isTesting,
   });
 
+  const iconClassNames = classNames(styles.Icon, 'fas', {
+    'fa-signal': !isTesting && !!isOnline,
+    'fa-signal-slash': !isTesting && !isOnline,
+    [`fa-signal-${count}`]: !!isTesting,
+  });
+
   return (
-    <div
-      className={className}
-      rel="button"
-      tabIndex={0}
-    >
+    <div className={rootClassNames}>
       <div className={styles.Online}>
-        <i className={classNames(styles.OnlineIcon, 'fas', {
-          'fa-signal': !isTesting && !!isOnline,
-          'fa-signal-slash': !isTesting && !isOnline,
-          [`fa-signal-${count}`]: !!isTesting,
-        })} />
+        <i className={iconClassNames} />
 
         <ReactInterval
           callback={handleTick}
@@ -79,24 +76,16 @@ const WelcomeConnection = ({
       </div>
     </div>
   );
-};
-
-WelcomeConnection.propTypes = {
-  isOnline: PropTypes.bool,
-  name: PropTypes.string,
-  url: PropTypes.string,
-};
-
-const mapStateToProps = ({ entities }, { id }) =>
-  get(entities, `connections.${id}`, {});
+}
 
 export default compose(
-  connect(mapStateToProps),
   withState('count', 'setCount', 1),
   withState('isOnline', 'setOnline', false),
   withState('isTesting', 'setTest', true),
   withHandlers({
-    handleTick: ({ count, setCount }) => () => setCount(count + 1 > 4 ? 1 : count + 1),
+    handleTick: ({ count, setCount }): Function =>
+      (): void =>
+        setCount(count + 1 > 4 ? 1 : count + 1),
   }),
   lifecycle({
     componentDidMount() {
@@ -109,11 +98,14 @@ export default compose(
       setTest(true);
 
       fetch(url, { mode: 'no-cors' })
-        .then(data => {
+        .then((data: Object) => {
           setOnline(true);
           setTest(false);
         })
-        .catch(error => setOnline(false));
+        .catch(error => {
+          setOnline(false);
+          setTest(false);
+        });
     },
   }),
-)(WelcomeConnection);
+)(ConnectionsConnect);

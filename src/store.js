@@ -93,6 +93,6 @@ const composeEnhancers =
 export default (history: Object) => createStore(persistedReducer, composeEnhancers(
   applyMiddleware(
     routerMiddleware(history),
-    thunkMiddleware.withExtraArgument({ api, schema }),
+    thunkMiddleware.withExtraArgument({ api, history, schema }),
   ),
 ));

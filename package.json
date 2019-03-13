@@ -1,6 +1,6 @@
 {
   "name": "ties.db",
-  "version": "0.1.0",
+  "version": "0.1-alpha",
   "private": true,
   "dependencies": {
     "@babel/core": "7.1.0",
@@ -89,15 +89,13 @@
     "yup": "^0.26.7"
   },
   "scripts": {
-    "start": "nf start -p 3000",
     "build": "node scripts/build.js",
-    "test": "node scripts/test.js",
-    "precommit": "pretty-quick --staged",
-    "electron": "electron .",
-    "electron-start": "node app/react.js",
-    "react-start": "node scripts/start.js BROWSER=none",
     "dist": "yarn build && build",
-    "pack": "build --dir"
+    "start": "yarn start:dev",
+    "start:dev": "nf start helper,react",
+    "start:stage": "nf start helper, electron",
+    "precommit": "pretty-quick --staged",
+    "electron": "electron ."
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -162,7 +160,8 @@
     "eslint-config-airbnb": "^17.1.0",
     "eslint-config-prettier": "^3.1.0",
     "eslint-plugin-prettier": "^3.0.0",
-    "flow-bin": "^0.82.0"
+    "flow-bin": "^0.82.0",
+    "nodemon": "^1.18.10"
   },
   "main": "app/start.js",
   "build": {
@@ -178,5 +177,15 @@
       "icon": "https://cdn2.iconfinder.com/data/icons/designer-skills/128/react-256.png"
     }
   },
-  "homepage": "./"
+  "homepage": "./",
+  "nodemonConfig": {
+    "exec": "node server/start.js",
+    "ignore": [
+      "node_modules/*",
+      "test/*",
+      "docs/*",
+      "src/*",
+      "public/*"
+    ]
+  }
 }

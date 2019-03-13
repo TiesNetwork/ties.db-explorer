@@ -8,24 +8,17 @@ import {
 } from 'entities/connections';
 
 const initialState = {
-  connections: [],
-  isLoading: false,
+  isFetching: false,
 };
 
-export default (state = initialState, action: Object) => {
+export default (state = initialState, action: Object): Object => {
   switch (action.type) {
     case FETCH_CONNECTIONS_REQUEST:
-      return { ...state, isLoading: true };
-
+      return { ...state, isFetching: true };
     case FETCH_CONNECTIONS_SUCCESS:
-      return { ...state,
-        connections: get(action, 'connections', []),
-        isLoading: false,
-      };
-
     case FETCH_CONNECTIONS_FAILURE:
-      return { ...state, isLoading: false };
+      return { ...state, isFetching: false };
     default:
       return state;
   }
-};
+}

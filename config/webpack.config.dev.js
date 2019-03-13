@@ -345,6 +345,9 @@ module.exports = {
     ],
   },
   plugins: [
+    new webpack.DefinePlugin({
+      VERSION: JSON.stringify(require(path.resolve(__dirname, '../package.json')).version)
+    }),
     // Generates an `index.html` file with the <script> injected.
     new HtmlWebpackPlugin({
       inject: true,

@@ -6,8 +6,7 @@ const express = require('express');
 const app = express();
 const expressWs = require('express-ws')(app);
 
-app.ws('/', (ws, req) => {
-  Contract.setSocket(ws);
+app.ws('/socket', (ws, req) => {
   Progress.setSocket(ws);
 
   ws.on('close', () => {

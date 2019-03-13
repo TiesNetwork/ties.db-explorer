@@ -3,12 +3,23 @@ import { normalize } from 'normalizr';
 
 // Types
 import {
+  // Create
+  CREATE_CONNECTIONS_REQUEST,
+  CREATE_CONNECTIONS_SUCCESS,
+  CREATE_CONNECTIONS_FAILURE,
+  // Fetch
   FETCH_CONNECTIONS_REQUEST,
   FETCH_CONNECTIONS_SUCCESS,
   FETCH_CONNECTIONS_FAILURE,
 } from './types';
 
 import { UPDATE_ENTITIES } from 'entities/types';
+
+export const createConnection = (values: Object) =>
+  (dispatch: Function, getState: Function, { api, history }): void => {
+    dispatch({ type: CREATE_CONNECTIONS_SUCCESS, payload: values });
+    history.push('/connections');
+  }
 
 export const fetchConnections = () => (dispatch: func, getState: func, { api, schema }) => {
   dispatch({ type: FETCH_CONNECTIONS_REQUEST });

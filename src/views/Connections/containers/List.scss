@@ -1,0 +1,25 @@
+.Root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.Actions {
+  margin: 20px 0 0;
+}
+
+.Create {
+  width: 100%;
+}
+
+.List {
+  flex: 1 1 auto;
+  margin: 20px 0 0;
+  max-height: calc(100% - 104px);
+  overflow-x: visible;
+  overflow-y: scroll;
+
+  & > *:not(:first-child) {
+    margin: 12px 0 0;
+  }
+}

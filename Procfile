@@ -1,2 +1,3 @@
-react: BROWSER=none yarn react-start
-electron: yarn electron-start
+electron: node app/react.js
+helper: nodemon server/start.js
+react: node scripts/start.js BROWSER=none

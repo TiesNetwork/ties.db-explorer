@@ -36,7 +36,7 @@ const createWindow = () => {
 app.on('activate', () => mainWindow === null && createWindow());
 app.on('ready', async() => {
   await Database.get(`${app.getPath('userData')}/db`);
-  app.server = server.listen(3001, () => createWindow());
+  app.server = server.listen(3001, () => setTimeout(() => createWindow(), 2000));
 });
 app.on('window-all-closed', () => process.platform !== 'darwin' && app.quit());
 

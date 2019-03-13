@@ -22,7 +22,7 @@ export default compose(
         setSocket,
       } = this.props;
 
-      const socket = new WebSocket('ws://localhost:3001/transactions');
+      const socket = new WebSocket('ws://localhost:3001/transactions/socket');
 
       socket.onmessage = (event: Object): void => {
         try {

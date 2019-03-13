@@ -1,5 +1,7 @@
-import React from 'react';
+import { get } from 'lodash';
+import React, { Fragment } from 'react';
 import { Route, Switch } from 'react-router-dom';
+import { compose, lifecycle, withState } from 'recompose';
 import url from 'url';
 
 // Containers
@@ -10,27 +12,73 @@ import Search from 'containers/Search';
 import Transactions from 'containers/Transactions';
 
 // Views
+import Connections from './views/Connections';
 import Dashboard from './views/Dashboard';
-import Welcome from './views/Welcome';
 
 import styles from './App.scss';
 
 import 'react-table/react-table.css';
 import '@fortawesome/fontawesome-pro/css/all.min.css';
 
-const App = ({ match }) => (
+const App = ({ isConnected, match }) => (
   <div className={styles.Root}>
-    <Switch>
-      <Route path={url.resolve(match.path, '/welcome')} component={Welcome} />
-      <Route path={url.resolve(match.path, '/')} component={Dashboard} />
-    </Switch>
+    {isConnected && (
+      <Fragment>
+        <Switch>
+          <Route path={url.resolve(match.path, '/connections')} component={Connections} />
+          <Route path={url.resolve(match.path, '/')} component={Dashboard} />
+        </Switch>
 
-    <Confirm />
-    <Edit />
-    <Import />
-    <Search />
-    <Transactions />
+        <Confirm />
+        <Edit />
+        <Import />
+        <Search />
+        <Transactions />
+      </Fragment>
+    )}
   </div>
 );
 
-export default App;
+export default compose(
+  withState('isConnected', 'setConnected', true),
+  withState('socket', 'setSocket', false),
+  lifecycle({
+    componentDidMount() {
+      // const {
+      //   setConnected,
+      //   setSocket,
+      // } = this.props;
+
+      // const socket = new WebSocket('ws://localhost:3001/logger');
+
+      // socket.onmessage = (event: Object): void => {
+      //   try {
+      //     const { message, data, type } = JSON.parse(get(event, 'data', '{}'));
+
+      //     switch (type) {
+      //       case 'error':
+      //         // eslint-disable-next-line
+      //         console.error(`%c${message}`, 'color: #f03d3d; font-weight: bold', data);
+      //         break;
+      //       default:
+      //         // eslint-disable-next-line
+      //         console.info(`%c${message}`, 'color: #0c66ff; font-weight: bold', data);
+      //         break;
+      //     }
+      //   } catch(e) {
+      //     // eslint-disable-next-line
+      //     console.error(event);
+      //   }
+      // };
+
+      // socket.onopen = (): void => {
+      //   setConnected(true);
+      //   setSocket(socket);
+      // };
+    },
+    componentWillUnmount() {
+      // const { isConnected, socket } = this.props;
+      // isConnected && socket && socket.close();
+    },
+  })
+)(App);
